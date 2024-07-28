@@ -5,7 +5,27 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core="clr-namespace:TasksManagerCustom.Core;assembly=TasksManagerCustom.Core"
         Title="{Binding Title}" Height="350" Width="525" >
-    <Grid>
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
-    </Grid>
+
+    <AdornerDecorator>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="90" />
+            </Grid.ColumnDefinitions>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.TopMenuBar}"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"/>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftMenuSpace}"
+                            Grid.Row="1"
+                            Grid.Column="0" />
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}"
+                            Grid.Row="1"
+                            Grid.Column="1"/>
+        </Grid>
+    </AdornerDecorator>
 </Window>
