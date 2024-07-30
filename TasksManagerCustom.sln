@@ -5,11 +5,11 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7478E741-006B-4919-B405-38E88A366A4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Modules.ModuleName.Tests", "TasksManagerCustom\Tests\TasksManagerCustom.Modules.ModuleName.Tests\TasksManagerCustom.Modules.ModuleName.Tests.csproj", "{7FE544BC-FBB3-4DE4-A83B-36BF0F564A96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduleModule.Tests", "TasksManagerCustom\Tests\TasksManagerCustom.Modules.ModuleName.Tests\TaskScheduleModule.Tests.csproj", "{7FE544BC-FBB3-4DE4-A83B-36BF0F564A96}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{09C40AEB-5103-4240-91E8-B8BD63DB5BBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Modules.ModuleName", "TasksManagerCustom\Modules\TasksManagerCustom.Modules.ModuleName\TasksManagerCustom.Modules.ModuleName.csproj", "{7424E224-5A61-4283-9F90-14FEC185DA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksScheduleModule", "TasksManagerCustom\Modules\TasksManagerCustom.Modules.ModuleName\TasksScheduleModule.csproj", "{7424E224-5A61-4283-9F90-14FEC185DA98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91CE90EF-5240-4E4D-A3D4-7110081D5999}"
 EndProject

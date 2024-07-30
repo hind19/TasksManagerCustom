@@ -13,8 +13,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="85*" />
             </Grid.ColumnDefinitions>
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.TopMenuBar}"
                             Grid.Row="0"
@@ -22,7 +22,7 @@
                             Grid.ColumnSpan="2"/>
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftMenuSpace}"
                             Grid.Row="1"
-                            Grid.Column="0" />
+                            Grid.Column="0"/>
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}"
                             Grid.Row="1"
                             Grid.Column="1"/>

@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Content Region Task Grid -->
+    <system:String x:Key="taskNameMainGrid">Task Name</system:String>
+    <system:String x:Key="taskStartDateMainGrid">Start Date</system:String>
+    <system:String x:Key="taskEndDateMainGrid">End Date</system:String>
+
+</ResourceDictionary>
