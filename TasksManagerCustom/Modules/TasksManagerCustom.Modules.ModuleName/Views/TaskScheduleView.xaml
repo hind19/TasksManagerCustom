@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1200">
+             d:DesignHeight="450" d:DesignWidth="1800">
     
 
     <Grid>
@@ -27,16 +27,23 @@
                   ItemsSource="{Binding CurrentTasksList}">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="FontWeight"
-                            Value="Bold" />
-                    <Setter Property="HorizontalAlignment"
-                            Value="Center" />
                     <Setter Property="HorizontalContentAlignment"
                             Value="Center" />
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Stretch" />
+                    <Setter Property="TextBlock.FontWeight"
+                            Value="Bold" />
                     <Setter Property="Background"
-                            Value="LightPink" />
+                            Value="GhostWhite" />
                     <Setter Property="Padding"
-                            Value="3" />
+                            Value="7" />
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Mode=OneWay}"></TextBlock>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
@@ -50,7 +57,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{DynamicResource taskNameMainGrid}"
-                                    Width="77*"
+                                    Width="75*"
                                     Binding="{Binding TaskName}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -74,7 +81,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="{DynamicResource taskEndDateMainGrid}"
-                                    Width="10*"
+                                    Width="12*"
                                     Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
