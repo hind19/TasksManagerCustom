@@ -8,6 +8,7 @@
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MenuBarModule\MenuBarModule.csproj" />
     <ProjectReference Include="..\Modules\TasksManagerCustom.Modules.ModuleName\TasksScheduleModule.csproj" />
     <ProjectReference Include="..\TasksManagerCustom.Core\TasksManagerCustom.Core.csproj" />
     <ProjectReference Include="..\Services\TasksManagerCustom.Services.Interfaces\TasksManagerCustom.Services.Interfaces.csproj" />

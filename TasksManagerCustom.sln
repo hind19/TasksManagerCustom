@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom", "Tasks
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Core", "TasksManagerCustom\TasksManagerCustom.Core\TasksManagerCustom.Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuBarModule", "MenuBarModule\MenuBarModule.csproj", "{7B19BEE4-6294-489B-BB40-D354DEE174AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{C1B8D863-E68A-4355-B6D7-384DA9A578FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1B8D863-E68A-4355-B6D7-384DA9A578FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1B8D863-E68A-4355-B6D7-384DA9A578FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B19BEE4-6294-489B-BB40-D354DEE174AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B19BEE4-6294-489B-BB40-D354DEE174AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B19BEE4-6294-489B-BB40-D354DEE174AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B19BEE4-6294-489B-BB40-D354DEE174AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{7424E224-5A61-4283-9F90-14FEC185DA98} = {09C40AEB-5103-4240-91E8-B8BD63DB5BBD}
 		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
 		{996619C4-658F-4396-937B-701FF822776C} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
+		{7B19BEE4-6294-489B-BB40-D354DEE174AD} = {09C40AEB-5103-4240-91E8-B8BD63DB5BBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA80B13A-37C6-43D2-984E-DA880EDC80FC}

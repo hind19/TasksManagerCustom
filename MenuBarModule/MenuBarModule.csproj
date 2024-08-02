@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManagerCustom.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\TasksManagerCustom\TasksManagerCustom.Core\TasksManagerCustom.Core.csproj" />
+  </ItemGroup>
+
+</Project>

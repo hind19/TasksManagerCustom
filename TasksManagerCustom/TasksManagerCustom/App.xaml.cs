@@ -1,4 +1,5 @@
-﻿using Prism.DryIoc;
+﻿using MenuBarModule;
+using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
@@ -33,6 +34,7 @@ namespace TasksManagerCustom
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<TaskScheduleModule>();
+            moduleCatalog.AddModule<TopMenuBarModule>();
         }
 
         private void SetLanguageDictionary()
