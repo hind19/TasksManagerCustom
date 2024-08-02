@@ -3,7 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using TasksManager.TasksScheduleModule.Models;
 
-namespace TasksManager.Modules.ModuleName.ViewModels
+namespace TasksManager.Modules.TaskScheduleModule.ViewModels
 {
     internal class TaskScheduleViewModel :BindableBase
     {

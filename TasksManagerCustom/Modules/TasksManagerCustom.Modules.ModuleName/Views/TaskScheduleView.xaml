@@ -8,7 +8,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1800">
-    
+   
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
                   AlternationCount="2"
                   GridLinesVisibility="None"
                   ItemsSource="{Binding CurrentTasksList}">
-            <DataGrid.ColumnHeaderStyle>
+            <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment"
                             Value="Center" />
@@ -40,12 +40,31 @@
                     <Setter Property="ContentTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Mode=OneWay}"></TextBlock>
+                                <TextBlock TextWrapping="Wrap"
+                                           Text="{Binding Mode=OneWay}"></TextBlock>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </DataGrid.ColumnHeaderStyle>
+                <Style x:Key="BasicCellStyle"
+                       TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment"
+                            Value="Center" />
+                </Style>
+                <Style x:Key="DatesCellStyle"
+                       TargetType="TextBlock"
+                       BasedOn="{StaticResource BasicCellStyle}">
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
+                </Style>
+                <Style x:Key="TitleCellStyle"
+                       TargetType="TextBlock"
+                       BasedOn="{StaticResource BasicCellStyle}">
+                    <Setter Property="HorizontalAlignment"
+                            Value="Left" />
+                </Style>
+            </DataGrid.Resources>
+          
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -58,78 +77,17 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{DynamicResource taskNameMainGrid}"
                                     Width="75*"
-                                    Binding="{Binding TaskName}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment"
-                                    Value="Left" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                                    Binding="{Binding TaskName}"
+                                    ElementStyle="{StaticResource TitleCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource taskStartDateMainGrid}"
                                     Width="10*"
-                                    Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                                    Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"
+                                    ElementStyle="{StaticResource DatesCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource taskEndDateMainGrid}"
                                     Width="12*"
-                                    Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}" >
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                                    Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"
+                                    ElementStyle="{StaticResource DatesCellStyle}" />
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="0"
-                            Background="BlanchedAlmond"
-                            Padding="10">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="12"
-                                           Text="Email: "
-                                           VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"
-                                           Foreground="MidnightBlue"
-                                           Text="{Binding EmailAddress}"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="12"
-                                           Text="Phone: "
-                                           VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"
-                                           Foreground="MidnightBlue"
-                                           Text="{Binding Phone}"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="12"
-                                           Text="Sales Person: "
-                                           VerticalAlignment="Center" />
-                                <TextBlock FontSize="16"
-                                           Foreground="MidnightBlue"
-                                           Text="{Binding SalesPerson}"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
         </DataGrid>
         <TextBlock Text="Schedule View"
                    Grid.Column="1" />
