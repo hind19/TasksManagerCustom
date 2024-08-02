@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\TasksManagerCustom.Modules.ModuleName\TasksScheduleModule.csproj" />
+    <ProjectReference Include="..\..\Modules\TasksManagerCustom.Modules.ModuleName\TasksManager.TasksScheduleModule.csproj" />
   </ItemGroup>
 
 </Project>

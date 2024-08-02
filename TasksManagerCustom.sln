@@ -9,19 +9,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduleModule.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{09C40AEB-5103-4240-91E8-B8BD63DB5BBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksScheduleModule", "TasksManagerCustom\Modules\TasksManagerCustom.Modules.ModuleName\TasksScheduleModule.csproj", "{7424E224-5A61-4283-9F90-14FEC185DA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.TasksScheduleModule", "TasksManagerCustom\Modules\TasksManagerCustom.Modules.ModuleName\TasksManager.TasksScheduleModule.csproj", "{7424E224-5A61-4283-9F90-14FEC185DA98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91CE90EF-5240-4E4D-A3D4-7110081D5999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Services", "TasksManagerCustom\Services\TasksManagerCustom.Services\TasksManagerCustom.Services.csproj", "{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services", "TasksManagerCustom\Services\TasksManagerCustom.Services\TasksManager.Services.csproj", "{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Services.Interfaces", "TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManagerCustom.Services.Interfaces.csproj", "{996619C4-658F-4396-937B-701FF822776C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services.Interfaces", "TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj", "{996619C4-658F-4396-937B-701FF822776C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom", "TasksManagerCustom\TasksManagerCustom\TasksManagerCustom.csproj", "{DC2BF252-57D7-46E1-A063-E5D38A838789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Application", "TasksManagerCustom\TasksManagerCustom\TasksManager.Application.csproj", "{DC2BF252-57D7-46E1-A063-E5D38A838789}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Core", "TasksManagerCustom\TasksManagerCustom.Core\TasksManagerCustom.Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Core", "TasksManagerCustom\TasksManagerCustom.Core\TasksManager.Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuBarModule", "MenuBarModule\MenuBarModule.csproj", "{7B19BEE4-6294-489B-BB40-D354DEE174AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.MenuBarModule", "MenuBarModule\TasksManager.MenuBarModule.csproj", "{7B19BEE4-6294-489B-BB40-D354DEE174AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

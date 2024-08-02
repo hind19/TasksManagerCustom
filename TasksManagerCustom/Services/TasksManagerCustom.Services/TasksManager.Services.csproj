@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TasksManagerCustom.Services.Interfaces\TasksManagerCustom.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

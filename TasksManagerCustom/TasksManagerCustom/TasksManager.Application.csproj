@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MenuBarModule\TasksManager.MenuBarModule.csproj" />
+    <ProjectReference Include="..\Modules\TasksManagerCustom.Modules.ModuleName\TasksManager.TasksScheduleModule.csproj" />
+    <ProjectReference Include="..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
+    <ProjectReference Include="..\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Services\TasksManagerCustom.Services\TasksManager.Services.csproj" />
+  </ItemGroup>
+</Project>

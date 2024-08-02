@@ -7,7 +7,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TasksManagerCustom.Core\TasksManagerCustom.Core.csproj" />
-    <ProjectReference Include="..\..\Services\TasksManagerCustom.Services.Interfaces\TasksManagerCustom.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
+    <ProjectReference Include="..\..\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>
