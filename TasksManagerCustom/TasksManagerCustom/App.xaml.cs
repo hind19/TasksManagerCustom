@@ -1,16 +1,16 @@
-﻿using MenuBarModule;
+﻿using TasksManager.Modules.MenuBarModule;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
 using System.Threading;
 using System.Windows;
-using TasksManagerCustom.Modules.ModuleName;
-using TasksManagerCustom.Services;
-using TasksManagerCustom.Services.Interfaces;
-using TasksManagerCustom.Views;
+using TasksManager.Modules.ModuleName;
+using TasksManager.Services;
+using TasksManager.Services.Interfaces;
+using TasksManager.Views;
 
-namespace TasksManagerCustom
+namespace TasksManager
 {
     /// <summary>
     /// Interaction logic for App.xaml

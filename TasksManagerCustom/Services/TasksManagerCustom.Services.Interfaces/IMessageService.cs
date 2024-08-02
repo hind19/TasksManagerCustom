@@ -1,4 +1,4 @@
-﻿namespace TasksManagerCustom.Services.Interfaces
+﻿namespace TasksManager.Services.Interfaces
 {
     public interface IMessageService
     {

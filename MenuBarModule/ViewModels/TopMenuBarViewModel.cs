@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MenuBarModule.ViewModels
+namespace TasksManager.Modules.MenuBarModule.ViewModels
 {
     public class TopMenuBarViewModel : BindableBase
     {

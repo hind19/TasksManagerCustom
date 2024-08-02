@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TasksManagerCustom.Views
+namespace TasksManager.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

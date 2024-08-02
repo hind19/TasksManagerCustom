@@ -1,6 +1,6 @@
-﻿using TasksManagerCustom.Services.Interfaces;
+﻿using TasksManager.Services.Interfaces;
 
-namespace TasksManagerCustom.Services
+namespace TasksManager.Services
 {
     public class MessageService : IMessageService
     {

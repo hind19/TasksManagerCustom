@@ -1,9 +1,9 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using TasksScheduleModule.Models;
+using TasksManager.TasksScheduleModule.Models;
 
-namespace TasksManagerCustom.Modules.ModuleName.ViewModels
+namespace TasksManager.Modules.ModuleName.ViewModels
 {
     internal class TaskScheduleViewModel :BindableBase
     {

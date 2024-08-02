@@ -1,7 +1,7 @@
 ﻿using Prism.Regions;
 using System;
 
-namespace TasksManagerCustom.Core.Mvvm
+namespace TasksManager.Core.Mvvm
 {
     public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
     {

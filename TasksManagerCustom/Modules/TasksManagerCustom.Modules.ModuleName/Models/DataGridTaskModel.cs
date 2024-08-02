@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TasksScheduleModule.Models
+namespace TasksManager.TasksScheduleModule.Models
 {
     internal class DataGridTaskModel
     {

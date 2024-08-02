@@ -1,4 +1,4 @@
-﻿namespace TasksManagerCustom.Core
+﻿namespace TasksManager.Core
 {
     public static class RegionNames
     {
