@@ -8,12 +8,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\category.png" />
+    <None Remove="Resources\category_icon.png" />
+    <None Remove="Resources\email_icon.png" />
+    <None Remove="Resources\task_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
     <ProjectReference Include="..\TasksManagerCustom\TasksManagerCustom.Core\TasksManager.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\category_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\email_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\task_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

@@ -5,5 +5,8 @@
     <system:String x:Key="taskNameMainGrid">Наименование задачи</system:String>
     <system:String x:Key="taskStartDateMainGrid">Дата начала</system:String>
     <system:String x:Key="taskEndDateMainGrid">Дата завершения</system:String>
+    <system:String x:Key="navBarProjects">Проекты</system:String>
+    <system:String x:Key="navBarCategories">Категории</system:String>
+    <system:String x:Key="navBarEmais">Emails</system:String>
     
 </ResourceDictionary>

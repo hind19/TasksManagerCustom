@@ -1,6 +1,6 @@
 ﻿using Moq;
 using Prism.Regions;
-using TasksManager.Modules.ModuleName.ViewModels;
+using TasksManager.Modules.TaskScheduleModule.ViewModels;
 using TasksManager.Services.Interfaces;
 using Xunit;
 

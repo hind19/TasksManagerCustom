@@ -5,6 +5,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Images\category.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
@@ -13,5 +16,10 @@
     <ProjectReference Include="..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
     <ProjectReference Include="..\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\TasksManagerCustom.Services\TasksManager.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\category.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

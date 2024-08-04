@@ -5,7 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TasksManager.Modules.MenuBarModule.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Button"
+               x:Key="btnStyle">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius"
+                            Value="5" />
+                    <Setter Property="Width"
+                            Value="60" />
+                    <Setter Property="Height"
+                            Value="60" />
+                    <Setter Property="Margin"
+                            Value="10,10,0,5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="StackPanel"
+               x:Key="btnStackPanelStyle">
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalAlignment"
+                    Value="Stretch" />
+            <Setter Property="Orientation"
+                    Value="Vertical" />
+        </Style>
+        <Style TargetType="TextBlock"
+               x:Key="btnTextBlockText">
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="FontSize"
+                    Value="10" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -38,9 +71,53 @@
                     </LinearGradientBrush.GradientStops>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <Button Content="TC"
-                    FontSize="36"
-                    Margin="10"></Button>
+            <Button Style="{StaticResource btnStyle}">
+                <Button.Content>
+                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                        <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png" MaxWidth="40" MaxHeight="40" />
+                        <TextBlock Text="{DynamicResource navBarProjects}"
+                                   Style="{StaticResource btnTextBlockText}" />
+                    </StackPanel>
+                </Button.Content>
+                
+            </Button>
+            <Button Style="{StaticResource btnStyle}">
+                <Button.Content>
+                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                        <Image Source="/TasksManager.MenuBarModule;component/Resources/task_icon.png"
+                               MaxWidth="40"
+                               MaxHeight="40" />
+                        <TextBlock Text="{DynamicResource navBarCategories}" 
+                                   Style="{StaticResource btnTextBlockText}"/>
+                    </StackPanel>
+                </Button.Content>
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0, 1"
+                                         EndPoint="0,0">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.1"
+                                          Color="LightBlue" />
+                            <GradientStop Offset="1"
+                                          Color="AliceBlue" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Button.Background>
+
+            </Button>
+            <Button Style="{StaticResource btnStyle}">
+                <Button.Content>
+                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                        <Image Source="/TasksManager.MenuBarModule;component/Resources/email_icon.png"
+                               MaxWidth="40"
+                               MaxHeight="40" />
+                        <TextBlock Text="{DynamicResource navBarEmais}"
+                                   Style="{StaticResource btnTextBlockText}" />
+                    </StackPanel>
+                </Button.Content>
+                
+            </Button>
+
+            <!--<Separator />-->
         </StackPanel>
     </Grid>
 </UserControl>

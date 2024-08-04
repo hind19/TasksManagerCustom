@@ -4,12 +4,13 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core="clr-namespace:TasksManager.Core;assembly=TasksManager.Core"
-        Title="{Binding Title}" Height="350" Width="525" >
+        Title="{Binding Title}" Height="1000" Width="1500" >
 
     <AdornerDecorator>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"
+                               MaxHeight="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -22,7 +23,7 @@
                             Grid.ColumnSpan="2"/>
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftMenuSpace}"
                             Grid.Row="1"
-                            Grid.Column="0"/>
+                            Grid.Column="0" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}"
                             Grid.Row="1"
                             Grid.Column="1"/>

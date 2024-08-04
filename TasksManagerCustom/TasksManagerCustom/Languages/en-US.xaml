@@ -6,5 +6,8 @@
     <system:String x:Key="taskNameMainGrid">Task Name</system:String>
     <system:String x:Key="taskStartDateMainGrid">Start Date</system:String>
     <system:String x:Key="taskEndDateMainGrid">End Date</system:String>
+    <system:String x:Key="navBarProjects">Prijects</system:String>
+    <system:String x:Key="navBarCategories">Categories</system:String>
+    <system:String x:Key="navBarEmais">Emails</system:String>
 
 </ResourceDictionary>
