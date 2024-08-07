@@ -9,5 +9,7 @@
     <system:String x:Key="navBarProjects">Prijects</system:String>
     <system:String x:Key="navBarCategories">Categories</system:String>
     <system:String x:Key="navBarEmais">Emails</system:String>
+    <system:String x:Key="tasks">Tasks</system:String>
+    <system:String x:Key="taskCreate">Create Task</system:String>
 
 </ResourceDictionary>

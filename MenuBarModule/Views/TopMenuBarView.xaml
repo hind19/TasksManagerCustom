@@ -20,7 +20,21 @@
                     <Setter Property="Margin"
                             Value="10,10,0,5" />
                 </Style>
+                
             </Style.Resources>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0, 1"
+                                         EndPoint="0,0">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.1"
+                                          Color="LightBlue" />
+                            <GradientStop Offset="1"
+                                          Color="AliceBlue" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style TargetType="StackPanel"
                x:Key="btnStackPanelStyle">
@@ -38,6 +52,13 @@
             <Setter Property="FontSize"
                     Value="10" />
         </Style>
+        <Style TargetType="Image"
+               x:Key="imageStyle">
+            <Setter Property="MaxWidth"
+                    Value="40" />
+            <Setter Property="MaxHeight"
+                    Value="40" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -53,8 +74,8 @@
                     <MenuItem Header="Close" />
                     <MenuItem Header="Save" />
                 </MenuItem>
-                <MenuItem Header="Task">
-                    <MenuItem Header="Create" />
+                <MenuItem Header="{DynamicResource tasks}">
+                    <MenuItem Header="{DynamicResource taskCreate}" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -74,7 +95,8 @@
             <Button Style="{StaticResource btnStyle}">
                 <Button.Content>
                     <StackPanel Style="{StaticResource btnStackPanelStyle}">
-                        <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png" MaxWidth="40" MaxHeight="40" />
+                        <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png"
+                               Style="{StaticResource imageStyle}" />
                         <TextBlock Text="{DynamicResource navBarProjects}"
                                    Style="{StaticResource btnTextBlockText}" />
                     </StackPanel>
@@ -85,31 +107,17 @@
                 <Button.Content>
                     <StackPanel Style="{StaticResource btnStackPanelStyle}">
                         <Image Source="/TasksManager.MenuBarModule;component/Resources/task_icon.png"
-                               MaxWidth="40"
-                               MaxHeight="40" />
+                               Style="{StaticResource imageStyle}" />
                         <TextBlock Text="{DynamicResource navBarCategories}" 
                                    Style="{StaticResource btnTextBlockText}"/>
                     </StackPanel>
                 </Button.Content>
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0, 1"
-                                         EndPoint="0,0">
-                        <LinearGradientBrush.GradientStops>
-                            <GradientStop Offset="0.1"
-                                          Color="LightBlue" />
-                            <GradientStop Offset="1"
-                                          Color="AliceBlue" />
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
-                </Button.Background>
-
             </Button>
             <Button Style="{StaticResource btnStyle}">
                 <Button.Content>
                     <StackPanel Style="{StaticResource btnStackPanelStyle}">
                         <Image Source="/TasksManager.MenuBarModule;component/Resources/email_icon.png"
-                               MaxWidth="40"
-                               MaxHeight="40" />
+                               Style="{StaticResource imageStyle}" />
                         <TextBlock Text="{DynamicResource navBarEmais}"
                                    Style="{StaticResource btnTextBlockText}" />
                     </StackPanel>
