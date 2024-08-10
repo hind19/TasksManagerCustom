@@ -4,6 +4,6 @@
     {
         public const string ContentRegion = "ContentRegion";
         public const string TopMenuBar = "TopMenuBar";
-        public const string LeftMenuSpace = "LeftMenuSpace";
+        public const string LeftPanelSpace = "LeftPanelSpace";
     }
 }

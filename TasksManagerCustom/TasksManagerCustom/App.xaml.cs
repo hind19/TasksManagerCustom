@@ -9,6 +9,7 @@ using TasksManager.Modules.ModuleName;
 using TasksManager.Services;
 using TasksManager.Services.Interfaces;
 using TasksManager.Views;
+using TasksManager.LeftPanelModule;
 
 namespace TasksManager
 {
@@ -35,6 +36,7 @@ namespace TasksManager
         {
             moduleCatalog.AddModule<TaskScheduleModule>();
             moduleCatalog.AddModule<TopMenuBarModule>();
+            moduleCatalog.AddModule<LeftPanelSpaceModule>();
         }
 
         private void SetLanguageDictionary()

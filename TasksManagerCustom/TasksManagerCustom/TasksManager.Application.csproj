@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MenuBarModule\TasksManager.MenuBarModule.csproj" />
+    <ProjectReference Include="..\..\TasksManagerCustom.LeftPanelModule\TasksManager.LeftPanelModule.csproj" />
     <ProjectReference Include="..\Modules\TasksManagerCustom.Modules.ModuleName\TasksManager.TasksScheduleModule.csproj" />
     <ProjectReference Include="..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
     <ProjectReference Include="..\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />

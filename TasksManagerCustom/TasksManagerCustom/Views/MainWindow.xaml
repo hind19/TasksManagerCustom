@@ -21,7 +21,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"/>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftMenuSpace}"
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPanelSpace}"
                             Grid.Row="1"
                             Grid.Column="0" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}"
