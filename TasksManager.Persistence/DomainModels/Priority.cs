@@ -2,13 +2,13 @@
 
 namespace TasksManager.Persistence.DomainModels
 {
-    [Table("Priorities")]
-    internal class Priorities
+    [Table(Constants.PrioritiesTable)]
+    internal class Priority
     {
         [PrimaryKey, AutoIncrement, NotNull]
         public int Id { get; set; }
 
-        [NotNull]
+        [NotNull, MaxLength(255)]
         public string PriorityName { get; set; }
     }
 }

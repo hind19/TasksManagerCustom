@@ -1,28 +1,75 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using TasksManager.Persistence.DomainModels;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using TasksManager.Persistence.DomainModels.Queries;
+using TasksManager.PersistenceContracts;
 
 namespace TasksManager.Persistence
 {
-    internal class DbInitializer
+    internal class DbInitializer : IDbInitializer
     {
-        internal void CreateDatabase()
+        public async Task CheckOrCreateDatabase()
         {
-            if (!System.IO.File.Exists(@"C:\Users\abc\Desktop\1\synccc.sqlite"))
+            var currentDirectiry = Assembly.GetExecutingAssembly().Location;
+            var dbPathDirectory = Path.Combine(currentDirectiry, Constants.DatabaseDirectory);
+            var dbPath = Path.Combine(dbPathDirectory, Constants.DatabaseFilename);
+            if (File.Exists(dbPath))
             {
-                Console.WriteLine("Just entered to create Sync DB");
-                //SQLiteConnection.CreateFile(@"C:\Users\abc\Desktop\1\synccc.sqlite");
-
-                using (var sqlite2 = new SQLiteConnection(@"Data Source=C:\Users\abc\Desktop\1\synccc.sqlite"))
-                {
-                    sqlite2.CreateTable<Priorities>();
-                    //string sql = "create table highscores (name varchar(20), score int)";
-                    //SQLiteCommand command = new SQLiteCommand(sql, sqlite2);
-                    //command.ExecuteNonQuery();
-                }
+                return;
             }
+
+            if (!Directory.Exists(dbPathDirectory))
+            {
+                Directory.CreateDirectory(dbPathDirectory);
+            }
+            
+            File.Create(dbPath);
+            await Init(dbPath);
+        }
+
+        private async Task Init(string dbPath)
+        {
+            //if (_connection != null)
+            //    return;
+
+            try
+            {
+                var connection = new SQLiteAsyncConnection(dbPath);
+
+                connection.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                connection.Trace = true;
+
+                await CreateTables(connection);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Add Logging to the project
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private async Task CreateTables(SQLiteAsyncConnection connection)
+        {
+            var createTableStatements = new List<string>()
+            {
+                DatabaseConstants.CreatePrioritiesTableQuery,
+                DatabaseConstants.CreateProjectsTableQuery,
+                DatabaseConstants.CreateCategoriesTableQuery,
+                DatabaseConstants.CreateTaskTableQuery
+            };
+
+            foreach (var statement in createTableStatements)
+                await ExecuteQuery(connection,statement);
+        }
+
+        public async Task<bool> ExecuteQuery(SQLiteAsyncConnection connection, string query)
+        {
+            var op = await connection.ExecuteAsync(query);
+            return op > 0;
         }
     }
 }
