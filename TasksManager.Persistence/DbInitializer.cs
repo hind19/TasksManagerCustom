@@ -26,7 +26,6 @@ namespace TasksManager.Persistence
                 Directory.CreateDirectory(dbPathDirectory);
             }
             
-           // File.Create(dbPath);
             await Init(dbPath);
         }
 

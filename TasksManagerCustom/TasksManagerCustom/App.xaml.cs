@@ -11,6 +11,7 @@ using TasksManager.Services.Interfaces;
 using TasksManager.Views;
 using TasksManager.LeftPanelModule;
 using TasksManager.PersistenceContracts;
+using TasksManager.Application.Dialogs.CategoriesDialogs;
 
 namespace TasksManager
 {
@@ -36,6 +37,9 @@ namespace TasksManager
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             // I want to completely separate Persistence Layer from Application and interact through Service Layer only
             // containerRegistry.RegisterSingleton<IDbInitializer, DbInitializer>();
+
+
+            containerRegistry.RegisterDialog<AddUpdateCategoryDialog, AddUpdateCategoryDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -54,7 +58,7 @@ namespace TasksManager
                 case "en-US":
                     dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
                     break;
-                case "fr-CA":
+                case "ru-RU":
                     dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
                     break;
                 default:

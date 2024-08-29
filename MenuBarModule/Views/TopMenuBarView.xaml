@@ -64,6 +64,11 @@
                 <MenuItem Header="{DynamicResource tasks}">
                     <MenuItem Header="{DynamicResource taskCreate}" />
                 </MenuItem>
+                <MenuItem Header="{DynamicResource navBarCategories}">
+                    <MenuItem Header="{DynamicResource categoryCreate}"
+                              Command="{Binding CreateCategoryCommand}" 
+                              CommandParameter="{DynamicResource categoryCreateDialogTitle}"/>
+                </MenuItem>
             </Menu>
         </DockPanel>
         <StackPanel Grid.Row="1"
@@ -79,17 +84,6 @@
                     </LinearGradientBrush.GradientStops>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <Button Style="{StaticResource btnStyle}">
-                <Button.Content>
-                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
-                        <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png"
-                               Style="{StaticResource imageStyle}" />
-                        <TextBlock Text="{DynamicResource navBarProjects}"
-                                   Style="{StaticResource btnTextBlockText}" />
-                    </StackPanel>
-                </Button.Content>
-                
-            </Button>
             <Button Style="{StaticResource btnStyle}">
                 <Button.Content>
                     <StackPanel Style="{StaticResource btnStackPanelStyle}">
@@ -109,7 +103,16 @@
                                    Style="{StaticResource btnTextBlockText}" />
                     </StackPanel>
                 </Button.Content>
-                
+            </Button>
+            <Button Style="{StaticResource btnStyle}">
+                <Button.Content>
+                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                        <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png"
+                               Style="{StaticResource imageStyle}" />
+                        <TextBlock Text="{DynamicResource navBarProjects}"
+                                   Style="{StaticResource btnTextBlockText}" />
+                    </StackPanel>
+                </Button.Content>
             </Button>
 
             <!--<Separator />-->

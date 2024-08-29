@@ -10,5 +10,9 @@
     <system:String x:Key="navBarEmais">Emails</system:String>
     <system:String x:Key="tasks">Задачи</system:String>
     <system:String x:Key="taskCreate">Создать Задачу</system:String>
-    
+    <system:String x:Key="categoryCreate">Создать Категорию</system:String>
+
+    <system:String x:Key="categoryCreateDialogTitle">Создать/Изменить Категорию</system:String>
+
+
 </ResourceDictionary>
