@@ -20,7 +20,8 @@ Target VARCHAR(1000),
 Is_Completed BOOLEAN,
 StartDate VARCHAR(25),
 EndDate VARCHAR(25),
-FOREIGN KEY(ParentID) REFERENCES {Constants.ProjectsTable}(Id));";
+ParentId INTEGER,
+FOREIGN KEY(ParentId) REFERENCES {Constants.ProjectsTable}(Id));";
 
         public static string CreateCategoriesTableQuery => @$"CREATE TABLE IF NOT EXISTS {Constants.CategoriesTable} 
 (Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,18 +30,22 @@ ColorRGB VARCHAR(10),
 Is_Group BOOLEAN,
 COMMENT VARCHAR(1000),
 Show_in_Navigator BOOLEAN,
-FOREIGN KEY(ParentID) REFERENCES {Constants.CategoriesTable}(Id));";
+ParentId INTEGER,
+FOREIGN KEY(ParentId) REFERENCES {Constants.CategoriesTable}(Id));";
 
 
-        public static string CreateTaskTableQuery => @$"CREATE TABLE IF NOT EXISTS {Constants.CategoriesTable}
+        public static string CreateTaskTableQuery => @$"CREATE TABLE IF NOT EXISTS {Constants.TasksTable}
 (Id INTEGER PRIMARY KEY AUTOINCREMENT,
 TaskName VARCHAR(1000),
-FOREIGN KEY(ProjectId) REFERENCES {Constants.ProjectsTable}(ID),
-FOREIGN KEY(CategoryId) REFERENCES {Constants.CategoriesTable}(ID),
+ProjectId INTEGER,
+CategoryId INTEGER,
 StartDate VARCHAR(25),
 EndDate VARCHAR(25),
-INTEGER Statis,
+Status INTEGER,
+PriorityId INTEGER,
+PercentageOfCompletion INTEGER,
 FOREIGN KEY(PriorityId) REFERENCES {Constants.PrioritiesTable}(Id),
-PercentageOfCompletion INTEGER";
+FOREIGN KEY(ProjectId) REFERENCES {Constants.ProjectsTable}(Id),
+FOREIGN KEY(CategoryId) REFERENCES {Constants.CategoriesTable}(Id))";
     }
 }

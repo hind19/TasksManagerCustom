@@ -22,7 +22,10 @@ namespace TasksManager
         public App()
         {
             SetLanguageDictionary();
+            CheckDatabase();
         }
+
+       
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -60,5 +63,11 @@ namespace TasksManager
             }
             this.Resources.MergedDictionaries.Add(dict);
         }
+
+        private void CheckDatabase()
+        {
+            DatabaseService.CreateDataBaseIfNotExists();
+        }
+
     }
 }

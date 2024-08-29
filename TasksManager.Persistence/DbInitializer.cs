@@ -3,19 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using TasksManager.Persistence.DomainModels.Queries;
 using TasksManager.PersistenceContracts;
 
 namespace TasksManager.Persistence
 {
-    internal class DbInitializer : IDbInitializer
+    public class DbInitializer : IDbInitializer
     {
         public async Task CheckOrCreateDatabase()
         {
-            var currentDirectiry = Assembly.GetExecutingAssembly().Location;
-            var dbPathDirectory = Path.Combine(currentDirectiry, Constants.DatabaseDirectory);
+            var currentDirectory = Environment.CurrentDirectory;
+            var dbPathDirectory = Path.Combine(currentDirectory, Constants.DatabaseDirectory);
             var dbPath = Path.Combine(dbPathDirectory, Constants.DatabaseFilename);
             if (File.Exists(dbPath))
             {
@@ -27,7 +26,7 @@ namespace TasksManager.Persistence
                 Directory.CreateDirectory(dbPathDirectory);
             }
             
-            File.Create(dbPath);
+           // File.Create(dbPath);
             await Init(dbPath);
         }
 
