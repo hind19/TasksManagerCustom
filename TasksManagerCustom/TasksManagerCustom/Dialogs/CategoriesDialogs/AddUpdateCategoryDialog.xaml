@@ -7,8 +7,87 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="900" MinWidth="900" MinHeight="600">
     <Grid>
-        <TextBlock Text="Create categoty dialog" FontSize="24" FontWeight="Bold" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Наименование:"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Padding="15"
+                   Grid.Row="0"
+                   Grid.Column="0" />
+        <TextBox Grid.Row="0"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="2"
+                   Margin="15"
+                   HorizontalAlignment="Stretch"
+                 VerticalAlignment="Center"
+                 Text="{Binding CurrentCategory.Name}"/>
+        <TextBlock Text="Родительская категория:"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Padding="15"
+                   Grid.Row="1"
+                   Grid.Column="0" />
+        <ComboBox Grid.Row="1"
+                 Grid.Column="1"
+                  Margin="15"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center" 
+                  ItemsSource="{Binding CategoriesList}"
+                  SelectedValue="Value"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedParent}"/>
+        <CheckBox Content="Группа"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Grid.Row="1"
+                  Grid.Column="3"
+                  IsChecked="{Binding CurrentCategory.IsGroup}"/>
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="15"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+            <TextBlock Text="Комментарий"
+                       Margin="10"/>
+            <TextBox TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Visible"
+                     VerticalAlignment="Stretch"
+                     HorizontalAlignment="Stretch"
+                     MinHeight="150"
+                     Text="{Binding CurrentCategory.Comment}"/>
+        </StackPanel>
+         <CheckBox Content="Показывать в навигаторе"
+                  Grid.Row="4"
+                  Grid.Column="0"
+                  Margin="15"
+                  VerticalAlignment="Center"
+                  IsChecked="{Binding CurrentCategory.ShowInNavigator}"/>
+        <Button Content="Ok"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="15"
+                Padding="10"/>
+        <Button Content="Cancel"
+                Grid.Row="4"
+                Grid.Column="2"
+                Margin="15"
+                Padding="10"/>
     </Grid>
 </UserControl>

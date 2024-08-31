@@ -12,6 +12,8 @@ using TasksManager.Views;
 using TasksManager.LeftPanelModule;
 using TasksManager.PersistenceContracts;
 using TasksManager.Application.Dialogs.CategoriesDialogs;
+using TasksManager.Services.Interfaces.RepositoryServices;
+using TasksManager.Services.RepositoryServices;
 
 namespace TasksManager
 {
@@ -35,6 +37,7 @@ namespace TasksManager
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
+            containerRegistry.RegisterScoped<ICategoryRepositoryService, CategoryRepositoryService>()
             // I want to completely separate Persistence Layer from Application and interact through Service Layer only
             // containerRegistry.RegisterSingleton<IDbInitializer, DbInitializer>();
 
