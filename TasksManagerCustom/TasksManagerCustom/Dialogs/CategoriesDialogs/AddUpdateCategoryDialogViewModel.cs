@@ -1,8 +1,11 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using TasksManager.Application.Models;
+using TasksManager.Services.DTOs;
+using TasksManager.Services.Interfaces.RepositoryServices;
 
 namespace TasksManager.Application.Dialogs.CategoriesDialogs
 {
@@ -13,12 +16,14 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         private CategoryModel _categoryModel;
         private NameValuePair<int> _selectedParent;
         private IEnumerable<NameValuePair<int>> _categoriesList;
+        private readonly ICategoryRepositoryCommandService _commandService;
         #endregion
 
         #region Constructors
-        public AddUpdateCategoryDialogViewModel()
+        public AddUpdateCategoryDialogViewModel(ICategoryRepositoryCommandService commandService)
         {
-            
+            _commandService = commandService;
+            CreateCategoryCommand = new DelegateCommand(CreateCategory);
         }
 
         #endregion
@@ -64,6 +69,8 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
 
         public event Action<IDialogResult> RequestClose;
 
+        public DelegateCommand CreateCategoryCommand{ get; private set; }
+
         #endregion
 
         #region Methods
@@ -96,6 +103,23 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
                 new NameValuePair<int>("Option 1", 999),
                 new NameValuePair<int>("Option 2", 888)
             };
+        }
+
+        public async void CreateCategory()
+        {
+            //TODO: Add Automapper
+            var dto = new AddUpdateCategoryDto
+            {
+                IsCreate = true,
+                IsGroup = CurrentCategory.IsGroup,
+                ColorRGB = CurrentCategory.ColorRGB,
+                Comment = CurrentCategory.Comment,
+                Name = CurrentCategory.Name,
+                ParentId = SelectedParent?.Value,
+                ParentName = CurrentCategory.ParentName,
+                ShowInNavigator = CurrentCategory.ShowInNavigator
+            };
+            await _commandService.CreateCategory(dto);
         }
 
         #endregion

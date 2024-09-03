@@ -83,7 +83,8 @@
                 Grid.Row="4"
                 Grid.Column="1"
                 Margin="15"
-                Padding="10"/>
+                Padding="10"
+                Command="{Binding CreateCategoryCommand}"/>
         <Button Content="Cancel"
                 Grid.Row="4"
                 Grid.Column="2"

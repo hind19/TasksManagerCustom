@@ -37,7 +37,7 @@ namespace TasksManager
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
-            containerRegistry.RegisterScoped<ICategoryRepositoryService, CategoryRepositoryService>()
+            containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
             // I want to completely separate Persistence Layer from Application and interact through Service Layer only
             // containerRegistry.RegisterSingleton<IDbInitializer, DbInitializer>();
 
