@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TasksManager.Application.Models
+﻿namespace TasksManager.Application.Models
 {
     public class NameValuePair<T>
     {

@@ -15,4 +15,16 @@
 
     <system:String x:Key="categoryCreateDialogTitle">Create/Update Category</system:String>
 
+
+    <!--Buttons-->
+    <system:String x:Key="okBtn">Ok</system:String>
+    <system:String x:Key="cancelBtn">Отмена</system:String>
+  
+    <!--AddUpdateCategoryDialog -->
+    <system:String x:Key="categoryName">Name</system:String>
+    <system:String x:Key="parentCategoryName">Parent category</system:String>
+    <system:String x:Key="isGroup">Is Group</system:String>
+    <system:String x:Key="comment">Comment</system:String>
+    <system:String x:Key="showInNavigator">Show in Navigator</system:String>
+
 </ResourceDictionary>

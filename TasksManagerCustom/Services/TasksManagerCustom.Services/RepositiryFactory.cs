@@ -17,7 +17,7 @@ namespace TasksManager.Services
         {
             if(! _repositoryValues.ContainsKey(key))
             {
-                throw new InvalidOperationException("Repository has not been implemented yet");
+                throw new InvalidOperationException($"Repository {key.ToString()}  has not been implemented yet");
             }
 
             return (IRepository)Activator.CreateInstance(_repositoryValues[key]);

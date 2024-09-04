@@ -9,11 +9,6 @@ namespace TasksManager.Persistence.Repositories
 {
     public abstract class AbstarctRepository
     {
-        protected AbstarctRepository()
-        {
-            
-        }
-
         protected string GetDatabasePath()
         {
             var currentDirectory = Environment.CurrentDirectory;

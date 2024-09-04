@@ -22,7 +22,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Наименование:"
+        <TextBlock Text="{DynamicResource categoryName}"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    Padding="15"
@@ -35,7 +35,7 @@
                    HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
                  Text="{Binding CurrentCategory.Name}"/>
-        <TextBlock Text="Родительская категория:"
+        <TextBlock Text="{DynamicResource parentCategoryName}"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Center"
                    Padding="15"
@@ -50,7 +50,7 @@
                   SelectedValue="Value"
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding SelectedParent}"/>
-        <CheckBox Content="Группа"
+        <CheckBox Content="{DynamicResource isGroup}"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Grid.Row="1"
@@ -63,7 +63,7 @@
                     Margin="15"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
-            <TextBlock Text="Комментарий"
+            <TextBlock Text="{DynamicResource comment}"
                        Margin="10"/>
             <TextBox TextWrapping="Wrap"
                      AcceptsReturn="True"
@@ -73,22 +73,20 @@
                      MinHeight="150"
                      Text="{Binding CurrentCategory.Comment}"/>
         </StackPanel>
-         <CheckBox Content="Показывать в навигаторе"
+         <CheckBox Content="{DynamicResource showInNavigator}"
                   Grid.Row="4"
                   Grid.Column="0"
                   Margin="15"
                   VerticalAlignment="Center"
                   IsChecked="{Binding CurrentCategory.ShowInNavigator}"/>
-        <Button Content="Ok"
+        <Button Content="{DynamicResource okBtn}"
                 Grid.Row="4"
                 Grid.Column="1"
-                Margin="15"
-                Padding="10"
+                Style="{StaticResource dialogButtonStyle}"
                 Command="{Binding CreateCategoryCommand}"/>
-        <Button Content="Cancel"
+        <Button Content="{DynamicResource cancelBtn}"
                 Grid.Row="4"
                 Grid.Column="2"
-                Margin="15"
-                Padding="10"/>
+                Style="{StaticResource dialogButtonStyle}"/>
     </Grid>
 </UserControl>

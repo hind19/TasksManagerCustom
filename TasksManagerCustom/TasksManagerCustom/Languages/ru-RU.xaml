@@ -13,6 +13,18 @@
     <system:String x:Key="categoryCreate">Создать Категорию</system:String>
 
     <system:String x:Key="categoryCreateDialogTitle">Создать/Изменить Категорию</system:String>
+    
+    <!--Buttons-->
+    <system:String x:Key="okBtn">Ok</system:String>
+    <system:String x:Key="cancelBtn">Отмена</system:String>
+    
+    
+    <!--AddUpdateCategoryDialog -->
+    <system:String x:Key="categoryName">Наименование</system:String>
+    <system:String x:Key="parentCategoryName">Родительская категория</system:String>
+    <system:String x:Key="isGroup">Группа</system:String>
+    <system:String x:Key="comment">Комментарий</system:String>
+    <system:String x:Key="showInNavigator">Показывать в Навигаторе</system:String>
 
 
 </ResourceDictionary>
