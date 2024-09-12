@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Class1.cs" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\TasksManager.PersistenceContracts\TasksManager.PersistenceContracts.csproj" />
-    <ProjectReference Include="..\..\..\TasksManager.Persistence\TasksManager.Persistence.csproj" />
-    <ProjectReference Include="..\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,19 +1,20 @@
-﻿using TasksManager.Modules.MenuBarModule;
+﻿using AutoMapper;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
+using TasksManager.Application.Dialogs.CategoriesDialogs;
+using TasksManager.LeftPanelModule;
+using TasksManager.Modules.MenuBarModule;
 using TasksManager.Modules.ModuleName;
 using TasksManager.Services;
 using TasksManager.Services.Interfaces;
-using TasksManager.Views;
-using TasksManager.LeftPanelModule;
-using TasksManager.PersistenceContracts;
-using TasksManager.Application.Dialogs.CategoriesDialogs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.Services.RepositoryServices;
+using TasksManager.Views;
 
 namespace TasksManager
 {
@@ -38,11 +39,18 @@ namespace TasksManager
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
-            // I want to completely separate Persistence Layer from Application and interact through Service Layer only
-            // containerRegistry.RegisterSingleton<IDbInitializer, DbInitializer>();
+
+            //// Register Automapper
+            var profileType = typeof(Profile);
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+                cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p => profileType.IsAssignableFrom(p))));
+            containerRegistry.RegisterInstance<IMapper>(new Mapper(mapperConfiguration));
 
 
-            containerRegistry.RegisterDialog<AddUpdateCategoryDialog, AddUpdateCategoryDialogViewModel>();
+
+            RegisterDialogs(containerRegistry);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -57,7 +65,7 @@ namespace TasksManager
             ResourceDictionary dict = new ResourceDictionary();
             switch (Thread.CurrentThread.CurrentCulture.ToString())
             {
-                // TODO: Switch to en-US. I have the en-US cultural settings but want to see russian version
+                // TODO: Switch to en-US. I have the en-US cultural settings on my local machine but want to see the Russian version
                 case "en-US":
                     dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
                     break;
@@ -74,6 +82,11 @@ namespace TasksManager
         private void CheckDatabase()
         {
             DatabaseService.CreateDataBaseIfNotExists();
+        }
+
+        private void RegisterDialogs(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterDialog<AddUpdateCategoryDialog, AddUpdateCategoryDialogViewModel>();
         }
 
     }

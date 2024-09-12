@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Threading.Tasks;
 using TasksManager.Persistence.DomainModels.Commands;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Dtos;

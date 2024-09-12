@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using AutoMapper;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -12,7 +13,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
     public class AddUpdateCategoryDialogViewModel : BindableBase, IDialogAware
     {
         #region Fiedls
-        
+        private readonly IMapper _mapper;
         private CategoryModel _categoryModel;
         private NameValuePair<int> _selectedParent;
         private IEnumerable<NameValuePair<int>> _categoriesList;
@@ -20,8 +21,9 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         #endregion
 
         #region Constructors
-        public AddUpdateCategoryDialogViewModel(ICategoryRepositoryCommandService commandService)
+        public AddUpdateCategoryDialogViewModel(ICategoryRepositoryCommandService commandService , IMapper mapper)
         {
+            _mapper = mapper;
             _commandService = commandService;
             CreateCategoryCommand = new DelegateCommand(CreateCategory);
         }
@@ -97,7 +99,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             //if(! update)
             CurrentCategory = new CategoryModel();
 
-            //debug code (tenporary)
+            //debug code (temporary)
             CategoriesList = new List<NameValuePair<int>>()
             {
                 new NameValuePair<int>("Option 1", 999),
@@ -107,18 +109,9 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
 
         public async void CreateCategory()
         {
-            //TODO: Add Automapper
-            var dto = new AddUpdateCategoryDto
-            {
-                IsCreate = true,
-                IsGroup = CurrentCategory.IsGroup,
-                ColorRGB = CurrentCategory.ColorRGB,
-                Comment = CurrentCategory.Comment,
-                Name = CurrentCategory.Name,
-                ParentId = SelectedParent?.Value,
-                ParentName = CurrentCategory.ParentName,
-                ShowInNavigator = CurrentCategory.ShowInNavigator
-            };
+            var dto = _mapper.Map<AddUpdateCategoryDto>(_categoryModel);
+            dto.IsCreate = true;
+            
             await _commandService.CreateCategory(dto);
         }
 

@@ -8,6 +8,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
-    <ProjectReference Include="..\..\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

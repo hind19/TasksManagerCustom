@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
     <ProjectReference Include="..\TasksManagerCustom\TasksManagerCustom.Core\TasksManager.Core.csproj" />
   </ItemGroup>
 

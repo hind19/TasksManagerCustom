@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\TasksManager.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\TasksManager.Services\TasksManager.Services.csproj" />
     <ProjectReference Include="..\..\Modules\TasksManagerCustom.Modules.ModuleName\TasksManager.TasksScheduleModule.csproj" />
   </ItemGroup>
 

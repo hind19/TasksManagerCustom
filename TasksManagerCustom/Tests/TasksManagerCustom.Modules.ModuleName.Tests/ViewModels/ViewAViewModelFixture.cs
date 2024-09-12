@@ -2,6 +2,7 @@
 using Prism.Regions;
 using TasksManager.Modules.TaskScheduleModule.ViewModels;
 using TasksManager.Services.Interfaces;
+
 using Xunit;
 
 namespace TasksManager.Modules.ModuleName.Tests.ViewModels

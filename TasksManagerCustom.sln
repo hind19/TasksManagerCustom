@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.TasksScheduleM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91CE90EF-5240-4E4D-A3D4-7110081D5999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services", "TasksManagerCustom\Services\TasksManagerCustom.Services\TasksManager.Services.csproj", "{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services.Interfaces", "TasksManagerCustom\Services\TasksManagerCustom.Services.Interfaces\TasksManager.Services.Interfaces.csproj", "{996619C4-658F-4396-937B-701FF822776C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Application", "TasksManagerCustom\TasksManagerCustom\TasksManager.Application.csproj", "{DC2BF252-57D7-46E1-A063-E5D38A838789}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Core", "TasksManagerCustom\TasksManagerCustom.Core\TasksManager.Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
@@ -27,9 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.LeftPanelModul
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{726DED84-30F1-47FB-93A5-8BB01665F78F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksManager.Persistence", "TasksManager.Persistence\TasksManager.Persistence.csproj", "{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.PersistenceContracts", "TasksManager.PersistenceContracts\TasksManager.PersistenceContracts.csproj", "{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksManager.PersistenceContracts", "TasksManager.PersistenceContracts\TasksManager.PersistenceContracts.csproj", "{CE17D626-E20B-4A8C-A884-69CA281A8DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services", "TasksManager.Services\TasksManager.Services.csproj", "{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services.Interfaces", "TasksManager.Services.Interfaces\TasksManager.Services.Interfaces.csproj", "{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Persistence", "TasksManagerCustom.Persistence\TasksManagerCustom.Persistence.csproj", "{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksManagerCustom.Shared", "TasksManagerCustom.Shared\TasksManagerCustom.Shared.csproj", "{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +47,6 @@ Global
 		{7424E224-5A61-4283-9F90-14FEC185DA98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7424E224-5A61-4283-9F90-14FEC185DA98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7424E224-5A61-4283-9F90-14FEC185DA98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{996619C4-658F-4396-937B-701FF822776C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{996619C4-658F-4396-937B-701FF822776C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{996619C4-658F-4396-937B-701FF822776C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{996619C4-658F-4396-937B-701FF822776C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC2BF252-57D7-46E1-A063-E5D38A838789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC2BF252-57D7-46E1-A063-E5D38A838789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC2BF252-57D7-46E1-A063-E5D38A838789}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,14 +63,26 @@ Global
 		{E4DC0C97-814F-4A28-8D85-A3A162CCD7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4DC0C97-814F-4A28-8D85-A3A162CCD7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4DC0C97-814F-4A28-8D85-A3A162CCD7A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE17D626-E20B-4A8C-A884-69CA281A8DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE17D626-E20B-4A8C-A884-69CA281A8DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE17D626-E20B-4A8C-A884-69CA281A8DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE17D626-E20B-4A8C-A884-69CA281A8DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,12 +90,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7FE544BC-FBB3-4DE4-A83B-36BF0F564A96} = {7478E741-006B-4919-B405-38E88A366A4B}
 		{7424E224-5A61-4283-9F90-14FEC185DA98} = {09C40AEB-5103-4240-91E8-B8BD63DB5BBD}
-		{43D4BA5C-6E84-4A1F-9767-3021BB04EF31} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
-		{996619C4-658F-4396-937B-701FF822776C} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
 		{7B19BEE4-6294-489B-BB40-D354DEE174AD} = {09C40AEB-5103-4240-91E8-B8BD63DB5BBD}
 		{E4DC0C97-814F-4A28-8D85-A3A162CCD7A6} = {09C40AEB-5103-4240-91E8-B8BD63DB5BBD}
-		{CEE0E44B-FDB1-404C-A3A0-63E035BB4FD9} = {726DED84-30F1-47FB-93A5-8BB01665F78F}
-		{CE17D626-E20B-4A8C-A884-69CA281A8DB7} = {726DED84-30F1-47FB-93A5-8BB01665F78F}
+		{1234CF2B-FA9C-4C1E-B9FF-8FF1E1589A68} = {726DED84-30F1-47FB-93A5-8BB01665F78F}
+		{AAE91D7C-0696-4DEB-9D7D-6F8B7FA05EDD} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
+		{1B730FE7-E8D3-4E59-AA87-2DE03FA80304} = {91CE90EF-5240-4E4D-A3D4-7110081D5999}
+		{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670} = {726DED84-30F1-47FB-93A5-8BB01665F78F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA80B13A-37C6-43D2-984E-DA880EDC80FC}
