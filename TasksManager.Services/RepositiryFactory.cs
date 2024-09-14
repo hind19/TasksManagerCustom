@@ -8,7 +8,7 @@ namespace TasksManager.Services
     {
         private static Dictionary<Repositories, Type> _repositoryValues = new Dictionary<Repositories, Type>
         {
-            { Repositories.CategoryRepository, typeof(CategoryCommandRepository) }
+            { Repositories.CategoryRepository, typeof(CategoryRepository) }
         };
 
         public static IRepository ResolveRepository(Repositories key)

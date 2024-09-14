@@ -4,6 +4,6 @@ namespace TasksManager.Services.Interfaces.RepositoryServices
 {
     public interface ICategoryRepositoryQueryService
     {
-        IReadOnlyCollection<ShortCategoryDto> GetAllCategories(bool shownInNavigatorOnly);
+        Task<IReadOnlyCollection<ShortCategoryDto>> GetAllCategories(bool shownInNavigatorOnly);
     }
 }

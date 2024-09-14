@@ -16,16 +16,21 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         private readonly IMapper _mapper;
         private CategoryModel _categoryModel;
         private NameValuePair<int> _selectedParent;
-        private IEnumerable<NameValuePair<int>> _categoriesList;
+        private IReadOnlyCollection<NameValuePair<int>> _categoriesList;
         private readonly ICategoryRepositoryCommandService _commandService;
+        private readonly ICategoryRepositoryQueryService _queryService;
         #endregion
 
         #region Constructors
-        public AddUpdateCategoryDialogViewModel(ICategoryRepositoryCommandService commandService , IMapper mapper)
+        public AddUpdateCategoryDialogViewModel(
+            ICategoryRepositoryCommandService commandService,
+            IMapper mapper,
+            ICategoryRepositoryQueryService queryService)
         {
             _mapper = mapper;
             _commandService = commandService;
             CreateCategoryCommand = new DelegateCommand(CreateCategory);
+            _queryService = queryService;
         }
 
         #endregion
@@ -57,7 +62,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             }
         }
 
-        public IEnumerable<NameValuePair<int>> CategoriesList
+        public IReadOnlyCollection<NameValuePair<int>> CategoriesList
         {
             get
             {
@@ -88,7 +93,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             // TODO: Implement
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
 
             Title = parameters.GetValue<string>("DialogTitle");
@@ -98,19 +103,16 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             // TODO: implement update
             //if(! update)
             CurrentCategory = new CategoryModel();
-
-            //debug code (temporary)
-            CategoriesList = new List<NameValuePair<int>>()
-            {
-                new NameValuePair<int>("Option 1", 999),
-                new NameValuePair<int>("Option 2", 888)
-            };
+            var data = await _queryService.GetAllCategories(true);
+            CategoriesList =  _mapper.Map<IReadOnlyCollection<NameValuePair<int>>>(data);
         }
 
         public async void CreateCategory()
         {
             var dto = _mapper.Map<AddUpdateCategoryDto>(_categoryModel);
             dto.IsCreate = true;
+            dto.ParentId = SelectedParent.Value;
+
             
             await _commandService.CreateCategory(dto);
         }

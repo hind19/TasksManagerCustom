@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.Services.DTOs;
+using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.Services.Automapper
 {
@@ -15,6 +16,11 @@ namespace TasksManager.Services.Automapper
         {
             CreateMap<AddUpdateCategoryDto, CategoryDto>()
                 .ReverseMap();
+
+            CreateMap<PersistenceCategoryDto, ShortCategoryDto>()
+                .ReverseMap();
+
+            CreateMap<AddUpdateCategoryDto,PersistenceCategoryDto>();
         }
     }
 }

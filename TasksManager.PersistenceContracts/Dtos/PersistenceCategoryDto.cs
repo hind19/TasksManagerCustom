@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace TasksManager.PersistenceContracts.Dtos
+﻿namespace TasksManager.PersistenceContracts.Dtos
 {
-    public class CategoryDto
+    public class PersistenceCategoryDto
     {
         public int Id { get; set; }
 

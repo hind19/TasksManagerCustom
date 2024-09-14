@@ -16,8 +16,8 @@ namespace TasksManager.Services.RepositoryServices
         }
         public async Task CreateCategory(AddUpdateCategoryDto addUpdateCategoryDto)
         {
-            var repo = (CategoryCommandRepository)RepositiryFactory.ResolveRepository(Repositories.CategoryRepository);
-            var model = _mapper.Map<CategoryDto>(addUpdateCategoryDto);
+            var repo = (CategoryRepository)RepositiryFactory.ResolveRepository(Repositories.CategoryRepository);
+            var model = _mapper.Map<PersistenceCategoryDto>(addUpdateCategoryDto);
             await repo.CreateCategory(model);
         }
     }

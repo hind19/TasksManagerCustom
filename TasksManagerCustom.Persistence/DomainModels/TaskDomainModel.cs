@@ -1,15 +1,12 @@
 ﻿using SQLite;
-using System;
+using TasksManagerCustom.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.DomainModels
 {
     // Name of this file has a different logic in order to avoid matching with Task class from TPL
     [Table (Constants.TasksTable)]
-    internal class TaskDomainModel
+    internal class TaskDomainModel : BaseTable
     {
-        [PrimaryKey, NotNull, AutoIncrement]
-        public int TaskId { get; set; }
-
         [MaxLength (1000)]
         public string TaskName { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TasksManager.Application.Models;
 using TasksManager.Services.DTOs;
+using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.Application.AutomapperProfiles
 {
@@ -10,6 +11,9 @@ namespace TasksManager.Application.AutomapperProfiles
         {
             CreateMap<CategoryModel, AddUpdateCategoryDto>()
                 .ReverseMap();
+
+            CreateMap<ShortCategoryDto, NameValuePair<int>>()
+                .ConstructUsing(s => new NameValuePair<int>(s.Name, s.Id));
         }
     }
 }
