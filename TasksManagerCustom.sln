@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services", "Ta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services.Interfaces", "TasksManager.Services.Interfaces\TasksManager.Services.Interfaces.csproj", "{1B730FE7-E8D3-4E59-AA87-2DE03FA80304}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManagerCustom.Persistence", "TasksManagerCustom.Persistence\TasksManagerCustom.Persistence.csproj", "{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Persistence", "TasksManagerCustom.Persistence\TasksManager.Persistence.csproj", "{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksManagerCustom.Shared", "TasksManagerCustom.Shared\TasksManagerCustom.Shared.csproj", "{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Shared", "TasksManagerCustom.Shared\TasksManager.Shared.csproj", "{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
