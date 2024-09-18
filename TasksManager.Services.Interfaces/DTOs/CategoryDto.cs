@@ -10,8 +10,6 @@ namespace TasksManager.Services.Interfaces.DTOs
     {
         public string ColorRGB { get; set; }
 
-        public bool IsGroup { get; set; }
-
         public string Comment { get; set; }
 
         public bool ShowInNavigator { get; set; }

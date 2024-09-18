@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
 using SQLite;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.DomainModels.Commands;
@@ -15,7 +14,6 @@ namespace TasksManager.Persistence.Repositories
         {
             _mapper = new Mapper(new MapperConfiguration(cfg => 
             {
-
                 cfg.CreateMap<Category, PersistenceCategoryDto>().
                 ReverseMap();
             }));

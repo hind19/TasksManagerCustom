@@ -9,6 +9,6 @@ namespace TasksManagerCustom.Persistence.DomainModels.Queries
     public class CategoryQueries
     {
         public const string AllCategoriesQuery = "SELECT * FROM Categories";
-        public const string ShowInNavigatorOnly = " WHERE Show_In_Navigator = TRUE";
+        public const string ShowInNavigatorOnly = " WHERE ShowInNavigator = TRUE";
     }
 }

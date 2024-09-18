@@ -13,5 +13,7 @@ namespace TasksManager.Services.Interfaces.DTOs
         public string Name { get; set; }
 
         public int? ParentId { get; set; }
+
+        public bool IsGroup { get; set; }
     }
 }

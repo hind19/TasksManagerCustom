@@ -17,7 +17,7 @@ namespace TasksManager.Persistence.DomainModels.Abstract
         public string? Comment { get; set; }
 
         [NotNull]
-        public bool ShowInNavigator { get; set; } = true;
+        public bool ShowInNavigator { get; set; }
 
         public int? ParentId { get; set; }
     }
