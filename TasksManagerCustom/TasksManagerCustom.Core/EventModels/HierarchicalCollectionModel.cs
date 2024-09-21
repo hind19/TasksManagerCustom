@@ -1,4 +1,6 @@
-﻿namespace TasksManager.LeftPanelModule.Models
+﻿using System.Collections.Generic;
+
+namespace TasksManager.Core.EventModels
 {
     public class HierarchicalCollectionModel
     {
@@ -10,6 +12,8 @@
 
         public bool IsGroup { get; set; }
 
+
+        // TODO: Not sure if I need these 2 props
         public bool IsSelected { get; set; }
 
         public bool IsExpanded { get; set; }

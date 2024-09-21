@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TasksManager.LeftPanelModule.Models;
+using TasksManager.Core.EventModels;
 using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.LeftPanelModule.Automapper

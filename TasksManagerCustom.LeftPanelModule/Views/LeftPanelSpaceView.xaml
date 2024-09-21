@@ -7,7 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:trvmodel="clr-namespace:TasksManager.LeftPanelModule.Models"
+             xmlns:trvmodel="clr-namespace:TasksManager.Core.EventModels;assembly=TasksManager.Core"
              xmlns:converters="clr-namespace:TasksManager.LeftPanelModule.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -42,7 +42,6 @@
                   Grid.Row="0"
                   VerticalAlignment="Stretch"
                   IsEnabled="True"
-                  SelectedValuePath="{Binding SelectedCategoryId}"
                   SelectedItemChanged="TreeView_OnSelectedItemChanged">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
@@ -53,10 +52,18 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}"
                                           DataType="{x:Type trvmodel:HierarchicalCollectionModel}">
-                    <TreeViewItem Header="{Binding Name}"
-                                  FontFamily="Century Gothic"
-                                  FontSize="12"
-                                  FontWeight="{Binding IsGroup, Converter={StaticResource ResourceKey=boolToFontWeightConvetrer}}"/>
+                    <TreeViewItem >
+                        <TreeViewItem.Header>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="center"
+                                           Text="{Binding Name}"
+                                           FontFamily="Century Gothic"
+                                           FontSize="12"
+                                           MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                           FontWeight="{Binding IsGroup, Converter={StaticResource ResourceKey=boolToFontWeightConvetrer}}" />
+                            </DockPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem> 
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

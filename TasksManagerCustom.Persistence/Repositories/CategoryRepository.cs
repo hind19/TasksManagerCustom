@@ -29,6 +29,7 @@ namespace TasksManager.Persistence.Repositories
                 model.Comment,
                 model.ShowInNavigator,
                 model.ParentId);
+            await connection.CloseAsync();
 
             return result;
         }
@@ -41,6 +42,7 @@ namespace TasksManager.Persistence.Repositories
                 : CategoryQueries.AllCategoriesQuery;
 
             var result = await GetItemsWithQuery<Category>(connection, query);
+            await connection.CloseAsync();
 
             return _mapper.Map<IReadOnlyCollection<PersistenceCategoryDto>>(result.ToList().AsReadOnly());
                 

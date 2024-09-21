@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
-using TasksManager.LeftPanelModule.Models;
+using TasksManager.Core.Enums;
+using TasksManager.Core.EventModels;
+using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 
@@ -12,19 +15,23 @@ namespace TasksManager.LeftPanelModule.ViewModels
         #region fields
         private readonly ICategoryRepositoryQueryService _queryService;
         private readonly IMapper _mapper;
+        private readonly IEventAggregator _eventAggregator;
 
         private IReadOnlyCollection<HierarchicalCollectionModel> _categoriesList;
         private HierarchicalCollectionModel _selectedCategory;
         #endregion
 
         #region Constructors
-        public LeftPanelSpaceViewModel(ICategoryRepositoryQueryService queryService)
+        public LeftPanelSpaceViewModel(
+            ICategoryRepositoryQueryService queryService,
+            IEventAggregator eventAggregator)
         {
             _queryService = queryService;
+            _eventAggregator = eventAggregator;
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ShortCategoryDto, HierarchicalCollectionModel>().
-                ReverseMap();
+                cfg.CreateMap<ShortCategoryDto, HierarchicalCollectionModel>()
+                    .ReverseMap();
             }));
             LoadCategoriesCommand = new DelegateCommand (LoadCategories);
         }
@@ -44,13 +51,6 @@ namespace TasksManager.LeftPanelModule.ViewModels
             } 
         }
 
-        private int _selectedcategoryId;
-        public int SelectedCategoryId
-        {
-            get { return _selectedcategoryId; }
-            set { SetProperty(ref _selectedcategoryId, value); }
-        }
-
         public HierarchicalCollectionModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -58,8 +58,11 @@ namespace TasksManager.LeftPanelModule.ViewModels
             { 
                 SetProperty(ref _selectedCategory, value); 
                 _selectedCategory.IsSelected = true;
+                SendCategoryCgangedEvent();
             }
         }
+
+        
         #endregion
 
         #region Methods
@@ -104,6 +107,12 @@ namespace TasksManager.LeftPanelModule.ViewModels
             }
             return null;
        }
+
+        private void SendCategoryCgangedEvent()
+        {
+            _eventAggregator.GetEvent<CategoryOrProjectChangedEvent>()
+                .Publish(new Tuple<HierarchicalCollectionModel, CategoryProjectEnum> ( SelectedCategory, CategoryProjectEnum.Category));
+        }
 
         #endregion
     }

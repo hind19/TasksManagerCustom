@@ -1,33 +1,63 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Events;
+using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using TasksManager.Core.Enums;
+using TasksManager.Core.EventModels;
+using TasksManager.Core.Events;
 using TasksManager.TasksScheduleModule.Models;
 
 namespace TasksManager.Modules.TaskScheduleModule.ViewModels
 {
     internal class TaskScheduleViewModel :BindableBase
     {
-        public TaskScheduleViewModel()
-        {
-            CurrentTasksList = new ObservableCollection<DataGridTaskModel>
-            {
-                new DataGridTaskModel
-                {
-                    Id = 1,
-                    TaskName = "Task 1",
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(10)
-                },
-                new DataGridTaskModel
-                {
-                    Id = 2,
-                    TaskName = "Task 2",
-                    StartDate = DateTime.Now.AddDays(-5),
-                    EndDate = DateTime.Now.AddDays(18)
-                }
+        #region Fields
+        private ObservableCollection<DataGridTaskModel> _curentTasksList;
+        #endregion
 
-            };
+        #region Constructors
+        public TaskScheduleViewModel(IEventAggregator eventAggregator)
+        {
+            eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
         }
-        public ObservableCollection<DataGridTaskModel> CurrentTasksList { get; set; }
+
+        #endregion
+
+        #region Properties
+        public ObservableCollection<DataGridTaskModel> CurrentTasksList
+        {
+            get
+            {
+                return _curentTasksList;
+            }
+            set
+            {
+                SetProperty(ref _curentTasksList, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+        private void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
+        {
+            if(tuple.Item2 == CategoryProjectEnum.Category)
+            {
+                //TODO: TasksQueryService
+
+            }
+            else if (tuple.Item2 == CategoryProjectEnum.Project)
+            {
+
+            }
+            else
+            {
+                return;
+            }
+
+        }
+        #endregion
+
+       
     }
 }

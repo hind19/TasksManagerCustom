@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TasksManager.LeftPanelModule.Models;
+using TasksManager.Core.EventModels;
 using TasksManager.LeftPanelModule.ViewModels;
 
 namespace TasksManager.LeftPanelModule.Views
@@ -15,13 +15,18 @@ namespace TasksManager.LeftPanelModule.Views
             InitializeComponent();
         }
 
-        private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var vm = sender as FrameworkElement;
-            if (vm is not null)
+            var control = sender as FrameworkElement;
+            if (control is not null)
             {
-                ((LeftPanelSpaceViewModel)vm.DataContext).SelectedCategory = e.NewValue as HierarchicalCollectionModel;
-    }
+                 var category = control.DataContext as HierarchicalCollectionModel;
+                 var viewModel = this.DataContext as LeftPanelSpaceViewModel;
+                if (viewModel is not null)
+                {
+                    viewModel.SelectedCategory = category!;
+                }
+            }
         }
     }
 }
