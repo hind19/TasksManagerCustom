@@ -8,7 +8,7 @@ Anyone  has the right to use this project or any part of it for evaluation of my
 But keep in mind that this project reflects my programming skills on the term of active development (Sept 2024 - ). See last commit date
 Please, bear in mind that technologeis and frameworks used in ths project may have their own licenses and restrictions. See the 'Stack' paragraph  and contact theis owners for details.
 
-!!!IMPORTANT!!! 
+
 
 
 
