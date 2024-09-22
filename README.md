@@ -1,11 +1,13 @@
 !!!IMPORTANT!!! 
+
 This is just a training project. No commercial or private usage is assumed. No commercial usage (excluding evaluation of my programming skills for the hiring purposes) is allowed.
-No reasponsibilities for the project, its behavior and quality has been taken.
+No responsibilities for the project, its behavior and quality have been taken.
 Completing development, support and maintenance are not garanteed.
 Anyone has the right to use this project or any part of it for training/learning purposes but without any obligations and responsibilities from my side (see above).
 Anyone  has the right to use this project or any part of it for evaluation of my programming skills for the hiring or promoting purposes. 
 But keep in mind that this project reflects my programming skills on the term of active development (Sept 2024 - ). See last commit date
 Please, bear in mind that technologeis and frameworks used in ths project may have their own licenses and restrictions. See the 'Stack' paragraph  and contact theis owners for details.
+
 !!!IMPORTANT!!! 
 
 
