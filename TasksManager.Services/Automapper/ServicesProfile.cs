@@ -9,7 +9,8 @@ namespace TasksManager.Services.Automapper
     {
         public ServicesProfile()
         {
-            AddCategoryMaps(); 
+            AddCategoryMaps();
+            AddTasksMaps();
         }
 
         private void AddCategoryMaps()
@@ -21,6 +22,12 @@ namespace TasksManager.Services.Automapper
                 .ReverseMap();
 
             CreateMap<AddUpdateCategoryDto,PersistenceCategoryDto>();
+        }
+
+        private void AddTasksMaps()
+        {
+            CreateMap<PersistenceTaskDto, TaskDto>()
+                .ReverseMap();
         }
     }
 }

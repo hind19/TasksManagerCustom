@@ -1,26 +1,24 @@
 ﻿using TasksManager.Persistence.Repositories;
-using TasksManager.PersistenceContracts;
+using TasksManager.PersistenceContracts.Repositories;
 
 
 namespace TasksManager.Services
 {
-    internal static class RepositiryFactory
+    internal static class RepositiryFactory<T> where T : IRepository
     {
-        private static Dictionary<Repositories, Type> _repositoryValues = new Dictionary<Repositories, Type>
+        private static readonly Dictionary<Type, Type> _repositoryValues = new Dictionary<Type, Type>
         {
-            { Repositories.CategoryRepository, typeof(CategoryRepository) }
+            { typeof(ICategoryRepository), typeof(CategoryRepository) },
+            { typeof(ITaskRepository), typeof(TaskRepository) }
         };
-
-        public static IRepository ResolveRepository(Repositories key)
+        public static T ResolveRepository()
         {
-            if(! _repositoryValues.ContainsKey(key))
+            if (!_repositoryValues.ContainsKey(typeof(T)))
             {
-                throw new InvalidOperationException($"Repository {key.ToString()}  has not been implemented yet");
+                throw new InvalidOperationException($"Repository {typeof(T).FullName}  has not been implemented yet");
             }
-
-            return (IRepository)Activator.CreateInstance(_repositoryValues[key]);
+            return (T)Activator.CreateInstance(_repositoryValues[typeof (T)])!;
         }
-
 
     }
 }

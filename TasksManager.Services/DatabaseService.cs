@@ -1,5 +1,5 @@
 ﻿using TasksManager.Persistence;
-using TasksManager.PersistenceContracts;
+using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Services
 {

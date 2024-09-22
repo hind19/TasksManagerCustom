@@ -40,6 +40,7 @@ namespace TasksManager
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
+            containerRegistry.RegisterScoped<ITasksQueryService, TasksQueryService>();
 
             //// Register Automapper
             var profileType = typeof(Profile);

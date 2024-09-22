@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace TasksManager.PersistenceContracts
+namespace TasksManager.PersistenceContracts.Repositories
 {
     public interface IDbInitializer
     {

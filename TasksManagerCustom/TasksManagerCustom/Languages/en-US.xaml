@@ -12,6 +12,7 @@
     <system:String x:Key="tasks">Tasks</system:String>
     <system:String x:Key="taskCreate">Create Task</system:String>
     <system:String x:Key="categoryCreate">Create Category</system:String>
+    <system:String x:Key="percentageOfCompletion">Percentage of Completion</system:String>
 
     <system:String x:Key="categoryCreateDialogTitle">Create/Update Category</system:String>
 
@@ -26,5 +27,6 @@
     <system:String x:Key="isGroup">Is Group</system:String>
     <system:String x:Key="comment">Comment</system:String>
     <system:String x:Key="showInNavigator">Show in Navigator</system:String>
+    
 
 </ResourceDictionary>

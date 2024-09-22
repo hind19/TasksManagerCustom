@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TasksManager.PersistenceContracts
+namespace TasksManager.PersistenceContracts.Repositories
 {
     public interface IRepository
     {

@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TasksManager.PersistenceContracts\TasksManager.PersistenceContracts.csproj" />
-    <ProjectReference Include="..\TasksManagerCustom.Shared\TasksManagerCustom.Shared.csproj" />
+    <ProjectReference Include="..\TasksManagerCustom.Shared\TasksManager.Shared.csproj" />
   </ItemGroup>
 
 </Project>

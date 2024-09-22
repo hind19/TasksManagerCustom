@@ -15,7 +15,7 @@ namespace TasksManager.LeftPanelModule.Views
             InitializeComponent();
         }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var control = sender as FrameworkElement;
             if (control is not null)

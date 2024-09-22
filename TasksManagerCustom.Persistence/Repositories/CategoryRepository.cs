@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using SQLite;
+using TasksManager.Persistence.Commands;
 using TasksManager.Persistence.DomainModels;
-using TasksManager.Persistence.DomainModels.Commands;
-using TasksManager.PersistenceContracts;
+using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts.Dtos;
-using TasksManagerCustom.Persistence.DomainModels.Queries;
+using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Persistence.Repositories
 {
-    public class CategoryRepository : AbstarctRepository, IRepository
+    public class CategoryRepository : AbstarctRepository, ICategoryRepository
     {
         public CategoryRepository()
         {

@@ -2,7 +2,8 @@
 {
     internal enum Repositories
     {
-        CategoryRepository = 1
-
+        CategoryRepository = 1,
+        TaskRepository = 2,
+        ProjectRepository = 3
     }
 }

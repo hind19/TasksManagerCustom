@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TasksManager.Persistence.Repositories;
+using TasksManager.PersistenceContracts.Repositories;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 
@@ -15,7 +16,7 @@ namespace TasksManager.Services.RepositoryServices
         }
         public async Task<IReadOnlyCollection<ShortCategoryDto>> GetAllCategories(bool shownInNavigatorOnly)
         {
-            var repo = (CategoryRepository)RepositiryFactory.ResolveRepository(Repositories.CategoryRepository);
+            var repo = RepositiryFactory<ICategoryRepository>.ResolveRepository();
             var data =  await repo.GetAllCategories(shownInNavigatorOnly);
             return _mapper.Map<IReadOnlyCollection<ShortCategoryDto>>(data);
         }

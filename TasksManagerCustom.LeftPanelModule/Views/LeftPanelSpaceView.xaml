@@ -41,8 +41,7 @@
         <TreeView ItemsSource="{Binding CategoriesList}"
                   Grid.Row="0"
                   VerticalAlignment="Stretch"
-                  IsEnabled="True"
-                  SelectedItemChanged="TreeView_OnSelectedItemChanged">
+                  IsEnabled="True">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="HorizontalAlignment"

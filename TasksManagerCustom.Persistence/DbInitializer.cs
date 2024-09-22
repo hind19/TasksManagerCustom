@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using TasksManager.Persistence.DomainModels.Queries;
-using TasksManager.PersistenceContracts;
+using TasksManager.Persistence.Queries;
+using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Persistence
 {

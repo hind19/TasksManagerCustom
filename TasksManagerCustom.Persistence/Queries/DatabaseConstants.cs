@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TasksManager.Persistence.DomainModels.Queries
+namespace TasksManager.Persistence.Queries
 {
     public static class DatabaseConstants
     {

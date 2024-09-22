@@ -11,6 +11,7 @@
     <system:String x:Key="tasks">Задачи</system:String>
     <system:String x:Key="taskCreate">Создать Задачу</system:String>
     <system:String x:Key="categoryCreate">Создать Категорию</system:String>
+    <system:String x:Key="percentageOfCompletion">% готовности</system:String>
 
     <system:String x:Key="categoryCreateDialogTitle">Создать/Изменить Категорию</system:String>
     

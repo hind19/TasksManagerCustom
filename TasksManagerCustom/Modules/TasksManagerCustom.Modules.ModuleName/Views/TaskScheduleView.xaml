@@ -76,7 +76,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{DynamicResource taskNameMainGrid}"
-                                    Width="75*"
+                                    Width="70*"
                                     Binding="{Binding TaskName}"
                                     ElementStyle="{StaticResource TitleCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource taskStartDateMainGrid}"
@@ -84,9 +84,13 @@
                                     Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"
                                     ElementStyle="{StaticResource DatesCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource taskEndDateMainGrid}"
-                                    Width="12*"
+                                    Width="10*"
                                     Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"
                                     ElementStyle="{StaticResource DatesCellStyle}" />
+                <DataGridTextColumn Header="{DynamicResource percentageOfCompletion}"
+                                    Width="10*"
+                                    Binding="{Binding PercentageOfCompletion}"
+                                    ElementStyle="{StaticResource TitleCellStyle}" />
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Text="Schedule View"

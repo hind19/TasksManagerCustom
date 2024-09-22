@@ -1,4 +1,4 @@
-﻿namespace TasksManager.Persistence.DomainModels.Commands
+﻿namespace TasksManager.Persistence.Commands
 {
     public static class CreateInstanceCommands
     {
