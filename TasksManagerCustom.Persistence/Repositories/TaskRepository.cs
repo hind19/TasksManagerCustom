@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using SQLite;
+using TasksManager.Persistence.Commands;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
+using TasksManagerCustom.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.Repositories
 {
@@ -19,8 +21,12 @@ namespace TasksManager.Persistence.Repositories
         {
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TaskDomainModel, PersistenceTaskDto>().
-                ReverseMap();
+                cfg.CreateMap<BaseTable, PersistenceTaskDto>()
+                .ReverseMap();
+
+                cfg.CreateMap<TaskDomainModel, PersistenceTaskDto>()
+                .IncludeBase<BaseTable, PersistenceTaskDto>() 
+                .ReverseMap();
             }));
         }
 
@@ -47,6 +53,24 @@ namespace TasksManager.Persistence.Repositories
             await connection.CloseAsync();
 
             return _mapper.Map<IReadOnlyCollection<PersistenceTaskDto>>(result.ToList().AsReadOnly());
+        }
+
+        public async Task<int> UpdateTask(PersistenceTaskDto model)
+        {
+            var connection = new SQLiteAsyncConnection(GetDatabasePath());
+            var domainmodel = _mapper.Map<TaskDomainModel>(model);
+            var result = await connection.UpdateAsync(domainmodel);
+
+            //var result = await connection.ExecuteAsync(
+            //   TasksCommands.UpdatePercentageCommand,
+            //   model.PercentageOfCompletion,
+            //   model.Status,
+            //   model.Id);
+            //  await connection.CloseAsync();
+
+            return result;
+
+
         }
     }
 }

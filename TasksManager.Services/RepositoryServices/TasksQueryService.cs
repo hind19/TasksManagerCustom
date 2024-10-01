@@ -16,14 +16,14 @@ namespace TasksManager.Services.RepositoryServices
       
         public async Task<IReadOnlyCollection<TaskDto>> GetTasksListForCategory(IEnumerable<int> categoryIds)
         {
-            var repo = RepositiryFactory<ITaskRepository>.ResolveRepository();
+            var repo = RepositoryFactory<ITaskRepository>.ResolveRepository();
             var data = await repo.GetTasksByCategoriesIds(categoryIds);
             return _mapper.Map<IReadOnlyCollection<TaskDto>>(data);
         }
 
         public  async Task<IReadOnlyCollection<TaskDto>> GetTasksListForProject(IEnumerable<int> projectIds)
         {
-            var repo = RepositiryFactory<ITaskRepository>.ResolveRepository();
+            var repo = RepositoryFactory<ITaskRepository>.ResolveRepository();
             var data = await repo.GetTasksByProjectsIds(projectIds);
             return _mapper.Map<IReadOnlyCollection<TaskDto>>(data);
         }

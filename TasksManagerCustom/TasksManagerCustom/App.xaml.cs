@@ -41,6 +41,7 @@ namespace TasksManager
             containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
             containerRegistry.RegisterScoped<ITasksQueryService, TasksQueryService>();
+            containerRegistry.RegisterScoped<ITaskCommandService, TasksCommandService>();
 
             //// Register Automapper
             var profileType = typeof(Profile);

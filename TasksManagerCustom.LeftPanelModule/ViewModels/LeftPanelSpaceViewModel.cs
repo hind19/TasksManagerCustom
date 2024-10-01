@@ -74,8 +74,6 @@ namespace TasksManager.LeftPanelModule.ViewModels
 
         private void ConvertToHierarchicalList(IReadOnlyCollection<ShortCategoryDto> flatList)
         {
-            // TODO: Fill Hierarchical structure
-
             var roots = flatList.Where(x => x.ParentId is null).ToList();
             var children = flatList.Where(x=> x.ParentId is not null).ToList();
             var hierarchicalList = _mapper.Map<List<HierarchicalCollectionModel>>(roots);
@@ -90,7 +88,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
             }
 
             CategoriesList = hierarchicalList;
-           // SelectedCategory = CategoriesList.FirstOrDefault();
+            SelectedCategory = CategoriesList?.FirstOrDefault();
         }
 
        private HierarchicalCollectionModel FindParent( List<HierarchicalCollectionModel> parents, int parentId)

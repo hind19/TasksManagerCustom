@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using TasksManager.Persistence.Repositories;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
 using TasksManager.Services.DTOs;
@@ -15,11 +14,11 @@ namespace TasksManager.Services.RepositoryServices
         {
             _mapper = mapper;
         }
-        public async Task CreateCategory(AddUpdateCategoryDto addUpdateCategoryDto)
+        public async Task<int> CreateCategory(AddUpdateCategoryDto addUpdateCategoryDto)
         {
-            var repo = RepositiryFactory<ICategoryRepository>.ResolveRepository();
+            var repo = RepositoryFactory<ICategoryRepository>.ResolveRepository();
             var model = _mapper.Map<PersistenceCategoryDto>(addUpdateCategoryDto);
-            await repo.CreateCategory(model);
+            return await repo.CreateCategory(model);
         }
     }
 }

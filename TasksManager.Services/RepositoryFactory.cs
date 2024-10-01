@@ -4,7 +4,7 @@ using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Services
 {
-    internal static class RepositiryFactory<T> where T : IRepository
+    internal static class RepositoryFactory<T> where T : IRepository
     {
         private static readonly Dictionary<Type, Type> _repositoryValues = new Dictionary<Type, Type>
         {

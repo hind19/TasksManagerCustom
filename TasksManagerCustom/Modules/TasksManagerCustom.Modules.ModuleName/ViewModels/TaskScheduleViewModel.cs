@@ -18,16 +18,23 @@ namespace TasksManager.Modules.TaskScheduleModule.ViewModels
     {
         #region Fields
         private ObservableCollection<DataGridTaskModel> _curentTasksList;
+        private DataGridTaskModel _selectedTask;
         private readonly ITasksQueryService _tasksQueryService;
+        private readonly ITaskCommandService _taskCommandService;
         private readonly IMapper _mapper;
         #endregion
 
         #region Constructors
-        public TaskScheduleViewModel(IEventAggregator eventAggregator, ITasksQueryService tasksQueryService)
+        public TaskScheduleViewModel(
+            IEventAggregator eventAggregator,
+            ITasksQueryService tasksQueryService,
+            ITaskCommandService taskCommandService)
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
             _tasksQueryService = tasksQueryService;
+            _taskCommandService = taskCommandService;
 
+            //TODO: Why not DI????????????
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TaskDto, DataGridTaskModel>()
@@ -49,10 +56,43 @@ namespace TasksManager.Modules.TaskScheduleModule.ViewModels
                 SetProperty(ref _curentTasksList, value);
             }
         }
+        public DataGridTaskModel SelectedTask
+        {
+            get
+            {
+                return _selectedTask;
+            }
+            set
+            {
+                SetProperty(ref _selectedTask, value);
+            }
+        }
 
         #endregion
 
         #region Methods
+        public async Task CompleteOrResetTask(DataGridTaskModel model)
+        {
+            if (model == null) 
+            {
+                //TODO Create custom Exception for this case
+                throw new ArgumentNullException("model is null");
+            }
+
+            model.PercentageOfCompletion = model.PercentageOfCompletion !=100
+                ? 100
+                : 0;
+            model.Status = model.PercentageOfCompletion == 100
+                ? Shared.Enums.TaskStatusEnum.Completed
+                : Shared.Enums.TaskStatusEnum.NotStarted;
+
+            await _taskCommandService.UpdateTaskProgress(_mapper.Map<TaskDto>(model));
+
+            SelectedTask = model;
+            RaisePropertyChanged(nameof(SelectedTask));
+            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(_curentTasksList);
+        }
+
         private async void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
         {
             var ids = GetSubCategoroesIds(tuple.Item1);
@@ -85,6 +125,6 @@ namespace TasksManager.Modules.TaskScheduleModule.ViewModels
         }
         #endregion
 
-       
+
     }
 }

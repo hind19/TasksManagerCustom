@@ -5,17 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TasksManager.Modules.TaskScheduleModule.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:converters="clr-namespace:TasksManager.TasksScheduleModule.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1800">
-   
 
+    <UserControl.Resources>
+        <converters:StatusToImageConverter x:Key="statusToImageConverter" />
+        <converters:PercentageToTextDecorationsConverter x:Key="percentageToTextDecorationsConverter" />
+        <converters:PercentageToFontColorConverter x:Key="percentageToForegroundConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*" />
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0"
+        <DataGrid x:Name="basicFrame"
+                  Grid.Column="0"
                   BorderBrush="Green"
                   BorderThickness="2"
                   AutoGenerateColumns="False"
@@ -41,7 +47,7 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <TextBlock TextWrapping="Wrap"
-                                           Text="{Binding Mode=OneWay}"></TextBlock>
+                                           Text="{Binding Mode=OneWay}" />
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
@@ -50,6 +56,10 @@
                        TargetType="TextBlock">
                     <Setter Property="VerticalAlignment"
                             Value="Center" />
+                    <Setter Property="TextDecorations"
+                            Value="{Binding PercentageOfCompletion, Converter={StaticResource percentageToTextDecorationsConverter}}" />
+                    <Setter Property="Foreground"
+                            Value="{Binding PercentageOfCompletion, Converter={StaticResource percentageToForegroundConverter}}" />
                 </Style>
                 <Style x:Key="DatesCellStyle"
                        TargetType="TextBlock"
@@ -69,16 +79,19 @@
                 <DataGridTemplateColumn Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="X"
-                                    Background="Azure"
-                                    Margin="2"/>
+                            <Image Height="14px"
+                                   Width="14px"
+                                   Source="{Binding Status, Converter={StaticResource ResourceKey=statusToImageConverter}}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   MouseLeftButtonDown="Image_MouseLeftButtonDown" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{DynamicResource taskNameMainGrid}"
-                                    Width="70*"
+                                    Width="67*"
                                     Binding="{Binding TaskName}"
-                                    ElementStyle="{StaticResource TitleCellStyle}" />
+                                    ElementStyle="{StaticResource TitleCellStyle}"/>
                 <DataGridTextColumn Header="{DynamicResource taskStartDateMainGrid}"
                                     Width="10*"
                                     Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"

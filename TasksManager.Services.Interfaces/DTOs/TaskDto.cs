@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TasksManager.Services.Interfaces.DTOs
+﻿namespace TasksManager.Services.Interfaces.DTOs
 {
     public class TaskDto
     {
+        public int Id { get; set; }
+
         public string TaskName { get; set; }
 
         public int? ProjectId { get; set; }

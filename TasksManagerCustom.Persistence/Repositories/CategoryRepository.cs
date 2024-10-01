@@ -21,8 +21,9 @@ namespace TasksManager.Persistence.Repositories
         public async Task<int> CreateCategory(PersistenceCategoryDto model)
         {
             var connection = new SQLiteAsyncConnection(GetDatabasePath());
+            // TODO: Try InsertAsync instead
             var result = await connection.ExecuteAsync(
-                CreateInstanceCommands.CreateCategoryCommand,
+                CategoryCommands.CreateCategoryCommand,
                 model.Name,
                 model.ColorRGB,
                 model.IsGroup,

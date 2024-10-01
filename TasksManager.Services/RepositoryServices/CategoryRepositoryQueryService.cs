@@ -16,7 +16,7 @@ namespace TasksManager.Services.RepositoryServices
         }
         public async Task<IReadOnlyCollection<ShortCategoryDto>> GetAllCategories(bool shownInNavigatorOnly)
         {
-            var repo = RepositiryFactory<ICategoryRepository>.ResolveRepository();
+            var repo = RepositoryFactory<ICategoryRepository>.ResolveRepository();
             var data =  await repo.GetAllCategories(shownInNavigatorOnly);
             return _mapper.Map<IReadOnlyCollection<ShortCategoryDto>>(data);
         }
