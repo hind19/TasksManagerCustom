@@ -94,11 +94,11 @@
                                     ElementStyle="{StaticResource TitleCellStyle}"/>
                 <DataGridTextColumn Header="{DynamicResource taskStartDateMainGrid}"
                                     Width="10*"
-                                    Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"
+                                    Binding="{Binding StartDate}"
                                     ElementStyle="{StaticResource DatesCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource taskEndDateMainGrid}"
                                     Width="10*"
-                                    Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"
+                                    Binding="{Binding EndDate}"
                                     ElementStyle="{StaticResource DatesCellStyle}" />
                 <DataGridTextColumn Header="{DynamicResource percentageOfCompletion}"
                                     Width="10*"

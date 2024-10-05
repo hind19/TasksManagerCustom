@@ -111,7 +111,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         {
             var dto = _mapper.Map<AddUpdateCategoryDto>(_categoryModel);
             dto.IsCreate = true;
-            dto.ParentId = SelectedParent.Value;
+            dto.ParentId = SelectedParent?.Value;
 
             
             await _commandService.CreateCategory(dto);

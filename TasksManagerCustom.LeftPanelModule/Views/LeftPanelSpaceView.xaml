@@ -71,11 +71,11 @@
                     Grid.Row="1">
             <Button Content="{DynamicResource navBarCategories}"
                     Style="{StaticResource leftBarBtnStyle}"/>
-            <Button Grid.Row="1"
-                    Content="{DynamicResource navBarProjects}"
+            <Button Content="{DynamicResource navBarProjects}"
                     Style="{StaticResource leftBarBtnStyle}" />
-            <Button Grid.Row="1"
-                    Content="{DynamicResource navBarEmais}"
+            <Button Content="{DynamicResource navBarLoops}"
+                    Style="{StaticResource leftBarBtnStyle}" />
+            <Button Content="{DynamicResource navBarEmais}"
                     Style="{StaticResource leftBarBtnStyle}" />
         </StackPanel>    
     </Grid>

@@ -15,10 +15,10 @@ namespace TasksManager.Persistence.DomainModels
         public int? CategoryId { get; set; }
 
         [MaxLength(25)]
-        public DateTime? StartDate { get; set; }
+        public string? StartDate { get; set; }
 
         [MaxLength(25)]
-        public DateTime? EndDate { get; set; }
+        public string? EndDate { get; set; }
 
         // not sure if I Will use it
        // public DateTime? ReminderTime { get; set; }

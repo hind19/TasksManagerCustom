@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SQLite;
-using TasksManager.Persistence.Commands;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts.Dtos;
@@ -21,15 +20,9 @@ namespace TasksManager.Persistence.Repositories
         public async Task<int> CreateCategory(PersistenceCategoryDto model)
         {
             var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            // TODO: Try InsertAsync instead
-            var result = await connection.ExecuteAsync(
-                CategoryCommands.CreateCategoryCommand,
-                model.Name,
-                model.ColorRGB,
-                model.IsGroup,
-                model.Comment,
-                model.ShowInNavigator,
-                model.ParentId);
+            var category = _mapper.Map<Category>(model);
+            var result = await connection.InsertAsync(category);
+            
             await connection.CloseAsync();
 
             return result;

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SQLite;
-using TasksManager.Persistence.Commands;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts.Dtos;
@@ -25,7 +24,17 @@ namespace TasksManager.Persistence.Repositories
                 .ReverseMap();
 
                 cfg.CreateMap<TaskDomainModel, PersistenceTaskDto>()
-                .IncludeBase<BaseTable, PersistenceTaskDto>() 
+                .IncludeBase<BaseTable, PersistenceTaskDto>()
+                //.ForMember(x => x.StartDate, o =>
+                //{
+                //    o.PreCondition(x => x.StartDate is not null);
+                //    o.MapFrom(x => x.StartDate!.Value.ToString(Constants.DateTimeFormat));
+                //})
+                //.ForMember(x => x.EndDate, o =>
+                //{
+                //    o.PreCondition(x => x.EndDate is not null);
+                //    o.MapFrom(x => x.EndDate!.Value.ToString(Constants.DateTimeFormat));
+                //})
                 .ReverseMap();
             }));
         }
@@ -61,12 +70,6 @@ namespace TasksManager.Persistence.Repositories
             var domainmodel = _mapper.Map<TaskDomainModel>(model);
             var result = await connection.UpdateAsync(domainmodel);
 
-            //var result = await connection.ExecuteAsync(
-            //   TasksCommands.UpdatePercentageCommand,
-            //   model.PercentageOfCompletion,
-            //   model.Status,
-            //   model.Id);
-            //  await connection.CloseAsync();
 
             return result;
 

@@ -4,13 +4,16 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Threading.Tasks;
 using TasksManager.Core.Enums;
 using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
+using TasksManager.Persistence;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.TasksScheduleModule.Models;
+using TasksManagerCustom.Shared;
 
 namespace TasksManager.Modules.TaskScheduleModule.ViewModels
 {
@@ -34,10 +37,24 @@ namespace TasksManager.Modules.TaskScheduleModule.ViewModels
             _tasksQueryService = tasksQueryService;
             _taskCommandService = taskCommandService;
 
-            //TODO: Why not DI????????????
+            //modules are independent from main app, so they aren't included to main Assembly
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TaskDto, DataGridTaskModel>()
+                .ForMember(x => x.StartDate, o =>
+                {
+                    o.PreCondition(x => x.StartDate is not null);
+                    o.MapFrom(x => x.EndDate.HasValue && x.StartDate.Value.Date == x.EndDate.Value.Date
+                              ?  x.StartDate!.Value.ToString(Constants.FullDateTimeFormat, CultureInfo.CurrentCulture)
+                              : x.StartDate!.Value.ToString(Constants.ShortDateTimeFormat, CultureInfo.CurrentCulture));
+                })
+                .ForMember(x => x.EndDate, o =>
+                {
+                    o.PreCondition(x => x.EndDate is not null);
+                    o.MapFrom(x => x.StartDate.HasValue && x.EndDate.Value.Date == x.StartDate.Value.Date
+                              ? x.EndDate!.Value.ToString(Constants.FullDateTimeFormat, CultureInfo.CurrentCulture)
+                              : x.EndDate!.Value.ToString(Constants.ShortDateTimeFormat, CultureInfo.CurrentCulture));
+                })
                     .ReverseMap();
             }));
         }
@@ -73,10 +90,9 @@ namespace TasksManager.Modules.TaskScheduleModule.ViewModels
         #region Methods
         public async Task CompleteOrResetTask(DataGridTaskModel model)
         {
-            if (model == null) 
+            if (model is null) 
             {
-                //TODO Create custom Exception for this case
-                throw new ArgumentNullException("model is null");
+                throw new ArgumentNullException(typeof(DataGridTaskModel).FullName, ErrorMessages.ModelIsNullMessage);
             }
 
             model.PercentageOfCompletion = model.PercentageOfCompletion !=100
