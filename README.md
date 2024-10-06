@@ -1,3 +1,7 @@
+Something that  looks almost like MVP is done.
+Development ia paused for several months. 
+I'm going to take some certifications.
+
 !!!IMPORTANT!!! 
 
 This is just a training project. No commercial or private usage is assumed. No commercial usage (excluding evaluation of my programming skills for the hiring purposes) is allowed.
