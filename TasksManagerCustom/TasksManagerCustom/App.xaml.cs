@@ -68,15 +68,14 @@ namespace TasksManager
             ResourceDictionary dict = new ResourceDictionary();
             switch (Thread.CurrentThread.CurrentCulture.ToString())
             {
-                // TODO: Switch to en-US. I have the en-US cultural settings on my local machine but want to see the Russian version
                 case "en-US":
-                    dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
+                    dict.Source = new Uri("..\\Languages\\en-US.xaml", UriKind.Relative);
                     break;
                 case "ru-RU":
                     dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
                     break;
                 default:
-                    dict.Source = new Uri("..\\Resources\\ru-RU.xaml", UriKind.Relative);
+                    dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
                     break;
             }
             this.Resources.MergedDictionaries.Add(dict);

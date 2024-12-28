@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:TasksManager.Modules.MenuBarModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800" MinHeight="100">
     <UserControl.Resources>
         <Style TargetType="Button"
-               x:Key="btnStyle"
-               BasedOn="{StaticResource btnGradientBackgroung}">
+               x:Key="BtnStyle"
+               BasedOn="{StaticResource btnGradientBackground}">
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius"
@@ -24,7 +23,7 @@
             </Style.Resources>
         </Style>
         <Style TargetType="StackPanel"
-               x:Key="btnStackPanelStyle">
+               x:Key="BtnStackPanelStyle">
             <Setter Property="HorizontalAlignment"
                     Value="Stretch" />
             <Setter Property="VerticalAlignment"
@@ -33,14 +32,14 @@
                     Value="Vertical" />
         </Style>
         <Style TargetType="TextBlock"
-               x:Key="btnTextBlockText">
+               x:Key="BtnTextBlockText">
             <Setter Property="HorizontalAlignment"
                     Value="Center" />
             <Setter Property="FontSize"
                     Value="10" />
         </Style>
         <Style TargetType="Image"
-               x:Key="imageStyle">
+               x:Key="ImageStyle">
             <Setter Property="MaxWidth"
                     Value="40" />
             <Setter Property="MaxHeight"
@@ -54,7 +53,6 @@
         </Grid.RowDefinitions>
         <DockPanel>
             <Menu DockPanel.Dock="Top"
-                  Grid.Row="0"
                   Background="LightBlue">
                 <MenuItem Header="File">
                     <MenuItem Header="Open" />
@@ -84,33 +82,33 @@
                     </LinearGradientBrush.GradientStops>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <Button Style="{StaticResource btnStyle}">
+            <Button Style="{StaticResource BtnStyle}">
                 <Button.Content>
-                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                    <StackPanel Style="{StaticResource BtnStackPanelStyle}">
                         <Image Source="/TasksManager.MenuBarModule;component/Resources/task_icon.png"
-                               Style="{StaticResource imageStyle}" />
+                               Style="{StaticResource ImageStyle}" />
                         <TextBlock Text="{DynamicResource navBarCategories}" 
-                                   Style="{StaticResource btnTextBlockText}"/>
+                                   Style="{StaticResource BtnTextBlockText}"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Button Style="{StaticResource btnStyle}">
+            <Button Style="{StaticResource BtnStyle}">
                 <Button.Content>
-                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                    <StackPanel Style="{StaticResource BtnStackPanelStyle}">
                         <Image Source="/TasksManager.MenuBarModule;component/Resources/email_icon.png"
-                               Style="{StaticResource imageStyle}" />
-                        <TextBlock Text="{DynamicResource navBarEmais}"
-                                   Style="{StaticResource btnTextBlockText}" />
+                               Style="{StaticResource ImageStyle}" />
+                        <TextBlock Text="{DynamicResource navBarEmails}"
+                                   Style="{StaticResource BtnTextBlockText}" />
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Button Style="{StaticResource btnStyle}">
+            <Button Style="{StaticResource BtnStyle}">
                 <Button.Content>
-                    <StackPanel Style="{StaticResource btnStackPanelStyle}">
+                    <StackPanel Style="{StaticResource BtnStackPanelStyle}">
                         <Image Source="/TasksManager.MenuBarModule;component/Resources/category_icon.png"
-                               Style="{StaticResource imageStyle}" />
+                               Style="{StaticResource ImageStyle}" />
                         <TextBlock Text="{DynamicResource navBarProjects}"
-                                   Style="{StaticResource btnTextBlockText}" />
+                                   Style="{StaticResource BtnTextBlockText}" />
                     </StackPanel>
                 </Button.Content>
             </Button>

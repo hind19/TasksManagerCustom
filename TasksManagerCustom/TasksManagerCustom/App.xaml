@@ -9,7 +9,7 @@
                 <ResourceDictionary Source="Languages/en-US.xaml" />
                 <ResourceDictionary Source="Languages/ru-RU.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="btnGradientBackgroung" TargetType="Button">
+            <Style x:Key="btnGradientBackground" TargetType="Button">
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0, 1"
