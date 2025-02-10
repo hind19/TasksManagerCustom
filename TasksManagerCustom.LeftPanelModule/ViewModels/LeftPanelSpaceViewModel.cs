@@ -2,6 +2,8 @@
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
+using TasksManager.Core;
 using TasksManager.Core.Enums;
 using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
@@ -16,6 +18,9 @@ namespace TasksManager.LeftPanelModule.ViewModels
         private readonly ICategoryRepositoryQueryService _queryService;
         private readonly IMapper _mapper;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
+
+        
 
         private IReadOnlyCollection<HierarchicalCollectionModel> _categoriesList;
         private HierarchicalCollectionModel _selectedCategory;
@@ -24,21 +29,27 @@ namespace TasksManager.LeftPanelModule.ViewModels
         #region Constructors
         public LeftPanelSpaceViewModel(
             ICategoryRepositoryQueryService queryService,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IRegionManager regionManager )
         {
             _queryService = queryService;
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
+
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ShortCategoryDto, HierarchicalCollectionModel>()
                     .ReverseMap();
             }));
             LoadCategoriesCommand = new DelegateCommand (LoadCategories);
+            MeasuresCommand = new DelegateCommand(NavigateToMeasure);
         }
         #endregion
 
         #region Properties
         public DelegateCommand LoadCategoriesCommand { get; set; }
+        
+        public DelegateCommand MeasuresCommand { get; set; }
 
         public IReadOnlyCollection<HierarchicalCollectionModel> CategoriesList 
         { get 
@@ -89,6 +100,11 @@ namespace TasksManager.LeftPanelModule.ViewModels
 
             CategoriesList = hierarchicalList;
             SelectedCategory = CategoriesList?.FirstOrDefault();
+        }
+
+        private void NavigateToMeasure()
+        {
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, "MeasuresView");
         }
 
        private HierarchicalCollectionModel FindParent( List<HierarchicalCollectionModel> parents, int parentId)

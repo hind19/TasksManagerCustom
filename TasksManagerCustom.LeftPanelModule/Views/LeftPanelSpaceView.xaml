@@ -49,7 +49,7 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}"
                                           DataType="{x:Type trvmodel:HierarchicalCollectionModel}">
-                    <TreeViewItem >
+                    <TreeViewItem>
                         <TreeViewItem.Header>
                             <DockPanel>
                                 <TextBlock VerticalAlignment="center"
@@ -76,7 +76,8 @@
             <Button Content="{DynamicResource navBarEmails}"
                     Style="{StaticResource LeftBarBtnStyle}" />
             <Button Content="{DynamicResource navBarMeasures}"
-                    Style="{StaticResource LeftBarBtnStyle}" />
+                    Style="{StaticResource LeftBarBtnStyle}"
+                    Command="{Binding MeasuresCommand}"/>
         </StackPanel>    
     </Grid>
 </UserControl>

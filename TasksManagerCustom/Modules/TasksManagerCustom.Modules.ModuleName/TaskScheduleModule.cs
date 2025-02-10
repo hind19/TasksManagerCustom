@@ -3,6 +3,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using TasksManager.Core;
 using TasksManager.Modules.TaskScheduleModule.Views;
+using TasksManager.TasksScheduleModule.Views;
 
 namespace TasksManager.Modules.ModuleName
 {
@@ -23,6 +24,7 @@ namespace TasksManager.Modules.ModuleName
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<TaskScheduleView>();
+            containerRegistry.RegisterForNavigation<MeasuresView>();
         }
     }
 }

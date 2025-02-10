@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ScottPlot.WPF" Version="5.0.52" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TasksManager.Services\TasksManager.Services.csproj" />
