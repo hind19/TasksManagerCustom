@@ -35,6 +35,8 @@ namespace TasksManager.LeftPanelModule.ViewModels
             _queryService = queryService;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
+            _categoriesList = new List<HierarchicalCollectionModel>();
+            _selectedCategory = new HierarchicalCollectionModel();
 
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
