@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using SQLite;
 using TasksManager.Persistence.DomainModels;
+using TasksManager.Persistence.DomainModels.Abstract;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
-using TasksManagerCustom.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.Repositories
 {

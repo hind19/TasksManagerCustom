@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using TasksManager.PersistenceContracts.Dtos;
-using TasksManager.Services.DTOs;
 using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.Services.Automapper

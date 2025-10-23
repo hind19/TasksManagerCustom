@@ -10,7 +10,7 @@
     <ProjectReference Include="..\TasksManager.PersistenceContracts\TasksManager.PersistenceContracts.csproj" />
     <ProjectReference Include="..\TasksManager.Services.Interfaces\TasksManager.Services.Interfaces.csproj" />
     <ProjectReference Include="..\TasksManagerCustom.Persistence\TasksManager.Persistence.csproj" />
-    <ProjectReference Include="..\TasksManagerCustom.Shared\TasksManager.Shared.csproj" />
+    <ProjectReference Include="..\TasksManagerCustom.Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Controls;
-using TasksManager.Modules.TaskScheduleModule.ViewModels;
 using TasksManager.TasksScheduleModule.Models;
+using TasksManager.TasksScheduleModule.ViewModels;
 
-namespace TasksManager.Modules.TaskScheduleModule.Views
+namespace TasksManager.TasksScheduleModule.Views
 {
     /// <summary>
     /// Interaction logic for TaskScheduleView.xaml

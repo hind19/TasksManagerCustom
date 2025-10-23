@@ -1,11 +1,9 @@
 ﻿using Moq;
 using Prism.Regions;
-using TasksManager.Modules.TaskScheduleModule.ViewModels;
 using TasksManager.Services.Interfaces;
-
 using Xunit;
 
-namespace TasksManager.Modules.ModuleName.Tests.ViewModels
+namespace TaskScheduleModule.Tests.ViewModels
 {
     public class ViewAViewModelFixture
     {

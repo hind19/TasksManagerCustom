@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using TasksManager.Application.Models;
-using TasksManager.Services.DTOs;
 using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.Application.AutomapperProfiles

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:trvmodel="clr-namespace:TasksManager.Core.EventModels;assembly=TasksManager.Core"
+             xmlns:trvmodel="clr-namespace:TasksManager.Core.EventModels;assembly=Core"
              xmlns:converters="clr-namespace:TasksManager.LeftPanelModule.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">

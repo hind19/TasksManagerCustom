@@ -1,4 +1,4 @@
-﻿using TasksManager.Services.DTOs;
+﻿using TasksManager.Services.Interfaces.DTOs;
 
 namespace TasksManager.Services.Interfaces.RepositoryServices
 {

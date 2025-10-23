@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace TasksManager.Modules.MenuBarModule.Views
+namespace TasksManager.MenuBarModule.Views
 {
     /// <summary>
     /// Interaction logic for TopMenuBarView.xaml

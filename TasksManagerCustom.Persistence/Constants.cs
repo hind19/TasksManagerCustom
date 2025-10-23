@@ -1,6 +1,6 @@
 ﻿namespace TasksManager.Persistence
 {
-    public class Constants
+    public static class Constants
     {
         internal const string PrioritiesTable = "Priorities";
         internal const string ProjectsTable = "Projects";

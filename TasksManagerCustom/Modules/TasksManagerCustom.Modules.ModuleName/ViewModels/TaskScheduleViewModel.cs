@@ -1,21 +1,21 @@
-﻿using AutoMapper;
-using Prism.Events;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
+using AutoMapper;
+using Prism.Events;
+using Prism.Mvvm;
 using TasksManager.Core.Enums;
 using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
 using TasksManager.Persistence;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
+using TasksManager.Shared;
 using TasksManager.TasksScheduleModule.Models;
-using TasksManagerCustom.Shared;
 
-namespace TasksManager.Modules.TaskScheduleModule.ViewModels
+namespace TasksManager.TasksScheduleModule.ViewModels
 {
     internal class TaskScheduleViewModel :BindableBase
     {

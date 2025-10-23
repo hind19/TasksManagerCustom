@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.TasksScheduleM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91CE90EF-5240-4E4D-A3D4-7110081D5999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Application", "TasksManagerCustom\TasksManagerCustom\TasksManager.Application.csproj", "{DC2BF252-57D7-46E1-A063-E5D38A838789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "TasksManagerCustom\TasksManagerCustom\Application.csproj", "{DC2BF252-57D7-46E1-A063-E5D38A838789}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Core", "TasksManagerCustom\TasksManagerCustom.Core\TasksManager.Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "TasksManagerCustom\TasksManagerCustom.Core\Core.csproj", "{C1B8D863-E68A-4355-B6D7-384DA9A578FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.MenuBarModule", "MenuBarModule\TasksManager.MenuBarModule.csproj", "{7B19BEE4-6294-489B-BB40-D354DEE174AD}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Services.Inter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Persistence", "TasksManagerCustom.Persistence\TasksManager.Persistence.csproj", "{979F0FE6-D9A8-41A0-8A35-A36A6AB1D670}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Shared", "TasksManagerCustom.Shared\TasksManager.Shared.csproj", "{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "TasksManagerCustom.Shared\Shared.csproj", "{9448C580-0A8C-4E67-9BC2-D3AEE41D7407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

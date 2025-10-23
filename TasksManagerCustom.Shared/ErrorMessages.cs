@@ -1,4 +1,4 @@
-﻿namespace TasksManagerCustom.Shared
+﻿namespace TasksManager.Shared
 {
     public class ErrorMessages
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SQLite;
-using TasksManagerCustom.Persistence.DomainModels.Abstract;
+using TasksManager.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.Repositories
 {

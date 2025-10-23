@@ -1,10 +1,10 @@
-﻿using TasksManager.Modules.MenuBarModule.Views;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using TasksManager.Core;
+using TasksManager.MenuBarModule.Views;
 
-namespace TasksManager.Modules.MenuBarModule
+namespace TasksManager.MenuBarModule
 {
     public class TopMenuBarModule : IModule
     {

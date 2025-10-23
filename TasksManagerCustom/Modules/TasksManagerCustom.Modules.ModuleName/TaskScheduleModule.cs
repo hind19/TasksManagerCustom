@@ -2,10 +2,9 @@
 using Prism.Modularity;
 using Prism.Regions;
 using TasksManager.Core;
-using TasksManager.Modules.TaskScheduleModule.Views;
 using TasksManager.TasksScheduleModule.Views;
 
-namespace TasksManager.Modules.ModuleName
+namespace TasksManager.TasksScheduleModule
 {
     public class TaskScheduleModule : IModule
     {

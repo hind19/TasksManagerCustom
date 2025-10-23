@@ -1,22 +1,22 @@
-﻿using AutoMapper;
-using Prism.DryIoc;
-using Prism.Ioc;
-using Prism.Modularity;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using AutoMapper;
+using Prism.DryIoc;
+using Prism.Ioc;
+using Prism.Modularity;
 using TasksManager.Application.Dialogs.CategoriesDialogs;
+using TasksManager.Application.Views;
 using TasksManager.LeftPanelModule;
-using TasksManager.Modules.MenuBarModule;
-using TasksManager.Modules.ModuleName;
+using TasksManager.MenuBarModule;
 using TasksManager.Services;
 using TasksManager.Services.Interfaces;
 using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.Services.RepositoryServices;
-using TasksManager.Views;
+using TasksManager.TasksScheduleModule;
 
-namespace TasksManager
+namespace TasksManager.Application
 {
     /// <summary>
     /// Interaction logic for App.xaml

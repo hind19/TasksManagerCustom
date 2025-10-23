@@ -2,7 +2,7 @@
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
-namespace TasksManager.Modules.MenuBarModule.ViewModels
+namespace TasksManager.MenuBarModule.ViewModels
 {
     public class TopMenuBarViewModel : BindableBase
     {

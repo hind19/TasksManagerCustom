@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
-using TasksManager.Services.DTOs;
+using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 
 namespace TasksManager.Services.RepositoryServices

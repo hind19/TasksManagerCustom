@@ -1,6 +1,4 @@
-﻿using TasksManager.Services.Interfaces.DTOs;
-
-namespace TasksManager.Services.DTOs
+﻿namespace TasksManager.Services.Interfaces.DTOs
 {
     public class AddUpdateCategoryDto : CategoryDto
     {

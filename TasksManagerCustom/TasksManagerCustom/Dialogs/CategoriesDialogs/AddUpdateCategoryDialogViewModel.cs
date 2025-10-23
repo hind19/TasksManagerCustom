@@ -5,7 +5,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using TasksManager.Application.Models;
-using TasksManager.Services.DTOs;
+using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 
 namespace TasksManager.Application.Dialogs.CategoriesDialogs

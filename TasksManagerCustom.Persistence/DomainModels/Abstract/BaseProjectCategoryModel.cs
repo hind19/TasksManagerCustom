@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using TasksManagerCustom.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.DomainModels.Abstract
 {

@@ -9,6 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TasksManager.Services\TasksManager.Services.csproj" />
-    <ProjectReference Include="..\..\TasksManagerCustom.Core\TasksManager.Core.csproj" />
+    <ProjectReference Include="..\..\TasksManagerCustom.Core\Core.csproj" />
   </ItemGroup>
 </Project>
