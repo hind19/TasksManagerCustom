@@ -8,7 +8,7 @@ using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Persistence.Repositories
 {
-    public class TaskRepository : AbstarctRepository, ITaskRepository
+    public class TaskRepository : AbstractRepository, ITaskRepository
     {
         private enum CategoryProjectEnum
         {

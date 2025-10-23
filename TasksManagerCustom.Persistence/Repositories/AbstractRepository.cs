@@ -4,14 +4,13 @@ using TasksManager.Persistence.DomainModels.Abstract;
 
 namespace TasksManager.Persistence.Repositories
 {
-    public abstract class AbstarctRepository
+    public abstract class AbstractRepository
     {
         protected IMapper _mapper;
 
         protected string GetDatabasePath()
         {
-            var currentDirectory = Environment.CurrentDirectory;
-            var dbPathDirectory = Path.Combine(currentDirectory, Constants.DatabaseDirectory);
+            var dbPathDirectory = Path.Combine(Environment.CurrentDirectory, Constants.DatabaseDirectory);
             return Path.Combine(dbPathDirectory, Constants.DatabaseFilename);
         }
 

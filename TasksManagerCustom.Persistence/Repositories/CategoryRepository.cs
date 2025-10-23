@@ -7,7 +7,7 @@ using TasksManager.PersistenceContracts.Repositories;
 
 namespace TasksManager.Persistence.Repositories
 {
-    public class CategoryRepository : AbstarctRepository, ICategoryRepository
+    public class CategoryRepository : AbstractRepository, ICategoryRepository
     {
         public CategoryRepository()
         {
