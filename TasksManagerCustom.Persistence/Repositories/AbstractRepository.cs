@@ -6,6 +6,7 @@ namespace TasksManager.Persistence.Repositories
 {
     public abstract class AbstractRepository
     {
+        // is initialized with proper mappings in the constructor of the concrete repository 
         protected IMapper _mapper;
 
         protected string GetDatabasePath()
@@ -20,7 +21,7 @@ namespace TasksManager.Persistence.Repositories
             return op > 0;
         }
 
-        public async Task<IEnumerable<T>> GetItemsWithQuery<T>(SQLiteAsyncConnection connection, string query) where T : BaseTable, new()
+        protected async Task<IEnumerable<T>> GetItemsWithQuery<T>(SQLiteAsyncConnection connection, string query) where T : BaseTable, new()
         {
             return await connection.QueryAsync<T>(query);
         }
