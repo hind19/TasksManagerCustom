@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using TasksManager.Application.Models;
+using TasksManager.Core.Enums;
+using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 
@@ -19,18 +22,21 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         private IReadOnlyCollection<NameValuePair<int>> _categoriesList;
         private readonly ICategoryRepositoryCommandService _commandService;
         private readonly ICategoryRepositoryQueryService _queryService;
+        private readonly IEventAggregator _eventAggregator;
         #endregion
 
         #region Constructors
         public AddUpdateCategoryDialogViewModel(
             ICategoryRepositoryCommandService commandService,
             IMapper mapper,
-            ICategoryRepositoryQueryService queryService)
+            ICategoryRepositoryQueryService queryService,
+            IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _commandService = commandService;
             CreateCategoryCommand = new DelegateCommand(CreateCategory);
             _queryService = queryService;
+            _eventAggregator = eventAggregator;
         }
 
         #endregion
@@ -112,9 +118,15 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             var dto = _mapper.Map<AddUpdateCategoryDto>(_categoryModel);
             dto.IsCreate = true;
             dto.ParentId = SelectedParent?.Value;
-
+            var result = await _commandService.CreateCategory(dto);
+            if(result > 0)
+            {
+                _eventAggregator.GetEvent<CategoryIsCreated>().Publish();
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+               
+            }
             
-            await _commandService.CreateCategory(dto);
+            // TODO: Sent notification to main VM to update categories list
         }
 
         #endregion

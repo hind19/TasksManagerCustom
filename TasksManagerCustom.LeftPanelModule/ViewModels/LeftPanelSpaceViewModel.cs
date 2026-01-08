@@ -45,7 +45,10 @@ namespace TasksManager.LeftPanelModule.ViewModels
             }));
             LoadCategoriesCommand = new DelegateCommand (LoadCategories);
             MeasuresCommand = new DelegateCommand(NavigateToMeasure);
+            _eventAggregator.GetEvent<CategoryIsCreated>().Subscribe(CategoryCreated);
         }
+
+        
         #endregion
 
         #region Properties
@@ -128,6 +131,11 @@ namespace TasksManager.LeftPanelModule.ViewModels
         {
             _eventAggregator.GetEvent<CategoryOrProjectChangedEvent>()
                 .Publish(new Tuple<HierarchicalCollectionModel, CategoryProjectEnum> ( SelectedCategory, CategoryProjectEnum.Category));
+        }
+
+        private void CategoryCreated()
+        {
+            LoadCategories(); 
         }
 
         #endregion
