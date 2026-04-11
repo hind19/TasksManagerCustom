@@ -69,11 +69,9 @@ namespace TasksManager.Persistence.Repositories
             var connection = new SQLiteAsyncConnection(GetDatabasePath());
             var domainmodel = _mapper.Map<TaskDomainModel>(model);
             var result = await connection.UpdateAsync(domainmodel);
-
+            await connection.CloseAsync();
 
             return result;
-
-
         }
     }
 }

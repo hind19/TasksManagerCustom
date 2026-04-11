@@ -80,7 +80,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   Fix: Either (a) implement the commented-out mapping using proper date parsing,
   or (b) change the DomainModel to use DateTime? (sqlite-net supports it natively).
 
-[BUG-7] UpdateTask does not close the SQLite connection
+[BUG-7] UpdateTask does not close the SQLite connection [FIXED]
   File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 68-76
   Every other repository method calls connection.CloseAsync(), but UpdateTask
   does not. This leaks connections on every task update.
