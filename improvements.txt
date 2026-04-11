@@ -1,0 +1,329 @@
+================================================================================
+  TASKMANAGERCUSTOM — PROJECT IMPROVEMENT SUGGESTIONS
+  Analysis date: 2026-04-11
+  Analysed by: Claude Code (claude-sonnet-4-6)
+================================================================================
+
+NOTE: The following are intentional design decisions — NOT issues:
+  * Prism as MVVM/DI/module framework
+  * Multi-layer DTO strategy (View ↔ Service ↔ Persistence ↔ DomainModel)
+  * Repository pattern (IRepository / ICategoryRepository / ITaskRepository)
+    for painless SQLite → MS SQL swap
+  * RepositoryFactory (manual, not Prism DI) — persistence layer is
+    intentionally independent from the WPF/Prism infrastructure
+  * Raw SQL query strings (no ORM query builder)
+
+================================================================================
+  SECTION 1 — BUGS (break or will break at runtime)
+================================================================================
+
+[BUG-1] AddUpdateTaskDialog crashes on close
+  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialogViewModel.cs
+  Lines 35, 39
+  Both CanCloseDialog() and OnDialogClosed() throw NotImplementedException.
+  Opening the task dialog and trying to close it will cause an unhandled exception.
+  Fix: Implement both methods. CanCloseDialog() should return true (or validate
+  form); OnDialogClosed() can be empty until cleanup logic is needed.
+
+[BUG-2] Database initialization is fire-and-forget
+  File: TasksManagerCustom/App.xaml.cs, lines 31, 85-88
+  File: TasksManager.Services/DatabaseService.cs, lines 12-15
+  DatabaseService.CreateDataBaseIfNotExists() discards the Task returned by
+  CheckOrCreateDatabase(). If DB creation fails, the app silently continues
+  without a database and will crash later on first query.
+  Fix: Make CreateDataBaseIfNotExists() async Task, await it in App (or at
+  minimum call .GetAwaiter().GetResult() and wrap in try/catch to show an
+  error dialog).
+
+[BUG-3] FindParent() always returns on first loop iteration
+  File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
+  Lines 115-128
+  The foreach in FindParent() unconditionally returns on the first item,
+  so it only ever checks the first child branch. Multi-branch trees will fail
+  to locate parents on branches after the first.
+  Current code:
+      foreach (var item in parents)
+      {
+          return FindParent(item.Children, parentId);  // always returns!
+      }
+  Fix:
+      foreach (var item in parents)
+      {
+          var result = FindParent(item.Children, parentId);
+          if (result != null) return result;
+      }
+
+[BUG-4] ConvertToHierarchicalList only handles one level of children
+  File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
+  Lines 91-108
+  The method splits into roots and direct children but does not recurse deeper.
+  Grandchildren (child of child categories) will be lost.
+  This is related to BUG-3 — fixing FindParent() is part of the solution.
+  Also, the children loop should iterate ALL children, not just direct ones,
+  and use the recursive FindParent across the full tree.
+
+[BUG-5] SelectedCategory setter operates on stale value
+  File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
+  Lines 71-79
+  _selectedCategory.IsSelected = true is set on the OLD value (before
+  SetProperty updates the backing field), and the old selection is never
+  cleared (IsSelected never set to false).
+  Fix: Set old value's IsSelected = false BEFORE SetProperty, then set
+  the new value's IsSelected = true AFTER.
+
+[BUG-6] Date mapping is broken / commented out
+  File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 26-38
+  File: TasksManagerCustom.Persistence/DomainModels/TaskDomainModel.cs, lines 16-17
+  TaskDomainModel stores StartDate/EndDate as string?, but PersistenceTaskDto
+  and TaskDto use DateTime?. The AutoMapper mapping that converts between them
+  is commented out. Result: dates will not round-trip correctly between DB and UI.
+  Fix: Either (a) implement the commented-out mapping using proper date parsing,
+  or (b) change the DomainModel to use DateTime? (sqlite-net supports it natively).
+
+[BUG-7] UpdateTask does not close the SQLite connection
+  File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 68-76
+  Every other repository method calls connection.CloseAsync(), but UpdateTask
+  does not. This leaks connections on every task update.
+  Fix: Add await connection.CloseAsync() after the UpdateAsync call.
+
+[BUG-8] Localization — Russian word in English resource file
+  File: TasksManagerCustom/Languages/en-US.xaml, line 25
+  cancelBtn key has value "Отмена" (Russian). Should be "Cancel".
+
+================================================================================
+  SECTION 2 — CODE QUALITY / SMELLS
+================================================================================
+
+[QUALITY-1] async void in dialog methods swallows exceptions
+  Files: AddUpdateCategoryDialogViewModel.cs lines 101, 115
+  OnDialogOpened() and CreateCategory() are async void. Any exception thrown
+  inside them (DB error, mapping failure) will be silently swallowed and the
+  app will appear to do nothing.
+  Fix: Extract async logic into separate async Task methods that are properly
+  awaited; wrap in try/catch with user-visible error feedback.
+
+[QUALITY-2] AutoMapper instantiated locally in two ViewModels
+  Files:
+    - LeftPanelSpaceViewModel.cs, lines 41-46
+    - TaskScheduleViewModel.cs, lines 41-59
+  Both create a new Mapper inline instead of using the singleton registered
+  in App.xaml.cs. This is inconsistent and wastes resources.
+  For modules that don't participate in the main assembly scan, the profile
+  can be registered in App.xaml.cs alongside the others (since all assemblies
+  are loaded), or passed via IMapper injection.
+
+[QUALITY-3] RepositoryFactory creates new AutoMapper per repository instantiation
+  Files:
+    - CategoryRepository.cs, lines 13-19
+    - TaskRepository.cs, lines 20-40
+  Each repository creates its own Mapper in the constructor, which is called
+  via Activator.CreateInstance() on every service call. Mapper construction
+  is expensive.
+  Fix: Make Mapper a static readonly field per repository class, or configure
+  once and cache.
+
+[QUALITY-4] Connection-per-operation pattern
+  All repository methods open a new SQLiteAsyncConnection on every call.
+  sqlite-net-pcl supports connection reuse; opening/closing per operation
+  adds unnecessary overhead, especially visible for batch operations.
+  Consider: a scoped or singleton connection wrapper, or at minimum a shared
+  connection in AbstractRepository that lazily initialises once.
+
+[QUALITY-5] Magic strings for dialog names
+  Files:
+    - TopMenuBarViewModel.cs, lines 33, 47
+  Dialog names are hardcoded strings: "AddUpdateCategoryDialog", "AddUpdateTaskDialog".
+  If a dialog class/name changes, the compiler won't catch the mismatch.
+  Fix: Use constants, e.g. in a static DialogNames class.
+
+[QUALITY-6] SQL strings built with string.Format — use parameterized queries
+  File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 55-57
+  IN clause is built via string.Join(',', ids). While integer IDs have low
+  injection risk, using parameterized queries is best practice and future-proof.
+
+[QUALITY-7] RepositoriesEnum is dead code
+  File: TasksManager.Services/RepositoriesEnum.cs
+  The Repositories enum is defined but never referenced. Either use it (to
+  replace the type-key dictionary in RepositoryFactory) or remove it.
+
+[QUALITY-8] Class1.cs is a leftover placeholder
+  File: TasksManager.Services.Interfaces/Class1.cs
+  An empty class file from project scaffolding. Should be deleted.
+
+[QUALITY-9] Typos in method and variable names
+  - LeftPanelSpaceViewModel.SendCategoryCgangedEvent() → SendCategoryChangedEvent()
+  - TaskScheduleViewModel.GetSubCategoroesIds() → GetSubCategoryIds()
+  These make searching and reading the code harder.
+
+[QUALITY-10] Module has placeholder name
+  Project path: TasksManagerCustom/Modules/TasksManagerCustom.Modules.ModuleName/
+  The module is a renamed "ModuleName" scaffold. It contains a TaskScheduleView
+  and TaskScheduleViewModel but the project/module class is still named
+  "TasksManagerCustom.Modules.ModuleName". Should be renamed to
+  TasksManager.TasksScheduleModule (or similar) for consistency.
+
+[QUALITY-11] Duplicate project artifacts in old subdirectory
+  Directory: TasksManagerCustom/Services/
+  Contains TasksManagerCustom.Services.Interfaces/ and TasksManagerCustom.Services/
+  with duplicate/outdated DTO files and service stubs. These appear to be
+  an earlier iteration. Verify they are not referenced and remove.
+
+[QUALITY-12] bin/ directories committed to git
+  The .gitignore should exclude bin/ and obj/ directories, but several bin/
+  folders with compiled artifacts appear in the repository. Add them to
+  .gitignore (or git rm --cached) to keep the repo clean.
+
+================================================================================
+  SECTION 3 — ARCHITECTURE / DESIGN IMPROVEMENTS
+================================================================================
+
+[ARCH-1] Target framework inconsistency
+  Some projects target net6.0, some net6.0-windows. The MenuBarModule bin
+  shows net8.0-windows artifacts, suggesting a partial migration to .NET 8
+  was started but not completed. Align all projects to a single target framework.
+  Recommendation: net8.0-windows (current LTS, WPF supported).
+
+[ARCH-2] IDbInitializer leaks SQLite-specific type in return value
+  File: TasksManagerCustom.Persistence/DbInitializer.cs, line 67
+  ExecuteQuery() is public and takes SQLiteAsyncConnection — a concrete SQLite
+  type. This method is on a class implementing IDbInitializer, breaking the
+  abstraction. It should be internal or removed from the interface.
+
+[ARCH-3] DatabaseService bypasses IDbInitializer abstraction
+  File: TasksManager.Services/DatabaseService.cs, line 9
+  private static readonly IDbInitializer _dbInitializer = new DbInitializer();
+  DbInitializer is instantiated directly, bypassing DI. The TODO comment
+  acknowledges this. If the persistence layer is ever swapped, this needs
+  changing manually. Options: pass IDbInitializer via constructor injection,
+  or add it to RepositoryFactory's dictionary pattern.
+
+[ARCH-4] CategoryOrProjectChangedEvent uses Tuple — prefer a record/struct
+  File: TasksManagerCustom.Core/Events/CategoryOrProjectChangedEvent.cs
+  PubSubEvent<Tuple<HierarchicalCollectionModel, CategoryProjectEnum>> is
+  opaque at the call site. A named record makes intent clearer:
+      public record CategoryOrProjectChangedPayload(
+          HierarchicalCollectionModel Selected,
+          CategoryProjectEnum Type);
+
+[ARCH-5] Event type hierarchy could be simplified
+  Files: CategoryIsCreated.cs, CategoryOrProjectIsCreated.cs, ProjectIsCreated.cs
+  CategoryIsCreated extends CategoryOrProjectIsCreated which extends PubSubEvent.
+  This inheritance chain adds complexity with no observable benefit at this
+  project scale. Consider flat event classes with a payload type if needed.
+
+[ARCH-6] IRepository is an empty marker interface
+  File: TasksManager.PersistenceContracts/Repositories/IRepository.cs
+  Empty marker interfaces are a mild code smell in modern C#. The factory
+  constraint where T : IRepository could use a different approach (e.g., where T
+  : class, or just remove the constraint since type safety is already enforced
+  by the dictionary). Keep if the marker communicates intent clearly.
+
+[ARCH-7] ICategoryRepository missing Update and Delete
+  File: TasksManager.PersistenceContracts/Repositories/ICategoryRepository.cs
+  Currently only has CreateCategory and GetAllCategories. CRUD is incomplete:
+  UpdateCategory and DeleteCategory need to be added (with corresponding
+  service methods) to support editing/removing categories.
+
+[ARCH-8] ITaskRepository missing CreateTask
+  File: TasksManager.PersistenceContracts/Repositories/ITaskRepository.cs
+  Only UpdateTask is present. Creating tasks from the dialog (currently a stub)
+  requires AddTask to be added to the repository and wired through the service.
+
+================================================================================
+  SECTION 4 — LOCALIZATION / UI
+================================================================================
+
+[L10N-1] Typos in en-US.xaml resource keys
+  File: TasksManagerCustom/Languages/en-US.xaml
+  - Line 9:  "navBarEmais" should be "navBarEmails"
+              (XAML references navBarEmails — key mismatch → empty text at runtime)
+  - Line 9:  "Prijects" should be "Projects"
+  - Line 38: key "catrgory" should be "category"
+              (XAML has catrgory — currently consistent, but the key is misspelled)
+  Fix: Correct typos in BOTH en-US.xaml and ru-RU.xaml AND all XAML references.
+
+[L10N-2] TopMenuBarView references navBarEmails (note the 's')
+  File: MenuBarModule/Views/TopMenuBarView.xaml, line 103
+  The XAML uses {DynamicResource navBarEmails} but the key in en-US.xaml is
+  "navBarEmais" (without 's'). This silently resolves to empty text.
+
+[L10N-3] AddUpdateTaskDialog — button bound to wrong command
+  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 148
+  The OK button is bound to CreateCategoryCommand — copy-paste error from
+  the category dialog. Should be bound to the (to-be-created) CreateTaskCommand.
+
+[L10N-4] AddUpdateTaskDialog shows "Name" label (category field key)
+  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 30
+  Uses {DynamicResource categoryName} for the task name label. Should use
+  a dedicated "taskName" resource key.
+
+================================================================================
+  SECTION 5 — TESTING
+================================================================================
+
+[TEST-1] No real unit tests exist
+  File: Tests/TasksManagerCustom.Modules.ModuleName.Tests/ViewModels/ViewAViewModelFixture.cs
+  All test logic is commented out and tests test an old ViewModel that no
+  longer exists. The test file is a stub.
+  Recommendation: Write at minimum:
+    - Unit tests for LeftPanelSpaceViewModel.ConvertToHierarchicalList()
+      to cover flat lists, single-level trees, multi-level trees
+    - Unit tests for TaskScheduleViewModel.CompleteOrResetTask()
+    - Unit tests for FindParent() edge cases (BUG-3 fix verification)
+
+[TEST-2] Service layer has zero test coverage
+  CategoryRepositoryCommandService, TasksCommandService, etc. are testable
+  via mock IMapper and mock repositories. Add tests before expanding features.
+
+================================================================================
+  SECTION 6 — MINOR / NICE-TO-HAVE
+================================================================================
+
+[MINOR-1] Error handling and user feedback missing
+  Repository and service failures surface only via Debug.WriteLine (or are
+  swallowed by async void). The user sees nothing. Add at minimum a simple
+  error dialog or status message on DB errors.
+
+[MINOR-2] Logging infrastructure missing
+  TODO comments in DbInitializer acknowledge this. Consider Serilog or
+  Microsoft.Extensions.Logging with a file sink (keeps portability).
+
+[MINOR-3] CategoryQueries / TasksQueries should use table name constants
+  Files: TasksManagerCustom.Persistence/Queries/CategoryQueries.cs and TasksQueries.cs
+  Raw strings "Categories" and "Tasks" duplicate Constants.CategoriesTable /
+  Constants.TasksTable. If a table is renamed, there are two places to update.
+  Fix: Use $"SELECT * FROM {Constants.CategoriesTable}" pattern.
+
+[MINOR-4] ShowInNavigator column name mismatch
+  DatabaseConstants.CreateCategoriesTableQuery uses column name "ShowinNavigator"
+  (lowercase 'i') but CategoryQueries.ShowInNavigatorOnly uses "ShowInNavigator"
+  (uppercase 'I'). SQLite column name comparisons are case-insensitive, so this
+  works at runtime, but it is confusing and should be consistent.
+
+[MINOR-5] Priority and Project entities are created in DB but have no repositories
+  DatabaseConstants creates Priorities and Projects tables, but there are no
+  corresponding IProjectRepository / IPriorityRepository interfaces or
+  implementations. This is expected given the project's current state,
+  but worth tracking as a next development step.
+
+[MINOR-6] LeftPanelSpaceModule has no IMapper injection
+  File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
+  IMapper is not in the constructor signature but is instead created locally.
+  This means changes to mapping config require modifying the ViewModel, not
+  a profile. Add IMapper to the constructor for consistency with the rest of the codebase.
+
+================================================================================
+  SUMMARY TABLE
+================================================================================
+
+Priority  | Count | Categories
+----------|-------|--------------------------------------------------
+CRITICAL  |   3   | BUG-1 (crash), BUG-2 (data loss risk), BUG-3+4 (tree broken)
+HIGH      |   5   | BUG-5,6,7,8, QUALITY-1 (async void)
+MEDIUM    |  10   | ARCH-1,3,4,7,8 | QUALITY-2,3,4,5 | L10N-1,2,3
+LOW       |  10   | Remaining QUALITY, ARCH, L10N, MINOR items
+TESTS     |   2   | TEST-1,2 (no real tests exist)
+
+================================================================================
+  END OF REPORT
+================================================================================
