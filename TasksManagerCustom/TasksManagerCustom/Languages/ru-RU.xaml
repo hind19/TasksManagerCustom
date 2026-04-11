@@ -16,6 +16,7 @@
     <system:String x:Key="percentageOfCompletion">% готовности</system:String>
 
     <system:String x:Key="categoryCreateDialogTitle">Создать/Изменить Категорию</system:String>
+    <system:String x:Key="taskCreateDialogTitle">Создать/Изменить Задачу</system:String>
     
     <!--Buttons-->
     <system:String x:Key="okBtn">Ok</system:String>
@@ -28,5 +29,15 @@
     <system:String x:Key="isGroup">Группа</system:String>
     <system:String x:Key="comment">Комментарий</system:String>
     <system:String x:Key="showInNavigator">Показывать в Навигаторе</system:String>
-    
+        
+    <!-- AddUpdateTaskDialog-->
+    <system:String x:Key="mainTabHeader">Основные</system:String>
+    <system:String x:Key="project">Проект:</system:String>
+    <system:String x:Key="catrgory">Категория:</system:String>
+    <system:String x:Key="dateTime">Дата и время:</system:String>
+    <system:String x:Key="remindMe">Напомнить:</system:String>
+    <system:String x:Key="repeat">Повторить:</system:String>
+    <system:String x:Key="status">Статус:</system:String>
+    <system:String x:Key="priority">Приоритет:</system:String>
+
 </ResourceDictionary>

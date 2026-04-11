@@ -17,6 +17,7 @@
     <system:String x:Key="percentageOfCompletion">Percentage of Completion</system:String>
 
     <system:String x:Key="categoryCreateDialogTitle">Create/Update Category</system:String>
+    <system:String x:Key="taskCreateDialogTitle">Create/Update Task</system:String>
 
 
     <!--Buttons-->
@@ -29,6 +30,17 @@
     <system:String x:Key="isGroup">Is Group</system:String>
     <system:String x:Key="comment">Comment</system:String>
     <system:String x:Key="showInNavigator">Show in Navigator</system:String>
-    
+
+    <!-- AddUpdateTaskDialog-->
+    <system:String x:Key="mainTabHeader">Main</system:String>
+    <system:String x:Key="project">Project:</system:String>
+    <system:String x:Key="catrgory">Category:</system:String>
+    <system:String x:Key="dateTime">Date and Time:</system:String>
+    <system:String x:Key="remindMe">Remind me:</system:String>
+    <system:String x:Key="repeat">Repeat:</system:String>
+    <system:String x:Key="status">Status:</system:String>
+    <system:String x:Key="priority">Priority:</system:String>
+
+
 
 </ResourceDictionary>
