@@ -70,9 +70,10 @@ namespace TasksManager.LeftPanelModule.ViewModels
         public HierarchicalCollectionModel SelectedCategory
         {
             get { return _selectedCategory; }
-            set 
-            { 
-                SetProperty(ref _selectedCategory, value); 
+            set
+            {
+                SetProperty(ref _selectedCategory, value);
+                if (_selectedCategory is null) return;
                 _selectedCategory.IsSelected = true;
                 SendCategoryCgangedEvent();
             }
@@ -91,17 +92,24 @@ namespace TasksManager.LeftPanelModule.ViewModels
         private void ConvertToHierarchicalList(IReadOnlyCollection<ShortCategoryDto> flatList)
         {
             var roots = flatList.Where(x => x.ParentId is null).ToList();
-            var children = flatList.Where(x=> x.ParentId is not null).ToList();
             var hierarchicalList = _mapper.Map<List<HierarchicalCollectionModel>>(roots);
 
-            foreach (var item in children)
+            var remaining = flatList.Where(x => x.ParentId is not null).ToList();
+            int prevCount;
+            do
             {
-                var parent = FindParent(hierarchicalList, item.ParentId.GetValueOrDefault());
-                if (parent is not null)
+                prevCount = remaining.Count;
+                var unresolved = new List<ShortCategoryDto>();
+                foreach (var item in remaining)
                 {
-                    parent.Children.Add(_mapper.Map<HierarchicalCollectionModel>(item));
+                    var parent = FindParent(hierarchicalList, item.ParentId.GetValueOrDefault());
+                    if (parent is not null)
+                        parent.Children.Add(_mapper.Map<HierarchicalCollectionModel>(item));
+                    else
+                        unresolved.Add(item);
                 }
-            }
+                remaining = unresolved;
+            } while (remaining.Count > 0 && remaining.Count < prevCount);
 
             CategoriesList = hierarchicalList;
             SelectedCategory = CategoriesList?.FirstOrDefault();
@@ -112,17 +120,18 @@ namespace TasksManager.LeftPanelModule.ViewModels
             _regionManager.RequestNavigate(RegionNames.ContentRegion, "MeasuresView");
         }
 
-       private HierarchicalCollectionModel FindParent( List<HierarchicalCollectionModel> parents, int parentId)
+       private HierarchicalCollectionModel FindParent(List<HierarchicalCollectionModel> parents, int parentId)
        {
             if (!parents.Any())
                 return null;
 
-            if(parents.Any(x => x.Id == parentId))
-                return parents.First(x => x.Id == parentId);
+            var direct = parents.FirstOrDefault(x => x.Id == parentId);
+            if (direct is not null) return direct;
 
             foreach (var item in parents)
             {
-                return FindParent(item.Children, parentId);
+                var result = FindParent(item.Children, parentId);
+                if (result is not null) return result;
             }
             return null;
        }

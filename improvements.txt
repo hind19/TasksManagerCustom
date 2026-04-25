@@ -17,14 +17,6 @@ NOTE: The following are intentional design decisions — NOT issues:
   SECTION 1 — BUGS (break or will break at runtime)
 ================================================================================
 
-[BUG-1] AddUpdateTaskDialog crashes on close
-  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialogViewModel.cs
-  Lines 35, 39
-  Both CanCloseDialog() and OnDialogClosed() throw NotImplementedException.
-  Opening the task dialog and trying to close it will cause an unhandled exception.
-  Fix: Implement both methods. CanCloseDialog() should return true (or validate
-  form); OnDialogClosed() can be empty until cleanup logic is needed.
-
 [BUG-2] Database initialization is fire-and-forget
   File: TasksManagerCustom/App.xaml.cs, lines 31, 85-88
   File: TasksManager.Services/DatabaseService.cs, lines 12-15
@@ -35,7 +27,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   minimum call .GetAwaiter().GetResult() and wrap in try/catch to show an
   error dialog).
 
-[BUG-3] FindParent() always returns on first loop iteration
+[BUG-3] FindParent() always returns on first loop iteration [FIXED]
   File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
   Lines 115-128
   The foreach in FindParent() unconditionally returns on the first item,
@@ -53,7 +45,7 @@ NOTE: The following are intentional design decisions — NOT issues:
           if (result != null) return result;
       }
 
-[BUG-4] ConvertToHierarchicalList only handles one level of children
+[BUG-4] ConvertToHierarchicalList only handles one level of children [FIXED]
   File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
   Lines 91-108
   The method splits into roots and direct children but does not recurse deeper.
@@ -86,7 +78,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   does not. This leaks connections on every task update.
   Fix: Add await connection.CloseAsync() after the UpdateAsync call.
 
-[BUG-8] Localization — Russian word in English resource file
+[BUG-8] Localization — Russian word in English resource file [FIXED]
   File: TasksManagerCustom/Languages/en-US.xaml, line 25
   cancelBtn key has value "Отмена" (Russian). Should be "Cancel".
 

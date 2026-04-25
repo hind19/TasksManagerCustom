@@ -22,7 +22,7 @@
 
     <!--Buttons-->
     <system:String x:Key="okBtn">Ok</system:String>
-    <system:String x:Key="cancelBtn">Отмена</system:String>
+    <system:String x:Key="cancelBtn">Cancel</system:String>
   
     <!--AddUpdateCategoryDialog -->
     <system:String x:Key="categoryName">Name</system:String>
