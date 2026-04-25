@@ -72,6 +72,8 @@ namespace TasksManager.LeftPanelModule.ViewModels
             get { return _selectedCategory; }
             set
             {
+                if (_selectedCategory is not null)
+                    _selectedCategory.IsSelected = false;
                 SetProperty(ref _selectedCategory, value);
                 if (_selectedCategory is null) return;
                 _selectedCategory.IsSelected = true;

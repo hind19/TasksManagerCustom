@@ -54,7 +54,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   Also, the children loop should iterate ALL children, not just direct ones,
   and use the recursive FindParent across the full tree.
 
-[BUG-5] SelectedCategory setter operates on stale value
+[BUG-5] SelectedCategory setter operates on stale value [FIXED]
   File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
   Lines 71-79
   _selectedCategory.IsSelected = true is set on the OLD value (before
