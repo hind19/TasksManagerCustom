@@ -225,7 +225,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   SECTION 4 — LOCALIZATION / UI
 ================================================================================
 
-[L10N-1] Typos in en-US.xaml resource keys
+[L10N-1] Typos in en-US.xaml resource keys [FIXED]
   File: TasksManagerCustom/Languages/en-US.xaml
   - Line 9:  "navBarEmais" should be "navBarEmails"
               (XAML references navBarEmails — key mismatch → empty text at runtime)
@@ -234,7 +234,7 @@ NOTE: The following are intentional design decisions — NOT issues:
               (XAML has catrgory — currently consistent, but the key is misspelled)
   Fix: Correct typos in BOTH en-US.xaml and ru-RU.xaml AND all XAML references.
 
-[L10N-2] TopMenuBarView references navBarEmails (note the 's')
+[L10N-2] TopMenuBarView references navBarEmails (note the 's') [FIXED]
   File: MenuBarModule/Views/TopMenuBarView.xaml, line 103
   The XAML uses {DynamicResource navBarEmails} but the key in en-US.xaml is
   "navBarEmais" (without 's'). This silently resolves to empty text.

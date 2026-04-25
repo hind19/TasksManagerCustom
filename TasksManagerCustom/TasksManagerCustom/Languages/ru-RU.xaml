@@ -33,7 +33,7 @@
     <!-- AddUpdateTaskDialog-->
     <system:String x:Key="mainTabHeader">Основные</system:String>
     <system:String x:Key="project">Проект:</system:String>
-    <system:String x:Key="catrgory">Категория:</system:String>
+    <system:String x:Key="category">Категория:</system:String>
     <system:String x:Key="dateTime">Дата и время:</system:String>
     <system:String x:Key="remindMe">Напомнить:</system:String>
     <system:String x:Key="repeat">Повторить:</system:String>

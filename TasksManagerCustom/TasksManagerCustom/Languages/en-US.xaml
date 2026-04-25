@@ -6,9 +6,9 @@
     <system:String x:Key="taskNameMainGrid">Task Name</system:String>
     <system:String x:Key="taskStartDateMainGrid">Start Date</system:String>
     <system:String x:Key="taskEndDateMainGrid">End Date</system:String>
-    <system:String x:Key="navBarProjects">Prijects</system:String>
+    <system:String x:Key="navBarProjects">Projects</system:String>
     <system:String x:Key="navBarCategories">Categories</system:String>
-    <system:String x:Key="navBarEmais">Emails</system:String>
+    <system:String x:Key="navBarEmails">Emails</system:String>
     <system:String x:Key="navBarLoops">Habit Loops</system:String>
     <system:String x:Key="navBarMeasures">Controlled Parameters</system:String>
     <system:String x:Key="tasks">Tasks</system:String>
@@ -34,7 +34,7 @@
     <!-- AddUpdateTaskDialog-->
     <system:String x:Key="mainTabHeader">Main</system:String>
     <system:String x:Key="project">Project:</system:String>
-    <system:String x:Key="catrgory">Category:</system:String>
+    <system:String x:Key="category">Category:</system:String>
     <system:String x:Key="dateTime">Date and Time:</system:String>
     <system:String x:Key="remindMe">Remind me:</system:String>
     <system:String x:Key="repeat">Repeat:</system:String>
