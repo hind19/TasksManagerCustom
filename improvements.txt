@@ -63,7 +63,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   Fix: Set old value's IsSelected = false BEFORE SetProperty, then set
   the new value's IsSelected = true AFTER.
 
-[BUG-6] Date mapping is broken / commented out
+[BUG-6] Date mapping is broken / commented out [FIXED]
   File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 26-38
   File: TasksManagerCustom.Persistence/DomainModels/TaskDomainModel.cs, lines 16-17
   TaskDomainModel stores StartDate/EndDate as string?, but PersistenceTaskDto

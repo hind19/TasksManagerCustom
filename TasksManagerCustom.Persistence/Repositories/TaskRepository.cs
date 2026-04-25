@@ -25,16 +25,6 @@ namespace TasksManager.Persistence.Repositories
 
                 cfg.CreateMap<TaskDomainModel, PersistenceTaskDto>()
                 .IncludeBase<BaseTable, PersistenceTaskDto>()
-                //.ForMember(x => x.StartDate, o =>
-                //{
-                //    o.PreCondition(x => x.StartDate is not null);
-                //    o.MapFrom(x => x.StartDate!.Value.ToString(Constants.DateTimeFormat));
-                //})
-                //.ForMember(x => x.EndDate, o =>
-                //{
-                //    o.PreCondition(x => x.EndDate is not null);
-                //    o.MapFrom(x => x.EndDate!.Value.ToString(Constants.DateTimeFormat));
-                //})
                 .ReverseMap();
             }));
         }
