@@ -49,18 +49,14 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}"
                                           DataType="{x:Type trvmodel:HierarchicalCollectionModel}">
-                    <TreeViewItem>
-                        <TreeViewItem.Header>
-                            <DockPanel>
-                                <TextBlock VerticalAlignment="center"
-                                           Text="{Binding Name}"
-                                           FontFamily="Century Gothic"
-                                           FontSize="12"
-                                           MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                                           FontWeight="{Binding IsGroup, Converter={StaticResource ResourceKey=BoolToFontWeightConverter}}" />
-                            </DockPanel>
-                        </TreeViewItem.Header>
-                    </TreeViewItem> 
+                    <DockPanel>
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{Binding Name}"
+                                   FontFamily="Century Gothic"
+                                   FontSize="12"
+                                   MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                   FontWeight="{Binding IsGroup, Converter={StaticResource ResourceKey=BoolToFontWeightConverter}}" />
+                    </DockPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
