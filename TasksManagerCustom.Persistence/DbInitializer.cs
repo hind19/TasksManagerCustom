@@ -11,21 +11,15 @@ namespace TasksManager.Persistence
 {
     public class DbInitializer : IDbInitializer
     {
-        public async Task CheckOrCreateDatabase()
+        public async Task CheckOrCreateDatabase(string dbPath)
         {
-            var currentDirectory = Environment.CurrentDirectory;
-            var dbPathDirectory = Path.Combine(currentDirectory, Constants.DatabaseDirectory);
-            var dbPath = Path.Combine(dbPathDirectory, Constants.DatabaseFilename);
             if (File.Exists(dbPath))
-            {
                 return;
-            }
 
+            var dbPathDirectory = Path.GetDirectoryName(dbPath)!;
             if (!Directory.Exists(dbPathDirectory))
-            {
                 Directory.CreateDirectory(dbPathDirectory);
-            }
-            
+
             await Init(dbPath);
         }
 

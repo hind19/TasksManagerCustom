@@ -31,6 +31,10 @@
     <system:String x:Key="comment">Comment</system:String>
     <system:String x:Key="showInNavigator">Show in Navigator</system:String>
 
+    <!-- Configuration error dialog -->
+    <system:String x:Key="configurationErrorTitle">Configuration Error</system:String>
+    <system:String x:Key="configurationErrorMessage">Failed to load application configuration. The application will now close.</system:String>
+
     <!-- AddUpdateTaskDialog-->
     <system:String x:Key="mainTabHeader">Main</system:String>
     <system:String x:Key="project">Project:</system:String>

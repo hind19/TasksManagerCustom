@@ -3,6 +3,7 @@ using SQLite;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.DomainModels.Abstract;
 using TasksManager.Persistence.Queries;
+using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
 
@@ -16,7 +17,7 @@ namespace TasksManager.Persistence.Repositories
             Project = 2
         }
 
-        public TaskRepository()
+        public TaskRepository(IDatabasePathProvider pathProvider) : base(pathProvider)
         {
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {

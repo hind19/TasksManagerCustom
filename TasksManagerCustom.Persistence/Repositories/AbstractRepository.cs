@@ -1,19 +1,21 @@
 ﻿using AutoMapper;
 using SQLite;
 using TasksManager.Persistence.DomainModels.Abstract;
+using TasksManager.PersistenceContracts;
 
 namespace TasksManager.Persistence.Repositories
 {
     public abstract class AbstractRepository
     {
-        // is initialized with proper mappings in the constructor of the concrete repository 
-        protected IMapper _mapper;
+        protected IMapper _mapper = null!;
+        private readonly IDatabasePathProvider _pathProvider;
 
-        protected string GetDatabasePath()
+        protected AbstractRepository(IDatabasePathProvider pathProvider)
         {
-            var dbPathDirectory = Path.Combine(Environment.CurrentDirectory, Constants.DatabaseDirectory);
-            return Path.Combine(dbPathDirectory, Constants.DatabaseFilename);
+            _pathProvider = pathProvider;
         }
+
+        protected string GetDatabasePath() => _pathProvider.GetDatabasePath();
 
         protected async Task<bool> ExecuteQuery(SQLiteAsyncConnection connection, string query)
         {

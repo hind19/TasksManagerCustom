@@ -30,6 +30,10 @@
     <system:String x:Key="comment">Комментарий</system:String>
     <system:String x:Key="showInNavigator">Показывать в Навигаторе</system:String>
         
+    <!-- Configuration error dialog -->
+    <system:String x:Key="configurationErrorTitle">Ошибка конфигурации</system:String>
+    <system:String x:Key="configurationErrorMessage">Не удалось загрузить конфигурацию приложения. Приложение будет закрыто.</system:String>
+
     <!-- AddUpdateTaskDialog-->
     <system:String x:Key="mainTabHeader">Основные</system:String>
     <system:String x:Key="project">Проект:</system:String>

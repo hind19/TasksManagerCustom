@@ -1,6 +1,6 @@
 ﻿using TasksManager.Persistence.Repositories;
+using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Repositories;
-
 
 namespace TasksManager.Services
 {
@@ -11,14 +11,12 @@ namespace TasksManager.Services
             { typeof(ICategoryRepository), typeof(CategoryRepository) },
             { typeof(ITaskRepository), typeof(TaskRepository) }
         };
-        public static T ResolveRepository()
+
+        public static T ResolveRepository(IDatabasePathProvider pathProvider)
         {
             if (!_repositoryValues.ContainsKey(typeof(T)))
-            {
-                throw new InvalidOperationException($"Repository {typeof(T).FullName}  has not been implemented yet");
-            }
-            return (T)Activator.CreateInstance(_repositoryValues[typeof (T)])!;
+                throw new InvalidOperationException($"Repository {typeof(T).FullName} has not been implemented yet");
+            return (T)Activator.CreateInstance(_repositoryValues[typeof(T)], pathProvider)!;
         }
-
     }
 }

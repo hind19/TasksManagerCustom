@@ -10,6 +10,7 @@ using TasksManager.Application.Dialogs.CategoriesDialogs;
 using TasksManager.Application.Views;
 using TasksManager.LeftPanelModule;
 using TasksManager.MenuBarModule;
+using TasksManager.PersistenceContracts;
 using TasksManager.Services;
 using TasksManager.Services.Interfaces;
 using TasksManager.Services.Interfaces.RepositoryServices;
@@ -23,10 +24,23 @@ namespace TasksManager.Application
     /// </summary>
     public partial class App : PrismApplication
     {
+        private readonly IDatabasePathProvider _pathProvider = null!;
+
         public App()
         {
             SetLanguageDictionary();
-            CheckDatabase();
+            try
+            {
+                _pathProvider = new DatabasePathProvider();
+                CheckDatabase();
+            }
+            catch (Exception ex)
+            {
+                var title = TryFindResource("configurationErrorTitle") as string ?? "Configuration Error";
+                var message = TryFindResource("configurationErrorMessage") as string ?? "Failed to load application configuration. The application will now close.";
+                MessageBox.Show($"{message}\n\n{ex.Message}", title, MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
         }
 
        
@@ -37,6 +51,7 @@ namespace TasksManager.Application
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterInstance<IDatabasePathProvider>(_pathProvider);
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
@@ -83,7 +98,7 @@ namespace TasksManager.Application
 
         private void CheckDatabase()
         {
-            DatabaseService.CreateDataBaseIfNotExists();
+            DatabaseService.CreateDataBaseIfNotExists(_pathProvider);
         }
 
         private void RegisterDialogs(IContainerRegistry containerRegistry)

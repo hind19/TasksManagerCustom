@@ -4,6 +4,6 @@ namespace TasksManager.PersistenceContracts.Repositories
 {
     public interface IDbInitializer
     {
-        Task CheckOrCreateDatabase();
+        Task CheckOrCreateDatabase(string dbPath);
     }
 }

@@ -8,7 +8,5 @@
         internal const string TasksTable = "Tasks";
         public const string FullDateTimeFormat = "yyyy-MM-dd HH:mm";
         public const string ShortDateTimeFormat = "yyyy-MM-dd";
-        internal const string DatabaseDirectory = "Data";
-        internal const string DatabaseFilename = "database.db";
     }
 }
