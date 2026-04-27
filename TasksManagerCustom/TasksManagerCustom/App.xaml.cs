@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using Prism.DryIoc;
@@ -32,7 +33,7 @@ namespace TasksManager.Application
             try
             {
                 _pathProvider = new DatabasePathProvider();
-                CheckDatabase();
+                CheckDatabase().GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
@@ -52,6 +53,7 @@ namespace TasksManager.Application
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance<IDatabasePathProvider>(_pathProvider);
+            containerRegistry.RegisterSingleton<IDatabaseService, DatabaseService>();
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryCommandService, CategoryRepositoryCommandService>();
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
@@ -96,9 +98,9 @@ namespace TasksManager.Application
             this.Resources.MergedDictionaries.Add(dict);
         }
 
-        private void CheckDatabase()
+        private async Task CheckDatabase()
         {
-            DatabaseService.CreateDataBaseIfNotExists(_pathProvider);
+            await new DatabaseService(_pathProvider).CreateDataBaseIfNotExists();
         }
 
         private void RegisterDialogs(IContainerRegistry containerRegistry)

@@ -41,6 +41,7 @@ namespace TasksManager.Persistence
             {
                 // TODO: Add Logging to the project
                 Debug.WriteLine(ex);
+                throw;
             }
         }
 

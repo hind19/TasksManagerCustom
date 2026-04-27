@@ -1,16 +1,24 @@
-﻿using TasksManager.Persistence;
+using System.Threading.Tasks;
+using TasksManager.Persistence;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Repositories;
+using TasksManager.Services.Interfaces;
 
 namespace TasksManager.Services
 {
-    public static class DatabaseService
+    public class DatabaseService : IDatabaseService
     {
-        private static readonly IDbInitializer _dbInitializer = new DbInitializer();
+        private readonly IDbInitializer _dbInitializer = new DbInitializer();
+        private readonly IDatabasePathProvider _pathProvider;
 
-        public static void CreateDataBaseIfNotExists(IDatabasePathProvider pathProvider)
+        public DatabaseService(IDatabasePathProvider pathProvider)
         {
-            _dbInitializer.CheckOrCreateDatabase(pathProvider.GetDatabasePath());
+            _pathProvider = pathProvider;
+        }
+
+        public async Task CreateDataBaseIfNotExists()
+        {
+            await _dbInitializer.CheckOrCreateDatabase(_pathProvider.GetDatabasePath());
         }
     }
 }

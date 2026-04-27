@@ -17,7 +17,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   SECTION 1 — BUGS (break or will break at runtime)
 ================================================================================
 
-[BUG-2] Database initialization is fire-and-forget
+[BUG-2] Database initialization is fire-and-forget [FIXED]
   File: TasksManagerCustom/App.xaml.cs, lines 31, 85-88
   File: TasksManager.Services/DatabaseService.cs, lines 12-15
   DatabaseService.CreateDataBaseIfNotExists() discards the Task returned by
