@@ -60,7 +60,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
                 SetProperty(ref _selectedCategory, value);
                 if (_selectedCategory is null) return;
                 _selectedCategory.IsSelected = true;
-                SendCategoryCgangedEvent();
+                SendCategoryChangedEvent();
             }
         }
         #endregion
@@ -119,7 +119,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
             return null;
         }
 
-        private void SendCategoryCgangedEvent()
+        private void SendCategoryChangedEvent()
         {
             _eventAggregator.GetEvent<CategoryOrProjectChangedEvent>()
                 .Publish(new Tuple<HierarchicalCollectionModel, CategoryProjectEnum>(SelectedCategory, CategoryProjectEnum.Category));

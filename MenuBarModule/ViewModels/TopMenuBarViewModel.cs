@@ -1,6 +1,7 @@
-﻿using Prism.Commands;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using TasksManager.Core;
 
 namespace TasksManager.MenuBarModule.ViewModels
 {
@@ -25,17 +26,13 @@ namespace TasksManager.MenuBarModule.ViewModels
         #region Methods
         private void CreateCategory(string title)
         {
-            
             var parameter = new DialogParameters();
-            parameter.Add("DialogTitle", title);  
+            parameter.Add("DialogTitle", title);
             _dialogService.ShowDialog(
-                "AddUpdateCategoryDialog",
+                DialogNames.AddUpdateCategory,
                 parameter,
-                (result) => 
-                { 
-                });
+                (result) => { });
         }
-
         #endregion
     }
 }

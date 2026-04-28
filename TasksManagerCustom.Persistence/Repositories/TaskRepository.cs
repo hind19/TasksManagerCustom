@@ -1,4 +1,3 @@
-using SQLite;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts;
@@ -25,23 +24,22 @@ namespace TasksManager.Persistence.Repositories
 
         private async Task<IReadOnlyCollection<PersistenceTaskDto>> GetTasksByIds(IEnumerable<int> ids, CategoryProjectEnum parentType)
         {
-            var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            var queryClause = parentType == CategoryProjectEnum.Category
-                ? string.Format(TasksQueries.CategoryFilterClause, string.Join(',', ids))
-                : string.Format(TasksQueries.ProjectFilterClause, string.Join(',', ids));
+            var idList = ids.ToList();
+            var placeholders = string.Join(",", Enumerable.Repeat("?", idList.Count));
+            var filterClause = parentType == CategoryProjectEnum.Category
+                ? string.Format(TasksQueries.CategoryFilterClause, placeholders)
+                : string.Format(TasksQueries.ProjectFilterClause, placeholders);
 
-            var result = await GetItemsWithQuery<TaskDomainModel>(connection, TasksQueries.AllTasksQuery + queryClause);
-            await connection.CloseAsync();
+            var result = await Connection.QueryAsync<TaskDomainModel>(
+                TasksQueries.AllTasksQuery + filterClause,
+                idList.Cast<object>().ToArray());
 
             return result.Select(ToDto).ToList().AsReadOnly();
         }
 
         public async Task<int> UpdateTask(PersistenceTaskDto model)
         {
-            var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            var result = await connection.UpdateAsync(ToEntity(model));
-            await connection.CloseAsync();
-            return result;
+            return await Connection.UpdateAsync(ToEntity(model));
         }
 
         private static PersistenceTaskDto ToDto(TaskDomainModel t) =>

@@ -1,4 +1,3 @@
-using SQLite;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
 using TasksManager.PersistenceContracts;
@@ -13,22 +12,16 @@ namespace TasksManager.Persistence.Repositories
 
         public async Task<int> CreateCategory(PersistenceCategoryDto model)
         {
-            var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            var result = await connection.InsertAsync(ToEntity(model));
-            await connection.CloseAsync();
-            return result;
+            return await Connection.InsertAsync(ToEntity(model));
         }
 
         public async Task<IReadOnlyCollection<PersistenceCategoryDto>> GetAllCategories(bool showInNavigatorOnly)
         {
-            var connection = new SQLiteAsyncConnection(GetDatabasePath());
             var query = showInNavigatorOnly
                 ? CategoryQueries.AllCategoriesQuery + CategoryQueries.ShowInNavigatorOnly
                 : CategoryQueries.AllCategoriesQuery;
 
-            var result = await GetItemsWithQuery<Category>(connection, query);
-            await connection.CloseAsync();
-
+            var result = await GetItemsWithQuery<Category>(query);
             return result.Select(ToDto).ToList().AsReadOnly();
         }
 

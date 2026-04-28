@@ -73,7 +73,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private async void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
         {
-            var ids = GetSubCategoroesIds(tuple.Item1);
+            var ids = GetSubCategoryIds(tuple.Item1);
             IReadOnlyCollection<TaskDto> tasks;
 
             if (tuple.Item2 == CategoryProjectEnum.Category)
@@ -87,7 +87,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
                 tasks.Select(ToDataGridModel));
         }
 
-        private IEnumerable<int> GetSubCategoroesIds(HierarchicalCollectionModel model)
+        private IEnumerable<int> GetSubCategoryIds(HierarchicalCollectionModel model)
         {
             var result = new List<int>();
             FindChildrenIds(ref result, model);

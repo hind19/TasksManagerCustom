@@ -4,7 +4,9 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TasksManager.Application.Models;
 using TasksManager.Core.Enums;
 using TasksManager.Core.Events;
@@ -33,7 +35,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
             _commandService = commandService;
             _queryService = queryService;
             _eventAggregator = eventAggregator;
-            CreateCategoryCommand = new DelegateCommand(CreateCategory);
+            CreateCategoryCommand = new DelegateCommand(() => _ = CreateCategoryAsync());
         }
         #endregion
 
@@ -74,37 +76,54 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         public async void OnDialogOpened(IDialogParameters parameters)
         {
             Title = parameters.GetValue<string>("DialogTitle");
-
-            // TODO: Add and implement Colors
-            // TODO: Styles in .xaml!
-            // TODO: implement update
-            CurrentCategory = new CategoryModel();
-            var data = await _queryService.GetAllCategories(true);
-            CategoriesList = data.Select(c => new NameValuePair<int>(c.Name, c.Id))
-                                 .ToList().AsReadOnly();
+            await LoadDialogDataAsync();
         }
 
-        public async void CreateCategory()
+        private async Task LoadDialogDataAsync()
         {
-            var dto = new AddUpdateCategoryDto(
-                _categoryModel.Id,
-                _categoryModel.Name,
-                SelectedParent?.Value,
-                _categoryModel.IsGroup,
-                _categoryModel.ColorRGB,
-                _categoryModel.Comment,
-                _categoryModel.ShowInNavigator,
-                _categoryModel.ParentName,
-                isCreate: true);
-
-            var result = await _commandService.CreateCategory(dto);
-            if (result > 0)
+            try
             {
-                _eventAggregator.GetEvent<CategoryIsCreated>().Publish();
-                RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+                // TODO: Add and implement Colors
+                // TODO: Styles in .xaml!
+                // TODO: implement update
+                CurrentCategory = new CategoryModel();
+                var data = await _queryService.GetAllCategories(true);
+                CategoriesList = data.Select(c => new NameValuePair<int>(c.Name, c.Id))
+                                     .ToList().AsReadOnly();
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
 
-            // TODO: Send notification to main VM to update categories list
+        private async Task CreateCategoryAsync()
+        {
+            try
+            {
+                var dto = new AddUpdateCategoryDto(
+                    _categoryModel.Id,
+                    _categoryModel.Name,
+                    SelectedParent?.Value,
+                    _categoryModel.IsGroup,
+                    _categoryModel.ColorRGB,
+                    _categoryModel.Comment,
+                    _categoryModel.ShowInNavigator,
+                    _categoryModel.ParentName,
+                    isCreate: true);
+
+                var result = await _commandService.CreateCategory(dto);
+                if (result > 0)
+                {
+                    _eventAggregator.GetEvent<CategoryIsCreated>().Publish();
+                    RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+                }
+                // TODO: Send notification to main VM to update categories list
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
         #endregion
     }

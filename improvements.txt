@@ -86,13 +86,13 @@ NOTE: The following are intentional design decisions — NOT issues:
   SECTION 2 — CODE QUALITY / SMELLS
 ================================================================================
 
-[QUALITY-1] async void in dialog methods swallows exceptions
+[QUALITY-1] async void in dialog methods swallows exceptions [FIXED]
   Files: AddUpdateCategoryDialogViewModel.cs lines 101, 115
   OnDialogOpened() and CreateCategory() are async void. Any exception thrown
   inside them (DB error, mapping failure) will be silently swallowed and the
   app will appear to do nothing.
-  Fix: Extract async logic into separate async Task methods that are properly
-  awaited; wrap in try/catch with user-visible error feedback.
+  Fix: Extracted async logic into LoadDialogDataAsync() and CreateCategoryAsync()
+  (both async Task with try/catch). Command wired as DelegateCommand(() => _ = CreateCategoryAsync()).
 
 [QUALITY-2] AutoMapper instantiated locally in two ViewModels [FIXED]
   AutoMapper removed entirely. ViewModels now use direct LINQ + Primary
@@ -102,56 +102,68 @@ NOTE: The following are intentional design decisions — NOT issues:
   AutoMapper removed entirely. Repositories use private static ToDto/ToEntity
   methods. No Mapper construction overhead on any code path.
 
-[QUALITY-4] Connection-per-operation pattern
+[QUALITY-4] Connection-per-operation pattern [FIXED]
   All repository methods open a new SQLiteAsyncConnection on every call.
   sqlite-net-pcl supports connection reuse; opening/closing per operation
   adds unnecessary overhead, especially visible for batch operations.
-  Consider: a scoped or singleton connection wrapper, or at minimum a shared
-  connection in AbstractRepository that lazily initialises once.
+  Fix: AbstractRepository creates one SQLiteAsyncConnection in the constructor
+  and exposes it as Connection. All repo methods use Connection; per-method
+  open/CloseAsync() calls removed.
 
-[QUALITY-5] Magic strings for dialog names
+[QUALITY-5] Magic strings for dialog names [FIXED]
   Files:
     - TopMenuBarViewModel.cs, lines 33, 47
   Dialog names are hardcoded strings: "AddUpdateCategoryDialog", "AddUpdateTaskDialog".
   If a dialog class/name changes, the compiler won't catch the mismatch.
-  Fix: Use constants, e.g. in a static DialogNames class.
+  Fix: Added TasksManager.Core/DialogNames.cs with AddUpdateCategory and AddUpdateTask
+  constants. TopMenuBarViewModel now uses DialogNames.AddUpdateCategory.
 
-[QUALITY-6] SQL strings built with string.Format — use parameterized queries
+[QUALITY-6] SQL strings built with string.Format — use parameterized queries [FIXED]
   File: TasksManagerCustom.Persistence/Repositories/TaskRepository.cs, lines 55-57
   IN clause is built via string.Join(',', ids). While integer IDs have low
   injection risk, using parameterized queries is best practice and future-proof.
+  Fix: GetTasksByIds now generates "?,?,?" placeholders via Enumerable.Repeat and
+  passes ids as object[] to Connection.QueryAsync<T>.
 
-[QUALITY-7] RepositoriesEnum is dead code
+[QUALITY-7] RepositoriesEnum is dead code [FIXED]
   File: TasksManager.Services/RepositoriesEnum.cs
   The Repositories enum is defined but never referenced. Either use it (to
   replace the type-key dictionary in RepositoryFactory) or remove it.
+  Fix: File deleted.
 
-[QUALITY-8] Class1.cs is a leftover placeholder
+[QUALITY-8] Class1.cs is a leftover placeholder [FIXED]
   File: TasksManager.Services.Interfaces/Class1.cs
   An empty class file from project scaffolding. Should be deleted.
+  Fix: File deleted.
 
-[QUALITY-9] Typos in method and variable names
+[QUALITY-9] Typos in method and variable names [FIXED]
   - LeftPanelSpaceViewModel.SendCategoryCgangedEvent() → SendCategoryChangedEvent()
   - TaskScheduleViewModel.GetSubCategoroesIds() → GetSubCategoryIds()
   These make searching and reading the code harder.
+  Fix: Both methods and their call sites renamed.
 
-[QUALITY-10] Module has placeholder name
+[QUALITY-10] Module has placeholder name [FIXED]
   Project path: TasksManagerCustom/Modules/TasksManagerCustom.Modules.ModuleName/
   The module is a renamed "ModuleName" scaffold. It contains a TaskScheduleView
   and TaskScheduleViewModel but the project/module class is still named
   "TasksManagerCustom.Modules.ModuleName". Should be renamed to
   TasksManager.TasksScheduleModule (or similar) for consistency.
+  Fix: Directory renamed to TasksManager.TasksScheduleModule; .sln, Application.csproj,
+  and TaskScheduleModule.Tests.csproj references updated.
 
-[QUALITY-11] Duplicate project artifacts in old subdirectory
+[QUALITY-11] Duplicate project artifacts in old subdirectory [FIXED]
   Directory: TasksManagerCustom/Services/
   Contains TasksManagerCustom.Services.Interfaces/ and TasksManagerCustom.Services/
   with duplicate/outdated DTO files and service stubs. These appear to be
   an earlier iteration. Verify they are not referenced and remove.
+  Fix: Confirmed not in .sln; entire TasksManagerCustom/Services/ directory deleted.
 
-[QUALITY-12] bin/ directories committed to git
+[QUALITY-12] bin/ directories committed to git [NOT AN ISSUE]
   The .gitignore should exclude bin/ and obj/ directories, but several bin/
   folders with compiled artifacts appear in the repository. Add them to
   .gitignore (or git rm --cached) to keep the repo clean.
+  Note: Verified via git ls-files — neither bin/ nor obj/ are tracked.
+  .gitignore already correctly excludes [Bb]in/ and [Oo]bj/.
 
 ================================================================================
   SECTION 3 — ARCHITECTURE / DESIGN IMPROVEMENTS
