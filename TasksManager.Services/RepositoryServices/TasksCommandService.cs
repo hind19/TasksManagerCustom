@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
@@ -9,28 +8,24 @@ namespace TasksManager.Services.RepositoryServices
 {
     public class TasksCommandService : ITaskCommandService
     {
-        private readonly IMapper _mapper;
         private readonly IDatabasePathProvider _pathProvider;
 
-        public TasksCommandService(IMapper mapper, IDatabasePathProvider pathProvider)
+        public TasksCommandService(IDatabasePathProvider pathProvider)
         {
-            _mapper = mapper;
             _pathProvider = pathProvider;
         }
 
         public async Task<int> UpdateTaskProgress(TaskDto model)
         {
             var repo = RepositoryFactory<ITaskRepository>.ResolveRepository(_pathProvider);
-            var repoModel = _mapper.Map<PersistenceTaskDto>(model);
+            var repoModel = new PersistenceTaskDto(
+                model.Id, model.TaskName, model.ProjectId, model.CategoryId,
+                model.StartDate, model.EndDate, model.PriorityId,
+                model.Status, model.PercentageOfCompletion);
             var result = await repo.UpdateTask(repoModel);
             if (result != 1)
-            {
-                //TODO: Create custom Exception
                 throw new InvalidOperationException("Database Error");
-            }
-
             return result;
-            
         }
     }
 }

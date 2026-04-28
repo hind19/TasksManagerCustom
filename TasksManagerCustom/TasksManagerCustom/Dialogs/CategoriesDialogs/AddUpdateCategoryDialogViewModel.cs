@@ -1,10 +1,10 @@
-﻿using AutoMapper;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TasksManager.Application.Models;
 using TasksManager.Core.Enums;
 using TasksManager.Core.Events;
@@ -15,8 +15,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
 {
     public class AddUpdateCategoryDialogViewModel : BindableBase, IDialogAware
     {
-        #region Fiedls
-        private readonly IMapper _mapper;
+        #region Fields
         private CategoryModel _categoryModel;
         private NameValuePair<int> _selectedParent;
         private IReadOnlyCollection<NameValuePair<int>> _categoriesList;
@@ -28,71 +27,44 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
         #region Constructors
         public AddUpdateCategoryDialogViewModel(
             ICategoryRepositoryCommandService commandService,
-            IMapper mapper,
             ICategoryRepositoryQueryService queryService,
             IEventAggregator eventAggregator)
         {
-            _mapper = mapper;
             _commandService = commandService;
-            CreateCategoryCommand = new DelegateCommand(CreateCategory);
             _queryService = queryService;
             _eventAggregator = eventAggregator;
+            CreateCategoryCommand = new DelegateCommand(CreateCategory);
         }
-
         #endregion
 
         #region Properties, Events and Commands
-        public string Title { get; private set;}
+        public string Title { get; private set; }
 
         public CategoryModel CurrentCategory
         {
-            get
-            {
-                return _categoryModel;
-            }
-            set
-            {
-                SetProperty(ref _categoryModel, value);
-            }
+            get => _categoryModel;
+            set => SetProperty(ref _categoryModel, value);
         }
 
         public NameValuePair<int> SelectedParent
         {
-            get
-            {
-                return _selectedParent;
-            }
-            set
-            {
-                SetProperty(ref _selectedParent, value);
-            }
+            get => _selectedParent;
+            set => SetProperty(ref _selectedParent, value);
         }
 
         public IReadOnlyCollection<NameValuePair<int>> CategoriesList
         {
-            get
-            {
-                return _categoriesList;
-            }
-            set
-            {
-                SetProperty(ref _categoriesList, value);
-            }
+            get => _categoriesList;
+            set => SetProperty(ref _categoriesList, value);
         }
 
         public event Action<IDialogResult> RequestClose;
 
-        public DelegateCommand CreateCategoryCommand{ get; private set; }
-
+        public DelegateCommand CreateCategoryCommand { get; private set; }
         #endregion
 
         #region Methods
-
-        public bool CanCloseDialog()
-        {
-            // debug mock
-            return true;
-        }
+        public bool CanCloseDialog() => true;
 
         public void OnDialogClosed()
         {
@@ -101,34 +73,39 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-
             Title = parameters.GetValue<string>("DialogTitle");
 
             // TODO: Add and implement Colors
             // TODO: Styles in .xaml!
             // TODO: implement update
-            //if(! update)
             CurrentCategory = new CategoryModel();
             var data = await _queryService.GetAllCategories(true);
-            CategoriesList =  _mapper.Map<IReadOnlyCollection<NameValuePair<int>>>(data);
+            CategoriesList = data.Select(c => new NameValuePair<int>(c.Name, c.Id))
+                                 .ToList().AsReadOnly();
         }
 
         public async void CreateCategory()
         {
-            var dto = _mapper.Map<AddUpdateCategoryDto>(_categoryModel);
-            dto.IsCreate = true;
-            dto.ParentId = SelectedParent?.Value;
+            var dto = new AddUpdateCategoryDto(
+                _categoryModel.Id,
+                _categoryModel.Name,
+                SelectedParent?.Value,
+                _categoryModel.IsGroup,
+                _categoryModel.ColorRGB,
+                _categoryModel.Comment,
+                _categoryModel.ShowInNavigator,
+                _categoryModel.ParentName,
+                isCreate: true);
+
             var result = await _commandService.CreateCategory(dto);
-            if(result > 0)
+            if (result > 0)
             {
                 _eventAggregator.GetEvent<CategoryIsCreated>().Publish();
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
-               
             }
-            
-            // TODO: Sent notification to main VM to update categories list
-        }
 
+            // TODO: Send notification to main VM to update categories list
+        }
         #endregion
     }
 }

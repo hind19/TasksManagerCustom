@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using AutoMapper;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -59,16 +57,6 @@ namespace TasksManager.Application
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
             containerRegistry.RegisterScoped<ITasksQueryService, TasksQueryService>();
             containerRegistry.RegisterScoped<ITaskCommandService, TasksCommandService>();
-
-            //// Register Automapper
-            var profileType = typeof(Profile);
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-                cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => profileType.IsAssignableFrom(p))));
-            containerRegistry.RegisterInstance<IMapper>(new Mapper(mapperConfiguration));
-
-
 
             RegisterDialogs(containerRegistry);
         }

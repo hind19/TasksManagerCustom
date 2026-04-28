@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Repositories;
 using TasksManager.Services.Interfaces.DTOs;
@@ -8,12 +7,10 @@ namespace TasksManager.Services.RepositoryServices
 {
     public class TasksQueryService : ITasksQueryService
     {
-        private readonly IMapper _mapper;
         private readonly IDatabasePathProvider _pathProvider;
 
-        public TasksQueryService(IMapper mapper, IDatabasePathProvider pathProvider)
+        public TasksQueryService(IDatabasePathProvider pathProvider)
         {
-            _mapper = mapper;
             _pathProvider = pathProvider;
         }
 
@@ -21,14 +18,21 @@ namespace TasksManager.Services.RepositoryServices
         {
             var repo = RepositoryFactory<ITaskRepository>.ResolveRepository(_pathProvider);
             var data = await repo.GetTasksByCategoriesIds(categoryIds);
-            return _mapper.Map<IReadOnlyCollection<TaskDto>>(data);
+            return ToTaskDtos(data);
         }
 
         public async Task<IReadOnlyCollection<TaskDto>> GetTasksListForProject(IEnumerable<int> projectIds)
         {
             var repo = RepositoryFactory<ITaskRepository>.ResolveRepository(_pathProvider);
             var data = await repo.GetTasksByProjectsIds(projectIds);
-            return _mapper.Map<IReadOnlyCollection<TaskDto>>(data);
+            return ToTaskDtos(data);
         }
+
+        private static IReadOnlyCollection<TaskDto> ToTaskDtos(IReadOnlyCollection<PersistenceContracts.Dtos.PersistenceTaskDto> data) =>
+            data.Select(t => new TaskDto(
+                    t.Id, t.TaskName, t.ProjectId, t.CategoryId,
+                    t.StartDate, t.EndDate, t.PriorityId,
+                    t.Status, t.PercentageOfCompletion))
+                .ToList().AsReadOnly();
     }
 }

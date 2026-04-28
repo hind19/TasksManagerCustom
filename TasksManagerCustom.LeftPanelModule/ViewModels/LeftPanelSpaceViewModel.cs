@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -16,11 +15,8 @@ namespace TasksManager.LeftPanelModule.ViewModels
     {
         #region fields
         private readonly ICategoryRepositoryQueryService _queryService;
-        private readonly IMapper _mapper;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
-
-        
 
         private IReadOnlyCollection<HierarchicalCollectionModel> _categoriesList;
         private HierarchicalCollectionModel _selectedCategory;
@@ -30,7 +26,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
         public LeftPanelSpaceViewModel(
             ICategoryRepositoryQueryService queryService,
             IEventAggregator eventAggregator,
-            IRegionManager regionManager )
+            IRegionManager regionManager)
         {
             _queryService = queryService;
             _eventAggregator = eventAggregator;
@@ -38,33 +34,20 @@ namespace TasksManager.LeftPanelModule.ViewModels
             _categoriesList = new List<HierarchicalCollectionModel>();
             _selectedCategory = new HierarchicalCollectionModel();
 
-            _mapper = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<ShortCategoryDto, HierarchicalCollectionModel>()
-                    .ReverseMap();
-            }));
-            LoadCategoriesCommand = new DelegateCommand (LoadCategories);
+            LoadCategoriesCommand = new DelegateCommand(LoadCategories);
             MeasuresCommand = new DelegateCommand(NavigateToMeasure);
             _eventAggregator.GetEvent<CategoryIsCreated>().Subscribe(CategoryCreated);
         }
-
-        
         #endregion
 
         #region Properties
         public DelegateCommand LoadCategoriesCommand { get; set; }
-        
         public DelegateCommand MeasuresCommand { get; set; }
 
-        public IReadOnlyCollection<HierarchicalCollectionModel> CategoriesList 
-        { get 
-            {
-                return _categoriesList;
-            }
-            set 
-            {
-                SetProperty(ref _categoriesList, value);
-            } 
+        public IReadOnlyCollection<HierarchicalCollectionModel> CategoriesList
+        {
+            get => _categoriesList;
+            set => SetProperty(ref _categoriesList, value);
         }
 
         public HierarchicalCollectionModel SelectedCategory
@@ -80,8 +63,6 @@ namespace TasksManager.LeftPanelModule.ViewModels
                 SendCategoryCgangedEvent();
             }
         }
-
-        
         #endregion
 
         #region Methods
@@ -94,7 +75,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
         private void ConvertToHierarchicalList(IReadOnlyCollection<ShortCategoryDto> flatList)
         {
             var roots = flatList.Where(x => x.ParentId is null).ToList();
-            var hierarchicalList = _mapper.Map<List<HierarchicalCollectionModel>>(roots);
+            var hierarchicalList = roots.Select(ToHierarchical).ToList();
 
             var remaining = flatList.Where(x => x.ParentId is not null).ToList();
             int prevCount;
@@ -106,7 +87,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
                 {
                     var parent = FindParent(hierarchicalList, item.ParentId.GetValueOrDefault());
                     if (parent is not null)
-                        parent.Children.Add(_mapper.Map<HierarchicalCollectionModel>(item));
+                        parent.Children.Add(ToHierarchical(item));
                     else
                         unresolved.Add(item);
                 }
@@ -122,8 +103,8 @@ namespace TasksManager.LeftPanelModule.ViewModels
             _regionManager.RequestNavigate(RegionNames.ContentRegion, "MeasuresView");
         }
 
-       private HierarchicalCollectionModel FindParent(List<HierarchicalCollectionModel> parents, int parentId)
-       {
+        private HierarchicalCollectionModel FindParent(List<HierarchicalCollectionModel> parents, int parentId)
+        {
             if (!parents.Any())
                 return null;
 
@@ -136,19 +117,25 @@ namespace TasksManager.LeftPanelModule.ViewModels
                 if (result is not null) return result;
             }
             return null;
-       }
+        }
 
         private void SendCategoryCgangedEvent()
         {
             _eventAggregator.GetEvent<CategoryOrProjectChangedEvent>()
-                .Publish(new Tuple<HierarchicalCollectionModel, CategoryProjectEnum> ( SelectedCategory, CategoryProjectEnum.Category));
+                .Publish(new Tuple<HierarchicalCollectionModel, CategoryProjectEnum>(SelectedCategory, CategoryProjectEnum.Category));
         }
 
         private void CategoryCreated()
         {
-            LoadCategories(); 
+            LoadCategories();
         }
 
+        private static HierarchicalCollectionModel ToHierarchical(ShortCategoryDto dto) => new()
+        {
+            Id = dto.Id,
+            Name = dto.Name,
+            IsGroup = dto.IsGroup
+        };
         #endregion
     }
 }

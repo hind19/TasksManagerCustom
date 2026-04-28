@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Dtos;
 using TasksManager.PersistenceContracts.Repositories;
@@ -9,19 +8,19 @@ namespace TasksManager.Services.RepositoryServices
 {
     public class CategoryRepositoryCommandService : ICategoryRepositoryCommandService
     {
-        private readonly IMapper _mapper;
         private readonly IDatabasePathProvider _pathProvider;
 
-        public CategoryRepositoryCommandService(IMapper mapper, IDatabasePathProvider pathProvider)
+        public CategoryRepositoryCommandService(IDatabasePathProvider pathProvider)
         {
-            _mapper = mapper;
             _pathProvider = pathProvider;
         }
 
-        public async Task<int> CreateCategory(AddUpdateCategoryDto addUpdateCategoryDto)
+        public async Task<int> CreateCategory(AddUpdateCategoryDto dto)
         {
             var repo = RepositoryFactory<ICategoryRepository>.ResolveRepository(_pathProvider);
-            var model = _mapper.Map<PersistenceCategoryDto>(addUpdateCategoryDto);
+            var model = new PersistenceCategoryDto(
+                dto.Id, dto.Name, dto.ColorRGB, dto.IsGroup,
+                dto.Comment, dto.ShowInNavigator, dto.ParentId);
             return await repo.CreateCategory(model);
         }
     }

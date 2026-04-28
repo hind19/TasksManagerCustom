@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TasksManager.Services.Interfaces.DTOs
 {
-    public class CategoryDto : ShortCategoryDto
+    public class CategoryDto(
+        int id,
+        string name,
+        int? parentId,
+        bool isGroup,
+        string colorRGB,
+        string comment,
+        bool showInNavigator,
+        string parentName)
+        : ShortCategoryDto(id, name, parentId, isGroup)
     {
-        public string ColorRGB { get; set; }
-
-        public string Comment { get; set; }
-
-        public bool ShowInNavigator { get; set; }
-
-        public string ParentName { get; set; }
-
+        public string ColorRGB { get; } = colorRGB;
+        public string Comment { get; } = comment;
+        public bool ShowInNavigator { get; } = showInNavigator;
+        public string ParentName { get; } = parentName;
     }
 }

@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using SQLite;
 using TasksManager.Persistence.DomainModels;
 using TasksManager.Persistence.Queries;
@@ -10,36 +9,41 @@ namespace TasksManager.Persistence.Repositories
 {
     public class CategoryRepository : AbstractRepository, ICategoryRepository
     {
-        public CategoryRepository(IDatabasePathProvider pathProvider) : base(pathProvider)
-        {
-            _mapper = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Category, PersistenceCategoryDto>().ReverseMap();
-            }));
-        }
+        public CategoryRepository(IDatabasePathProvider pathProvider) : base(pathProvider) { }
+
         public async Task<int> CreateCategory(PersistenceCategoryDto model)
         {
             var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            var category = _mapper.Map<Category>(model);
-            var result = await connection.InsertAsync(category);
-            
+            var result = await connection.InsertAsync(ToEntity(model));
             await connection.CloseAsync();
-
             return result;
         }
 
         public async Task<IReadOnlyCollection<PersistenceCategoryDto>> GetAllCategories(bool showInNavigatorOnly)
         {
             var connection = new SQLiteAsyncConnection(GetDatabasePath());
-            var query = showInNavigatorOnly 
+            var query = showInNavigatorOnly
                 ? CategoryQueries.AllCategoriesQuery + CategoryQueries.ShowInNavigatorOnly
                 : CategoryQueries.AllCategoriesQuery;
 
             var result = await GetItemsWithQuery<Category>(connection, query);
             await connection.CloseAsync();
 
-            return _mapper.Map<IReadOnlyCollection<PersistenceCategoryDto>>(result.ToList().AsReadOnly());
-                
+            return result.Select(ToDto).ToList().AsReadOnly();
         }
+
+        private static PersistenceCategoryDto ToDto(Category c) =>
+            new(c.Id, c.Name!, c.ColorRGB!, c.IsGroup, c.Comment!, c.ShowInNavigator, c.ParentId);
+
+        private static Category ToEntity(PersistenceCategoryDto dto) => new()
+        {
+            Id = dto.Id,
+            Name = dto.Name,
+            ColorRGB = dto.ColorRGB,
+            IsGroup = dto.IsGroup,
+            Comment = dto.Comment,
+            ShowInNavigator = dto.ShowInNavigator,
+            ParentId = dto.ParentId
+        };
     }
 }

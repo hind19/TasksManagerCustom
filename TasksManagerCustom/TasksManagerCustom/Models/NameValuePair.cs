@@ -1,14 +1,8 @@
-﻿namespace TasksManager.Application.Models
+namespace TasksManager.Application.Models
 {
-    public class NameValuePair<T>
+    public class NameValuePair<T>(string name, T value)
     {
-        public NameValuePair(string name, T value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-        public string Name { get; set; }
-        public T Value { get; set; }
+        public string Name { get; } = name;
+        public T Value { get; } = value;
     }
 }

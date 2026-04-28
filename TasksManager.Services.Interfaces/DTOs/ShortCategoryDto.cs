@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TasksManager.Services.Interfaces.DTOs
 {
-    public class ShortCategoryDto
+    public class ShortCategoryDto(int id, string name, int? parentId, bool isGroup)
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public int? ParentId { get; set; }
-
-        public bool IsGroup { get; set; }
+        public int Id { get; } = id;
+        public string Name { get; } = name;
+        public int? ParentId { get; } = parentId;
+        public bool IsGroup { get; } = isGroup;
     }
 }

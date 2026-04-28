@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using SQLite;
 using TasksManager.Persistence.DomainModels.Abstract;
 using TasksManager.PersistenceContracts;
@@ -7,7 +6,6 @@ namespace TasksManager.Persistence.Repositories
 {
     public abstract class AbstractRepository
     {
-        protected IMapper _mapper = null!;
         private readonly IDatabasePathProvider _pathProvider;
 
         protected AbstractRepository(IDatabasePathProvider pathProvider)

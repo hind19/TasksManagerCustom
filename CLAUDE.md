@@ -138,8 +138,8 @@ All UI strings are DynamicResource bindings to these dictionaries.
 2. `LeftPanelSpaceViewModel` publishes `CategoryOrProjectChangedEvent` via `IEventAggregator`  
 3. `TaskScheduleViewModel` subscribes to this event, calls `ITasksQueryService.GetTasksListForCategory(ids)`  
 4. `TasksQueryService` → `RepositoryFactory` → `TaskRepository.GetTasksByCategoriesIds()`  
-5. Raw SQL → `SQLiteAsyncConnection.QueryAsync<TaskDomainModel>()` → AutoMapper → `PersistenceTaskDto` → `TaskDto`  
-6. ViewModel maps `TaskDto` → `DataGridTaskModel`, binds to `DataGrid`
+5. Raw SQL → `SQLiteAsyncConnection.QueryAsync<TaskDomainModel>()` → `TaskRepository.ToDto()` → `PersistenceTaskDto` → `TaskDto`  
+6. ViewModel maps `TaskDto` → `DataGridTaskModel` via `ToDataGridModel()`, binds to `DataGrid`
 
 ---
 
@@ -168,3 +168,5 @@ All UI strings are DynamicResource bindings to these dictionaries.
 - **Naming**: Projects use `TasksManager.*` prefix; shared/cross-cutting use `TasksManagerCustom.*`.
 - **async/await**: All persistence operations are async; service layer passes async through.
 - **Null checks**: Always use `is null` and `is not null` for null comparisons. Never use `== null` or `!= null`.
+- **DTOs**: Use plain classes with C# 12 Primary Constructors and get-only properties (no setters). Do **not** use `record` types anywhere in the project — DTOs are classes. Mapping between layers is done via direct instantiation and LINQ `.Select()`, not AutoMapper.
+- **Date formatting**: Use `TasksManager.Shared.GlobalConstants.DateFormats` constants (`FullDateTime`, `ShortDate`). Use `TasksManager.Shared.Helpers.DateHelper.TryParseDate()` for string→DateTime? parsing.

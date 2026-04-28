@@ -1,30 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Prism.Events;
 using Prism.Mvvm;
 using TasksManager.Core.Enums;
 using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
-using TasksManager.Persistence;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.Shared;
+using TasksManager.Shared.GlobalConstants;
+using TasksManager.Shared.Helpers;
 using TasksManager.TasksScheduleModule.Models;
 
 namespace TasksManager.TasksScheduleModule.ViewModels
 {
-    internal class TaskScheduleViewModel :BindableBase
+    internal class TaskScheduleViewModel : BindableBase
     {
         #region Fields
         private ObservableCollection<DataGridTaskModel> _curentTasksList;
         private DataGridTaskModel _selectedTask;
         private readonly ITasksQueryService _tasksQueryService;
         private readonly ITaskCommandService _taskCommandService;
-        private readonly IMapper _mapper;
         #endregion
 
         #region Constructors
@@ -36,73 +36,35 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
             _tasksQueryService = tasksQueryService;
             _taskCommandService = taskCommandService;
-
-            //modules are independent from main app, so they aren't included to main Assembly
-            _mapper = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TaskDto, DataGridTaskModel>()
-                .ForMember(x => x.StartDate, o =>
-                {
-                    o.PreCondition(x => x.StartDate is not null);
-                    o.MapFrom(x => x.EndDate.HasValue && x.StartDate.Value.Date == x.EndDate.Value.Date
-                              ?  x.StartDate!.Value.ToString(Constants.FullDateTimeFormat, CultureInfo.CurrentCulture)
-                              : x.StartDate!.Value.ToString(Constants.ShortDateTimeFormat, CultureInfo.CurrentCulture));
-                })
-                .ForMember(x => x.EndDate, o =>
-                {
-                    o.PreCondition(x => x.EndDate is not null);
-                    o.MapFrom(x => x.StartDate.HasValue && x.EndDate.Value.Date == x.StartDate.Value.Date
-                              ? x.EndDate!.Value.ToString(Constants.FullDateTimeFormat, CultureInfo.CurrentCulture)
-                              : x.EndDate!.Value.ToString(Constants.ShortDateTimeFormat, CultureInfo.CurrentCulture));
-                })
-                    .ReverseMap();
-            }));
         }
-
         #endregion
 
         #region Properties
         public ObservableCollection<DataGridTaskModel> CurrentTasksList
         {
-            get
-            {
-                return _curentTasksList;
-            }
-            set
-            {
-                SetProperty(ref _curentTasksList, value);
-            }
-        }
-        public DataGridTaskModel SelectedTask
-        {
-            get
-            {
-                return _selectedTask;
-            }
-            set
-            {
-                SetProperty(ref _selectedTask, value);
-            }
+            get => _curentTasksList;
+            set => SetProperty(ref _curentTasksList, value);
         }
 
+        public DataGridTaskModel SelectedTask
+        {
+            get => _selectedTask;
+            set => SetProperty(ref _selectedTask, value);
+        }
         #endregion
 
         #region Methods
         public async Task CompleteOrResetTask(DataGridTaskModel model)
         {
-            if (model is null) 
-            {
+            if (model is null)
                 throw new ArgumentNullException(typeof(DataGridTaskModel).FullName, ErrorMessages.ModelIsNullMessage);
-            }
 
-            model.PercentageOfCompletion = model.PercentageOfCompletion !=100
-                ? 100
-                : 0;
+            model.PercentageOfCompletion = model.PercentageOfCompletion != 100 ? 100 : 0;
             model.Status = model.PercentageOfCompletion == 100
                 ? Shared.Enums.TaskStatusEnum.Completed
                 : Shared.Enums.TaskStatusEnum.NotStarted;
 
-            await _taskCommandService.UpdateTaskProgress(_mapper.Map<TaskDto>(model));
+            await _taskCommandService.UpdateTaskProgress(ToTaskDto(model));
 
             SelectedTask = model;
             RaisePropertyChanged(nameof(SelectedTask));
@@ -112,16 +74,17 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         private async void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
         {
             var ids = GetSubCategoroesIds(tuple.Item1);
+            IReadOnlyCollection<TaskDto> tasks;
+
             if (tuple.Item2 == CategoryProjectEnum.Category)
-            {
-                var tasks = await _tasksQueryService.GetTasksListForCategory(ids);
-                CurrentTasksList = new ObservableCollection<DataGridTaskModel>(_mapper.Map<IReadOnlyCollection<DataGridTaskModel>>(tasks));
-            }
+                tasks = await _tasksQueryService.GetTasksListForCategory(ids);
             else if (tuple.Item2 == CategoryProjectEnum.Project)
-            {
-                var tasks = await _tasksQueryService.GetTasksListForProject(ids);
-                CurrentTasksList = new ObservableCollection<DataGridTaskModel>(_mapper.Map<IReadOnlyCollection<DataGridTaskModel>>(tasks));
-            }
+                tasks = await _tasksQueryService.GetTasksListForProject(ids);
+            else
+                return;
+
+            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(
+                tasks.Select(ToDataGridModel));
         }
 
         private IEnumerable<int> GetSubCategoroesIds(HierarchicalCollectionModel model)
@@ -133,14 +96,37 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private void FindChildrenIds(ref List<int> list, HierarchicalCollectionModel model)
         {
-           list.Add(model.Id);
+            list.Add(model.Id);
             foreach (var item in model.Children)
-            {
                 FindChildrenIds(ref list, item);
-            }
         }
+
+        private static DataGridTaskModel ToDataGridModel(TaskDto t) => new()
+        {
+            Id = t.Id,
+            TaskName = t.TaskName,
+            CategoryId = t.CategoryId,
+            ProjectId = t.ProjectId,
+            Status = (Shared.Enums.TaskStatusEnum)t.Status,
+            PercentageOfCompletion = t.PercentageOfCompletion,
+            StartDate = FormatDate(t.StartDate, t.EndDate),
+            EndDate   = FormatDate(t.EndDate,   t.StartDate)
+        };
+
+        private static TaskDto ToTaskDto(DataGridTaskModel m) =>
+            new(m.Id, m.TaskName, m.ProjectId, m.CategoryId,
+                startDate:  DateHelper.TryParseDate(m.StartDate),
+                endDate:    DateHelper.TryParseDate(m.EndDate),
+                priorityId: null,
+                status:     (int)m.Status,
+                m.PercentageOfCompletion);
+
+        // if both dates fall on the same day show time, otherwise show date only
+        private static string? FormatDate(DateTime? date, DateTime? otherDate) =>
+            date is null ? null
+            : otherDate.HasValue && date.Value.Date == otherDate.Value.Date
+                ? date.Value.ToString(DateFormats.FullDateTime, CultureInfo.CurrentCulture)
+                : date.Value.ToString(DateFormats.ShortDate,    CultureInfo.CurrentCulture);
         #endregion
-
-
     }
 }

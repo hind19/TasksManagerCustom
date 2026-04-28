@@ -6,7 +6,5 @@
         internal const string ProjectsTable = "Projects";
         internal const string CategoriesTable = "Categories";
         internal const string TasksTable = "Tasks";
-        public const string FullDateTimeFormat = "yyyy-MM-dd HH:mm";
-        public const string ShortDateTimeFormat = "yyyy-MM-dd";
     }
 }

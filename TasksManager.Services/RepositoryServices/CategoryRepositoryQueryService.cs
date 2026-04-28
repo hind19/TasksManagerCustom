@@ -1,5 +1,3 @@
-﻿using AutoMapper;
-using TasksManager.Persistence.Repositories;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Repositories;
 using TasksManager.Services.Interfaces.DTOs;
@@ -9,12 +7,10 @@ namespace TasksManager.Services.RepositoryServices
 {
     public class CategoryRepositoryQueryService : ICategoryRepositoryQueryService
     {
-        private readonly IMapper _mapper;
         private readonly IDatabasePathProvider _pathProvider;
 
-        public CategoryRepositoryQueryService(IMapper mapper, IDatabasePathProvider pathProvider)
+        public CategoryRepositoryQueryService(IDatabasePathProvider pathProvider)
         {
-            _mapper = mapper;
             _pathProvider = pathProvider;
         }
 
@@ -22,7 +18,8 @@ namespace TasksManager.Services.RepositoryServices
         {
             var repo = RepositoryFactory<ICategoryRepository>.ResolveRepository(_pathProvider);
             var data = await repo.GetAllCategories(shownInNavigatorOnly);
-            return _mapper.Map<IReadOnlyCollection<ShortCategoryDto>>(data);
+            return data.Select(c => new ShortCategoryDto(c.Id, c.Name, c.ParentId, c.IsGroup))
+                       .ToList().AsReadOnly();
         }
     }
 }

@@ -94,25 +94,13 @@ NOTE: The following are intentional design decisions — NOT issues:
   Fix: Extract async logic into separate async Task methods that are properly
   awaited; wrap in try/catch with user-visible error feedback.
 
-[QUALITY-2] AutoMapper instantiated locally in two ViewModels
-  Files:
-    - LeftPanelSpaceViewModel.cs, lines 41-46
-    - TaskScheduleViewModel.cs, lines 41-59
-  Both create a new Mapper inline instead of using the singleton registered
-  in App.xaml.cs. This is inconsistent and wastes resources.
-  For modules that don't participate in the main assembly scan, the profile
-  can be registered in App.xaml.cs alongside the others (since all assemblies
-  are loaded), or passed via IMapper injection.
+[QUALITY-2] AutoMapper instantiated locally in two ViewModels [FIXED]
+  AutoMapper removed entirely. ViewModels now use direct LINQ + Primary
+  Constructor instantiation. No IMapper dependency anywhere in the codebase.
 
-[QUALITY-3] RepositoryFactory creates new AutoMapper per repository instantiation
-  Files:
-    - CategoryRepository.cs, lines 13-19
-    - TaskRepository.cs, lines 20-40
-  Each repository creates its own Mapper in the constructor, which is called
-  via Activator.CreateInstance() on every service call. Mapper construction
-  is expensive.
-  Fix: Make Mapper a static readonly field per repository class, or configure
-  once and cache.
+[QUALITY-3] RepositoryFactory creates new AutoMapper per repository instantiation [FIXED]
+  AutoMapper removed entirely. Repositories use private static ToDto/ToEntity
+  methods. No Mapper construction overhead on any code path.
 
 [QUALITY-4] Connection-per-operation pattern
   All repository methods open a new SQLiteAsyncConnection on every call.
@@ -173,7 +161,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   Some projects target net6.0, some net6.0-windows. The MenuBarModule bin
   shows net8.0-windows artifacts, suggesting a partial migration to .NET 8
   was started but not completed. Align all projects to a single target framework.
-  Recommendation: net8.0-windows (current LTS, WPF supported).
+  Recommendation: net8.0-windows (current LTS, WPF supported). [FIXED]
 
 [ARCH-2] IDbInitializer leaks SQLite-specific type in return value
   File: TasksManagerCustom.Persistence/DbInitializer.cs, line 67
