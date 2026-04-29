@@ -59,7 +59,7 @@ namespace TasksManager.Persistence
                 await ExecuteQuery(connection,statement);
         }
 
-        public async Task<bool> ExecuteQuery(SQLiteAsyncConnection connection, string query)
+        private async Task<bool> ExecuteQuery(SQLiteAsyncConnection connection, string query)
         {
             var op = await connection.ExecuteAsync(query);
             return op > 0;

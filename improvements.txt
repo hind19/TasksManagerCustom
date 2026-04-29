@@ -175,19 +175,24 @@ NOTE: The following are intentional design decisions — NOT issues:
   was started but not completed. Align all projects to a single target framework.
   Recommendation: net8.0-windows (current LTS, WPF supported). [FIXED]
 
-[ARCH-2] IDbInitializer leaks SQLite-specific type in return value
+[ARCH-2] IDbInitializer leaks SQLite-specific type in return value [FIXED]
   File: TasksManagerCustom.Persistence/DbInitializer.cs, line 67
   ExecuteQuery() is public and takes SQLiteAsyncConnection — a concrete SQLite
   type. This method is on a class implementing IDbInitializer, breaking the
   abstraction. It should be internal or removed from the interface.
+  Fix: ExecuteQuery() changed from public to private.
 
-[ARCH-3] DatabaseService bypasses IDbInitializer abstraction
+[ARCH-3] DatabaseService bypasses IDbInitializer abstraction [FIXED]
   File: TasksManager.Services/DatabaseService.cs, line 9
   private static readonly IDbInitializer _dbInitializer = new DbInitializer();
   DbInitializer is instantiated directly, bypassing DI. The TODO comment
   acknowledges this. If the persistence layer is ever swapped, this needs
   changing manually. Options: pass IDbInitializer via constructor injection,
   or add it to RepositoryFactory's dictionary pattern.
+  Fix: Added DbInitializerFactory (internal, TasksManager.Services) following
+  the same pattern as RepositoryFactory. DatabaseService public constructor
+  delegates to DbInitializerFactory.Create(); internal constructor accepts
+  IDbInitializer for testing. Application layer has no direct Persistence reference.
 
 [ARCH-4] CategoryOrProjectChangedEvent uses Tuple — prefer a record/struct
   File: TasksManagerCustom.Core/Events/CategoryOrProjectChangedEvent.cs

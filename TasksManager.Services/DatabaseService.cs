@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using TasksManager.Persistence;
 using TasksManager.PersistenceContracts;
 using TasksManager.PersistenceContracts.Repositories;
 using TasksManager.Services.Interfaces;
@@ -8,11 +7,15 @@ namespace TasksManager.Services
 {
     public class DatabaseService : IDatabaseService
     {
-        private readonly IDbInitializer _dbInitializer = new DbInitializer();
+        private readonly IDbInitializer _dbInitializer;
         private readonly IDatabasePathProvider _pathProvider;
 
         public DatabaseService(IDatabasePathProvider pathProvider)
+            : this(DbInitializerFactory.Create(), pathProvider) { }
+
+        internal DatabaseService(IDbInitializer dbInitializer, IDatabasePathProvider pathProvider)
         {
+            _dbInitializer = dbInitializer;
             _pathProvider = pathProvider;
         }
 
