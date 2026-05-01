@@ -60,7 +60,9 @@
                     <MenuItem Header="Save" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource tasks}">
-                    <MenuItem Header="{DynamicResource taskCreate}" />
+                    <MenuItem Header="{DynamicResource taskCreate}"
+                              Command="{Binding CreateTaskCommand}"
+                              CommandParameter="{DynamicResource taskCreateDialogTitle}" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource navBarCategories}">
                     <MenuItem Header="{DynamicResource categoryCreate}"

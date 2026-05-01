@@ -4,8 +4,11 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
+using TasksManager.Core;
 using TasksManager.Core.Enums;
 using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
@@ -25,21 +28,27 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         private DataGridTaskModel _selectedTask;
         private readonly ITasksQueryService _tasksQueryService;
         private readonly ITaskCommandService _taskCommandService;
+        private readonly IDialogService _dialogService;
         #endregion
 
         #region Constructors
         public TaskScheduleViewModel(
             IEventAggregator eventAggregator,
             ITasksQueryService tasksQueryService,
-            ITaskCommandService taskCommandService)
+            ITaskCommandService taskCommandService,
+            IDialogService dialogService)
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
-            _tasksQueryService = tasksQueryService;
+            _tasksQueryService  = tasksQueryService;
             _taskCommandService = taskCommandService;
+            _dialogService      = dialogService;
+            EditTaskCommand     = new DelegateCommand<DataGridTaskModel>(EditTask);
         }
         #endregion
 
         #region Properties
+        public DelegateCommand<DataGridTaskModel> EditTaskCommand { get; }
+
         public ObservableCollection<DataGridTaskModel> CurrentTasksList
         {
             get => _curentTasksList;
@@ -54,6 +63,13 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         #endregion
 
         #region Methods
+        private void EditTask(DataGridTaskModel model)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("TaskDto", ToTaskDto(model));
+            _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, _ => { });
+        }
+
         public async Task CompleteOrResetTask(DataGridTaskModel model)
         {
             if (model is null)

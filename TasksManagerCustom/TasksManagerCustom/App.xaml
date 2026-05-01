@@ -8,32 +8,19 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Languages/en-US.xaml" />
                 <ResourceDictionary Source="Languages/ru-RU.xaml" />
+                <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="btnGradientBackground" TargetType="Button">
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0, 1"
-                                         EndPoint="0,0">
-                        <LinearGradientBrush.GradientStops>
-                            <GradientStop Offset="0.1"
-                                          Color="LightBlue" />
-                            <GradientStop Offset="1"
-                                          Color="AliceBlue" />
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-        </Style>
-            <Style x:Key="dialogButtonStyle"
-                   TargetType="Button">
-                <Setter Property="Margin"
-                        Value="15" />
-                <Setter Property="Padding"
-                        Value="10" />
-                <Setter Property="BorderThickness"
-                        Value="2" />
-                <Setter Property="Background"
-                        Value="LightGray" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0, 1" EndPoint="0,0">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Offset="0.1" Color="LightBlue" />
+                                <GradientStop Offset="1"   Color="AliceBlue" />
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>   

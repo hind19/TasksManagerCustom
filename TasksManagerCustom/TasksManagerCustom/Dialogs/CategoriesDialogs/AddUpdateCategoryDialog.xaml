@@ -1,19 +1,18 @@
-﻿<UserControl x:Class="TasksManager.Application.Dialogs.CategoriesDialogs.AddUpdateCategoryDialog"
+<UserControl x:Class="TasksManager.Application.Dialogs.CategoriesDialogs.AddUpdateCategoryDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TasksManager.Application.Dialogs.CategoriesDialogs"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" MinWidth="900" MinHeight="600">
-    <Grid>
+    <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"    />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -22,71 +21,61 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{DynamicResource categoryName}"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Center"
-                   Padding="15"
-                   Grid.Row="0"
-                   Grid.Column="0" />
-        <TextBox Grid.Row="0"
-                   Grid.Column="1"
-                   Grid.ColumnSpan="2"
-                   Margin="15"
-                   HorizontalAlignment="Stretch"
-                 VerticalAlignment="Center"
-                 Text="{Binding CurrentCategory.Name}"/>
-        <TextBlock Text="{DynamicResource parentCategoryName}"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Center"
-                   Padding="15"
-                   Grid.Row="1"
-                   Grid.Column="0" />
-        <ComboBox Grid.Row="1"
-                 Grid.Column="1"
-                  Margin="15"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Center" 
+
+        <!-- Category name -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Style="{StaticResource dialogFieldLabelStyle}"
+                   Text="{DynamicResource categoryName}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                 Margin="4,3"
+                 Text="{Binding CurrentCategory.Name}" />
+
+        <!-- Parent category + IsGroup -->
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource dialogFieldLabelStyle}"
+                   Text="{DynamicResource parentCategoryName}" />
+        <ComboBox Grid.Row="1" Grid.Column="1"
+                  Margin="4,3"
                   ItemsSource="{Binding CategoriesList}"
-                  SelectedValue="Value"
                   DisplayMemberPath="Name"
-                  SelectedItem="{Binding SelectedParent}"/>
-        <CheckBox Content="{DynamicResource isGroup}"
+                  SelectedItem="{Binding SelectedParent}" />
+        <CheckBox Grid.Row="1" Grid.Column="2"
+                  Content="{DynamicResource isGroup}"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
-                  Grid.Row="1"
-                  Grid.Column="3"
-                  IsChecked="{Binding CurrentCategory.IsGroup}"/>
-        <StackPanel Orientation="Vertical"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Margin="15"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-            <TextBlock Text="{DynamicResource comment}"
-                       Margin="10"/>
-            <TextBox TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Visible"
-                     VerticalAlignment="Stretch"
-                     HorizontalAlignment="Stretch"
-                     MinHeight="150"
-                     Text="{Binding CurrentCategory.Comment}"/>
-        </StackPanel>
-         <CheckBox Content="{DynamicResource showInNavigator}"
-                  Grid.Row="4"
-                  Grid.Column="0"
-                  Margin="15"
+                  IsChecked="{Binding CurrentCategory.IsGroup}" />
+
+        <!-- Comment label -->
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                   Text="{DynamicResource comment}"
+                   Margin="4,8,4,2" />
+
+        <!-- Comment TextBox -->
+        <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                 Margin="4,0,4,4"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Visible"
+                 MinHeight="150"
+                 Text="{Binding CurrentCategory.Comment}" />
+
+        <!-- ShowInNavigator -->
+        <CheckBox Grid.Row="4" Grid.Column="0"
+                  Content="{DynamicResource showInNavigator}"
+                  Margin="4,6"
                   VerticalAlignment="Center"
-                  IsChecked="{Binding CurrentCategory.ShowInNavigator}"/>
-        <Button Content="{DynamicResource okBtn}"
-                Grid.Row="4"
-                Grid.Column="1"
-                Style="{StaticResource dialogButtonStyle}"
-                Command="{Binding CreateCategoryCommand}"/>
-        <Button Content="{DynamicResource cancelBtn}"
-                Grid.Row="4"
-                Grid.Column="2"
-                Style="{StaticResource dialogButtonStyle}"/>
+                  IsChecked="{Binding CurrentCategory.ShowInNavigator}" />
+
+        <!-- OK / Cancel -->
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,4,0,0">
+            <Button Content="{DynamicResource okBtn}"
+                    Style="{StaticResource dialogButtonStyle}"
+                    Command="{Binding CreateCategoryCommand}" />
+            <Button Content="{DynamicResource cancelBtn}"
+                    Style="{StaticResource dialogButtonStyle}" />
+        </StackPanel>
     </Grid>
 </UserControl>

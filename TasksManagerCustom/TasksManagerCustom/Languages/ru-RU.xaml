@@ -36,12 +36,20 @@
 
     <!-- AddUpdateTaskDialog-->
     <system:String x:Key="mainTabHeader">Основные</system:String>
+    <system:String x:Key="taskCommentTabHeader">Комментарий</system:String>
+    <system:String x:Key="taskNameLabel">Наименование:</system:String>
+    <system:String x:Key="taskProjectBtn">Проекты</system:String>
+    <system:String x:Key="taskCategoryBtn">Категории</system:String>
+    <system:String x:Key="taskDateBtn">Дата</system:String>
+    <system:String x:Key="taskReminderBtn">Напомнить</system:String>
+    <system:String x:Key="taskRepeatBtn">Повтор</system:String>
+    <system:String x:Key="priority">Приоритет:</system:String>
+    <system:String x:Key="status">Статус:</system:String>
+    <system:String x:Key="taskPercentLabel">% выполнения</system:String>
     <system:String x:Key="project">Проект:</system:String>
     <system:String x:Key="category">Категория:</system:String>
     <system:String x:Key="dateTime">Дата и время:</system:String>
     <system:String x:Key="remindMe">Напомнить:</system:String>
-    <system:String x:Key="repeat">Повторить:</system:String>
-    <system:String x:Key="status">Статус:</system:String>
-    <system:String x:Key="priority">Приоритет:</system:String>
+    <system:String x:Key="repeat">Повтор:</system:String>
 
 </ResourceDictionary>

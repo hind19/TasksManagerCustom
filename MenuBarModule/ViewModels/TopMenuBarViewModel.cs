@@ -16,11 +16,13 @@ namespace TasksManager.MenuBarModule.ViewModels
         {
             _dialogService = dialogService;
             CreateCategoryCommand = new DelegateCommand<string>(CreateCategory);
+            CreateTaskCommand     = new DelegateCommand<string>(CreateTask);
         }
         #endregion
 
         #region Properties
         public DelegateCommand<string> CreateCategoryCommand { get; set; }
+        public DelegateCommand<string> CreateTaskCommand     { get; set; }
         #endregion
 
         #region Methods
@@ -30,6 +32,16 @@ namespace TasksManager.MenuBarModule.ViewModels
             parameter.Add("DialogTitle", title);
             _dialogService.ShowDialog(
                 DialogNames.AddUpdateCategory,
+                parameter,
+                (result) => { });
+        }
+
+        private void CreateTask(string title)
+        {
+            var parameter = new DialogParameters();
+            parameter.Add("DialogTitle", title);
+            _dialogService.ShowDialog(
+                DialogNames.AddUpdateTask,
                 parameter,
                 (result) => { });
         }

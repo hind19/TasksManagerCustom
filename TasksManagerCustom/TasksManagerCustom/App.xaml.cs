@@ -6,6 +6,7 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using TasksManager.Application.Dialogs.CategoriesDialogs;
+using TasksManager.Application.Dialogs.TasksDialogs;
 using TasksManager.Application.Views;
 using TasksManager.LeftPanelModule;
 using TasksManager.MenuBarModule;
@@ -94,6 +95,7 @@ namespace TasksManager.Application
         private void RegisterDialogs(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<AddUpdateCategoryDialog, AddUpdateCategoryDialogViewModel>();
+            containerRegistry.RegisterDialog<AddUpdateTaskDialog, AddUpdateTaskDialogViewModel>();
         }
 
     }
