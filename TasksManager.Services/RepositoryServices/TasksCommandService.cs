@@ -22,7 +22,10 @@ namespace TasksManager.Services.RepositoryServices
                 0, model.TaskName, model.ProjectId, model.CategoryId,
                 model.StartDate, model.EndDate, model.PriorityId,
                 model.Status, model.PercentageOfCompletion);
-            return await repo.CreateTask(repoModel);
+            var result = await repo.CreateTask(repoModel);
+            if (result < 1)
+                throw new InvalidOperationException("Database Error");
+            return result;
         }
 
         public async Task<int> UpdateTaskProgress(TaskDto model)

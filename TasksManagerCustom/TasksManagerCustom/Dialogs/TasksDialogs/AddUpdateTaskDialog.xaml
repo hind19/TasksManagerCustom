@@ -142,7 +142,7 @@
                     <ComboBox Grid.Row="6" Grid.Column="1"
                               ItemsSource="{Binding PrioritiesList}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding CurrentTask.Priority}"
+                              SelectedItem="{Binding SelectedPriority}"
                               Margin="2" />
                     <Button Grid.Row="6" Grid.Column="2"
                             Content="×" Style="{StaticResource taskClearButtonStyle}"

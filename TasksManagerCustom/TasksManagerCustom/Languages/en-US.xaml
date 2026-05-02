@@ -39,8 +39,7 @@
     <system:String x:Key="mainTabHeader">Main</system:String>
     <system:String x:Key="taskCommentTabHeader">Comment</system:String>
     <system:String x:Key="taskNameLabel">Name:</system:String>
-    <system:String x:Key="taskProjectBtn">Projects</system:String>
-    <system:String x:Key="taskCategoryBtn">Categories</system:String>
+
     <system:String x:Key="taskDateBtn">Date</system:String>
     <system:String x:Key="taskReminderBtn">Remind me</system:String>
     <system:String x:Key="taskRepeatBtn">Repeat</system:String>

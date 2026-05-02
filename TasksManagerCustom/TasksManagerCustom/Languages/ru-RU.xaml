@@ -38,8 +38,7 @@
     <system:String x:Key="mainTabHeader">Основные</system:String>
     <system:String x:Key="taskCommentTabHeader">Комментарий</system:String>
     <system:String x:Key="taskNameLabel">Наименование:</system:String>
-    <system:String x:Key="taskProjectBtn">Проекты</system:String>
-    <system:String x:Key="taskCategoryBtn">Категории</system:String>
+
     <system:String x:Key="taskDateBtn">Дата</system:String>
     <system:String x:Key="taskReminderBtn">Напомнить</system:String>
     <system:String x:Key="taskRepeatBtn">Повтор</system:String>

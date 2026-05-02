@@ -1,4 +1,5 @@
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TasksManager.Application.Models;
+using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.Shared.Enums;
@@ -23,21 +25,25 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         private IReadOnlyCollection<NameValuePair<TaskStatusEnum>> _statusesList = new List<NameValuePair<TaskStatusEnum>>().AsReadOnly();
         private NameValuePair<int>? _selectedCategory;
         private NameValuePair<int>? _selectedProject;
+        private NameValuePair<int>? _selectedPriority;
         private NameValuePair<TaskStatusEnum>? _selectedStatus;
         private readonly ICategoryRepositoryQueryService _categoryQueryService;
         private readonly IProjectQueryService _projectQueryService;
         private readonly ITaskCommandService _taskCommandService;
+        private readonly IEventAggregator _eventAggregator;
         #endregion
 
         #region Constructor
         public AddUpdateTaskDialogViewModel(
             ICategoryRepositoryQueryService categoryQueryService,
             IProjectQueryService projectQueryService,
-            ITaskCommandService taskCommandService)
+            ITaskCommandService taskCommandService,
+            IEventAggregator eventAggregator)
         {
             _categoryQueryService = categoryQueryService;
             _projectQueryService  = projectQueryService;
             _taskCommandService   = taskCommandService;
+            _eventAggregator      = eventAggregator;
 
             OpenDateCommand      = new DelegateCommand(OpenDate);
             OpenReminderCommand  = new DelegateCommand(OpenReminder);
@@ -106,6 +112,16 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             {
                 SetProperty(ref _selectedProject, value);
                 CurrentTask.Project = value;
+            }
+        }
+
+        public NameValuePair<int>? SelectedPriority
+        {
+            get => _selectedPriority;
+            set
+            {
+                SetProperty(ref _selectedPriority, value);
+                CurrentTask.Priority = value;
             }
         }
 
@@ -243,6 +259,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             SelectedStatus   = StatusesList.First();
             SelectedCategory = null;
             SelectedProject  = null;
+            SelectedPriority = null;
         }
 
         private void LoadExistingTask(TaskModel task)
@@ -251,6 +268,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             SelectedStatus   = StatusesList.FirstOrDefault(s => s.Value == task.Status) ?? StatusesList.First();
             SelectedCategory = CategoriesList.FirstOrDefault(c => c.Value == task.Category?.Value);
             SelectedProject  = ProjectsList.FirstOrDefault(p => p.Value == task.Project?.Value);
+            SelectedPriority = PrioritiesList.FirstOrDefault(p => p.Value == task.Priority?.Value);
         }
 
         // Open popup commands — Phase 2
@@ -264,7 +282,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         private void ClearDate()     { }
         private void ClearReminder() { }
         private void ClearRepeat()   { }
-        private void ClearPriority() { }
+        private void ClearPriority() => SelectedPriority = null;
         private void ClearStatus()   { }
 
         private async Task SaveAsync()
@@ -278,7 +296,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
                     SelectedCategory?.Value,
                     CurrentTask.StartDate,
                     CurrentTask.EndDate,
-                    CurrentTask.Priority?.Value,
+                    SelectedPriority?.Value,
                     (int)CurrentTask.Status,
                     CurrentTask.PercentageOfCompletion);
 
@@ -287,6 +305,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
                 else
                     await _taskCommandService.UpdateTaskProgress(dto);
 
+                _eventAggregator.GetEvent<TaskSavedEvent>().Publish();
                 var resultParams = new DialogParameters { { "TaskDto", dto } };
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK, resultParams));
             }

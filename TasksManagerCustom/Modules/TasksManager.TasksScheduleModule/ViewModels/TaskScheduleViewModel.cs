@@ -26,6 +26,8 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         #region Fields
         private ObservableCollection<DataGridTaskModel> _curentTasksList;
         private DataGridTaskModel _selectedTask;
+        private IReadOnlyCollection<int>? _lastQueriedIds;
+        private CategoryProjectEnum _lastQueriedType;
         private readonly ITasksQueryService _tasksQueryService;
         private readonly ITaskCommandService _taskCommandService;
         private readonly IDialogService _dialogService;
@@ -39,6 +41,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             IDialogService dialogService)
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
+            eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(() => _ = ReloadCurrentAsync());
             _tasksQueryService  = tasksQueryService;
             _taskCommandService = taskCommandService;
             _dialogService      = dialogService;
@@ -65,21 +68,16 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         #region Methods
         private void EditTask(DataGridTaskModel model)
         {
+            if (model is null) return;
             var parameters = new DialogParameters();
             parameters.Add("TaskDto", ToTaskDto(model));
-            _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, result =>
-            {
-                if (result.Result != ButtonResult.OK) return;
-                var dto = result.Parameters.GetValue<TaskDto>("TaskDto");
-                if (dto.CategoryId.HasValue)
-                    _ = ReloadByCategoryAsync(dto.CategoryId.Value);
-            });
+            _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, _ => { });
         }
 
-        private async Task ReloadByCategoryAsync(int categoryId)
+        private async Task ReloadCurrentAsync()
         {
-            var tasks = await _tasksQueryService.GetTasksListForCategory(new[] { categoryId });
-            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(tasks.Select(ToDataGridModel));
+            if (_lastQueriedIds is null) return;
+            await LoadTasksAsync(_lastQueriedIds, _lastQueriedType);
         }
 
         public async Task CompleteOrResetTask(DataGridTaskModel model)
@@ -101,18 +99,23 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private async void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
         {
-            var ids = GetSubCategoryIds(tuple.Item1);
+            _lastQueriedIds  = GetSubCategoryIds(tuple.Item1).ToList().AsReadOnly();
+            _lastQueriedType = tuple.Item2;
+            await LoadTasksAsync(_lastQueriedIds, _lastQueriedType);
+        }
+
+        private async Task LoadTasksAsync(IEnumerable<int> ids, CategoryProjectEnum type)
+        {
             IReadOnlyCollection<TaskDto> tasks;
 
-            if (tuple.Item2 == CategoryProjectEnum.Category)
+            if (type == CategoryProjectEnum.Category)
                 tasks = await _tasksQueryService.GetTasksListForCategory(ids);
-            else if (tuple.Item2 == CategoryProjectEnum.Project)
+            else if (type == CategoryProjectEnum.Project)
                 tasks = await _tasksQueryService.GetTasksListForProject(ids);
             else
                 return;
 
-            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(
-                tasks.Select(ToDataGridModel));
+            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(tasks.Select(ToDataGridModel));
         }
 
         private IEnumerable<int> GetSubCategoryIds(HierarchicalCollectionModel model)
@@ -131,14 +134,14 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private static DataGridTaskModel ToDataGridModel(TaskDto t) => new()
         {
-            Id = t.Id,
-            TaskName = t.TaskName,
-            CategoryId = t.CategoryId,
-            ProjectId = t.ProjectId,
-            Status = (Shared.Enums.TaskStatusEnum)t.Status,
+            Id                     = t.Id,
+            TaskName               = t.TaskName,
+            CategoryId             = t.CategoryId,
+            ProjectId              = t.ProjectId,
+            Status                 = (Shared.Enums.TaskStatusEnum)t.Status,
             PercentageOfCompletion = t.PercentageOfCompletion,
-            StartDate = FormatDate(t.StartDate, t.EndDate),
-            EndDate   = FormatDate(t.EndDate,   t.StartDate)
+            StartDate              = FormatDate(t.StartDate, t.EndDate),
+            EndDate                = FormatDate(t.EndDate,   t.StartDate)
         };
 
         private static TaskDto ToTaskDto(DataGridTaskModel m) =>
