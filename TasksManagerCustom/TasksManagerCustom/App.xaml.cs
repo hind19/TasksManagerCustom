@@ -58,6 +58,7 @@ namespace TasksManager.Application
             containerRegistry.RegisterScoped<ICategoryRepositoryQueryService, CategoryRepositoryQueryService>();
             containerRegistry.RegisterScoped<ITasksQueryService, TasksQueryService>();
             containerRegistry.RegisterScoped<ITaskCommandService, TasksCommandService>();
+            containerRegistry.RegisterScoped<IProjectQueryService, ProjectQueryService>();
 
             RegisterDialogs(containerRegistry);
         }

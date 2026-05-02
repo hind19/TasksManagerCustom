@@ -194,14 +194,6 @@ NOTE: The following are intentional design decisions — NOT issues:
   delegates to DbInitializerFactory.Create(); internal constructor accepts
   IDbInitializer for testing. Application layer has no direct Persistence reference.
 
-[ARCH-4] CategoryOrProjectChangedEvent uses Tuple — prefer a record/struct
-  File: TasksManagerCustom.Core/Events/CategoryOrProjectChangedEvent.cs
-  PubSubEvent<Tuple<HierarchicalCollectionModel, CategoryProjectEnum>> is
-  opaque at the call site. A named record makes intent clearer:
-      public record CategoryOrProjectChangedPayload(
-          HierarchicalCollectionModel Selected,
-          CategoryProjectEnum Type);
-
 [ARCH-5] Event type hierarchy could be simplified
   Files: CategoryIsCreated.cs, CategoryOrProjectIsCreated.cs, ProjectIsCreated.cs
   CategoryIsCreated extends CategoryOrProjectIsCreated which extends PubSubEvent.
@@ -215,11 +207,10 @@ NOTE: The following are intentional design decisions — NOT issues:
   : class, or just remove the constraint since type safety is already enforced
   by the dictionary). Keep if the marker communicates intent clearly.
 
-[ARCH-7] ICategoryRepository missing Update and Delete
-  File: TasksManager.PersistenceContracts/Repositories/ICategoryRepository.cs
-  Currently only has CreateCategory and GetAllCategories. CRUD is incomplete:
-  UpdateCategory and DeleteCategory need to be added (with corresponding
-  service methods) to support editing/removing categories.
+[ARCH-7] ICategoryRepository missing Update and Delete [FIXED]
+  Fix: Added UpdateCategory(PersistenceCategoryDto) → Task<int> and
+  DeleteCategory(int id) → Task<bool> to ICategoryRepository and CategoryRepository.
+  Mirrored in ICategoryRepositoryCommandService and CategoryRepositoryCommandService.
 
 [ARCH-8] ITaskRepository missing CreateTask
   File: TasksManager.PersistenceContracts/Repositories/ITaskRepository.cs
@@ -244,15 +235,13 @@ NOTE: The following are intentional design decisions — NOT issues:
   The XAML uses {DynamicResource navBarEmails} but the key in en-US.xaml is
   "navBarEmais" (without 's'). This silently resolves to empty text.
 
-[L10N-3] AddUpdateTaskDialog — button bound to wrong command
-  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 148
-  The OK button is bound to CreateCategoryCommand — copy-paste error from
-  the category dialog. Should be bound to the (to-be-created) CreateTaskCommand.
+[L10N-3] AddUpdateTaskDialog — button bound to wrong command [FIXED]
+  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 192
+  Fix: OK button is now bound to SaveCommand.
 
-[L10N-4] AddUpdateTaskDialog shows "Name" label (category field key)
-  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 30
-  Uses {DynamicResource categoryName} for the task name label. Should use
-  a dedicated "taskName" resource key.
+[L10N-4] AddUpdateTaskDialog shows "Name" label (category field key) [FIXED]
+  File: TasksManagerCustom/Dialogs/TasksDialogs/AddUpdateTaskDialog.xaml, line 28
+  Fix: Label now uses {DynamicResource taskNameLabel}.
 
 ================================================================================
   SECTION 5 — TESTING
@@ -297,28 +286,25 @@ NOTE: The following are intentional design decisions — NOT issues:
   (uppercase 'I'). SQLite column name comparisons are case-insensitive, so this
   works at runtime, but it is confusing and should be consistent.
 
-[MINOR-5] Priority and Project entities are created in DB but have no repositories
-  DatabaseConstants creates Priorities and Projects tables, but there are no
-  corresponding IProjectRepository / IPriorityRepository interfaces or
-  implementations. This is expected given the project's current state,
-  but worth tracking as a next development step.
-
-[MINOR-6] LeftPanelSpaceModule has no IMapper injection
-  File: TasksManagerCustom.LeftPanelModule/ViewModels/LeftPanelSpaceViewModel.cs
-  IMapper is not in the constructor signature but is instead created locally.
-  This means changes to mapping config require modifying the ViewModel, not
-  a profile. Add IMapper to the constructor for consistency with the rest of the codebase.
+[MINOR-5] Priority entity is created in DB but has no repository
+  DatabaseConstants creates a Priorities table, but there is no corresponding
+  IPriorityRepository interface or implementation.
+  Note: IProjectRepository / ProjectRepository now exist and are registered in
+  RepositoryFactory and App.xaml.cs (ProjectQueryService). Only Priority is still missing.
 
 ================================================================================
   SUMMARY TABLE
 ================================================================================
 
+  All BUGS and most QUALITY items fixed. Remaining open items:
+
 Priority  | Count | Categories
 ----------|-------|--------------------------------------------------
-CRITICAL  |   3   | BUG-1 (crash), BUG-2 (data loss risk), BUG-3+4 (tree broken)
-HIGH      |   5   | BUG-5,6,7,8, QUALITY-1 (async void)
-MEDIUM    |  10   | ARCH-1,3,4,7,8 | QUALITY-2,3,4,5 | L10N-1,2,3
-LOW       |  10   | Remaining QUALITY, ARCH, L10N, MINOR items
+MEDIUM    |   3   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface),
+          |       | ARCH-8 (missing CreateTask)
+LOW       |   5   | MINOR-1 (no error dialogs), MINOR-2 (no logging),
+          |       | MINOR-3 (hardcoded table names), MINOR-4 (ShowInNavigator case),
+          |       | MINOR-5 (no IPriorityRepository)
 TESTS     |   2   | TEST-1,2 (no real tests exist)
 
 ================================================================================

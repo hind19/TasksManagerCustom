@@ -58,25 +58,27 @@
                     </Grid.RowDefinitions>
 
                     <!-- Projects -->
-                    <Button Grid.Row="0" Grid.Column="0"
-                            Content="{DynamicResource taskProjectBtn}"
-                            Style="{StaticResource taskActionButtonStyle}"
-                            Command="{Binding OpenProjectsCommand}" />
-                    <TextBox Grid.Row="0" Grid.Column="1"
-                             Text="{Binding CurrentTask.Project.Name, Mode=OneWay}"
-                             IsReadOnly="True" Margin="2,2,2,2" />
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="{DynamicResource project}"
+                               VerticalAlignment="Center" Margin="4,0" />
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              ItemsSource="{Binding ProjectsList}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding SelectedProject}"
+                              Margin="2" />
                     <Button Grid.Row="0" Grid.Column="2"
                             Content="×" Style="{StaticResource taskClearButtonStyle}"
                             Command="{Binding ClearProjectCommand}" />
 
                     <!-- Categories -->
-                    <Button Grid.Row="1" Grid.Column="0"
-                            Content="{DynamicResource taskCategoryBtn}"
-                            Style="{StaticResource taskActionButtonStyle}"
-                            Command="{Binding OpenCategoriesCommand}" />
-                    <TextBox Grid.Row="1" Grid.Column="1"
-                             Text="{Binding CurrentTask.Category.Name, Mode=OneWay}"
-                             IsReadOnly="True" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="{DynamicResource category}"
+                               VerticalAlignment="Center" Margin="4,0" />
+                    <ComboBox Grid.Row="1" Grid.Column="1"
+                              ItemsSource="{Binding CategoriesList}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding SelectedCategory}"
+                              Margin="2" />
                     <Button Grid.Row="1" Grid.Column="2"
                             Content="×" Style="{StaticResource taskClearButtonStyle}"
                             Command="{Binding ClearCategoryCommand}" />

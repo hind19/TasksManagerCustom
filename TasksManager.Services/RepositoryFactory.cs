@@ -9,7 +9,8 @@ namespace TasksManager.Services
         private static readonly Dictionary<Type, Type> _repositoryValues = new Dictionary<Type, Type>
         {
             { typeof(ICategoryRepository), typeof(CategoryRepository) },
-            { typeof(ITaskRepository), typeof(TaskRepository) }
+            { typeof(ITaskRepository),     typeof(TaskRepository)     },
+            { typeof(IProjectRepository),  typeof(ProjectRepository)  },
         };
 
         public static T ResolveRepository(IDatabasePathProvider pathProvider)

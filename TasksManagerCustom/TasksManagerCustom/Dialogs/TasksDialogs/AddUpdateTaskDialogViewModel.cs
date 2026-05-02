@@ -3,9 +3,12 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TasksManager.Application.Models;
 using TasksManager.Services.Interfaces.DTOs;
+using TasksManager.Services.Interfaces.RepositoryServices;
 using TasksManager.Shared.Enums;
 
 namespace TasksManager.Application.Dialogs.TasksDialogs
@@ -14,16 +17,25 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
     {
         #region Fields
         private TaskModel _currentTask = new();
+        private IReadOnlyCollection<NameValuePair<int>> _categoriesList = new List<NameValuePair<int>>().AsReadOnly();
+        private IReadOnlyCollection<NameValuePair<int>> _projectsList   = new List<NameValuePair<int>>().AsReadOnly();
         private IReadOnlyCollection<NameValuePair<int>> _prioritiesList = new List<NameValuePair<int>>().AsReadOnly();
         private IReadOnlyCollection<NameValuePair<TaskStatusEnum>> _statusesList = new List<NameValuePair<TaskStatusEnum>>().AsReadOnly();
+        private NameValuePair<int>? _selectedCategory;
+        private NameValuePair<int>? _selectedProject;
         private NameValuePair<TaskStatusEnum>? _selectedStatus;
+        private readonly ICategoryRepositoryQueryService _categoryQueryService;
+        private readonly IProjectQueryService _projectQueryService;
         #endregion
 
         #region Constructor
-        public AddUpdateTaskDialogViewModel()
+        public AddUpdateTaskDialogViewModel(
+            ICategoryRepositoryQueryService categoryQueryService,
+            IProjectQueryService projectQueryService)
         {
-            OpenProjectsCommand  = new DelegateCommand(OpenProjects);
-            OpenCategoriesCommand = new DelegateCommand(OpenCategories);
+            _categoryQueryService = categoryQueryService;
+            _projectQueryService  = projectQueryService;
+
             OpenDateCommand      = new DelegateCommand(OpenDate);
             OpenReminderCommand  = new DelegateCommand(OpenReminder);
             OpenRepeatCommand    = new DelegateCommand(OpenRepeat);
@@ -50,6 +62,18 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             set => SetProperty(ref _currentTask, value);
         }
 
+        public IReadOnlyCollection<NameValuePair<int>> CategoriesList
+        {
+            get => _categoriesList;
+            set => SetProperty(ref _categoriesList, value);
+        }
+
+        public IReadOnlyCollection<NameValuePair<int>> ProjectsList
+        {
+            get => _projectsList;
+            set => SetProperty(ref _projectsList, value);
+        }
+
         public IReadOnlyCollection<NameValuePair<int>> PrioritiesList
         {
             get => _prioritiesList;
@@ -60,6 +84,26 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         {
             get => _statusesList;
             set => SetProperty(ref _statusesList, value);
+        }
+
+        public NameValuePair<int>? SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                SetProperty(ref _selectedCategory, value);
+                CurrentTask.Category = value;
+            }
+        }
+
+        public NameValuePair<int>? SelectedProject
+        {
+            get => _selectedProject;
+            set
+            {
+                SetProperty(ref _selectedProject, value);
+                CurrentTask.Project = value;
+            }
         }
 
         public NameValuePair<TaskStatusEnum>? SelectedStatus
@@ -78,14 +122,12 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         #endregion
 
         #region Commands — open popup windows (Phase 2)
-        public DelegateCommand OpenProjectsCommand  { get; }
-        public DelegateCommand OpenCategoriesCommand { get; }
         public DelegateCommand OpenDateCommand      { get; }
         public DelegateCommand OpenReminderCommand  { get; }
         public DelegateCommand OpenRepeatCommand    { get; }
         #endregion
 
-        #region Commands — clear fields (Phase 2)
+        #region Commands — clear fields
         public DelegateCommand ClearProjectCommand  { get; }
         public DelegateCommand ClearCategoryCommand { get; }
         public DelegateCommand ClearDateCommand     { get; }
@@ -107,14 +149,16 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
 
         public void OnDialogClosed() { }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
             Title = parameters.GetValue<string>("DialogTitle");
 
             InitializeStatusesList();
 
-            // TODO: Phase 2 — load PrioritiesList from DB via ICategoryRepositoryQueryService / IPriorityQueryService
+            // TODO: Phase 2 — load PrioritiesList from DB via IPriorityQueryService
             PrioritiesList = new List<NameValuePair<int>>().AsReadOnly();
+
+            await Task.WhenAll(LoadCategoriesAsync(), LoadProjectsAsync());
 
             var existingTask = parameters.GetValue<TaskModel>("Task");
             if (existingTask is not null)
@@ -135,6 +179,34 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         #endregion
 
         #region Private methods
+        private async Task LoadCategoriesAsync()
+        {
+            try
+            {
+                var data = await _categoryQueryService.GetAllCategories(false);
+                CategoriesList = data.Select(c => new NameValuePair<int>(c.Name, c.Id))
+                                     .ToList().AsReadOnly();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private async Task LoadProjectsAsync()
+        {
+            try
+            {
+                var data = await _projectQueryService.GetAllProjects();
+                ProjectsList = data.Select(p => new NameValuePair<int>(p.Name, p.Id))
+                                   .ToList().AsReadOnly();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
         private static TaskModel TaskDtoToTaskModel(TaskDto dto) => new()
         {
             Id                     = dto.Id,
@@ -164,32 +236,33 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
 
         private void InitializeNewTask()
         {
-            CurrentTask   = new TaskModel();
-            SelectedStatus = StatusesList.First();
+            CurrentTask      = new TaskModel();
+            SelectedStatus   = StatusesList.First();
+            SelectedCategory = null;
+            SelectedProject  = null;
         }
 
         private void LoadExistingTask(TaskModel task)
         {
-            CurrentTask    = task;
-            SelectedStatus = StatusesList.FirstOrDefault(s => s.Value == task.Status)
-                             ?? StatusesList.First();
+            CurrentTask      = task;
+            SelectedStatus   = StatusesList.FirstOrDefault(s => s.Value == task.Status) ?? StatusesList.First();
+            SelectedCategory = CategoriesList.FirstOrDefault(c => c.Value == task.Category?.Value);
+            SelectedProject  = ProjectsList.FirstOrDefault(p => p.Value == task.Project?.Value);
         }
 
         // Open popup commands — Phase 2
-        private void OpenProjects()   { }
-        private void OpenCategories() { }
-        private void OpenDate()       { }
-        private void OpenReminder()   { }
-        private void OpenRepeat()     { }
+        private void OpenDate()      { }
+        private void OpenReminder()  { }
+        private void OpenRepeat()    { }
 
-        // Clear field commands — Phase 2
-        private void ClearProject()   { }
-        private void ClearCategory()  { }
-        private void ClearDate()      { }
-        private void ClearReminder()  { }
-        private void ClearRepeat()    { }
-        private void ClearPriority()  { }
-        private void ClearStatus()    { }
+        // Clear field commands
+        private void ClearProject()  => SelectedProject  = null;
+        private void ClearCategory() => SelectedCategory = null;
+        private void ClearDate()     { }
+        private void ClearReminder() { }
+        private void ClearRepeat()   { }
+        private void ClearPriority() { }
+        private void ClearStatus()   { }
 
         private void Save()
         {

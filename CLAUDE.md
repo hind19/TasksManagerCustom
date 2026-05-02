@@ -115,6 +115,10 @@ are the seam for swapping storage backends. Current implementation: SQLite.
 Switching to MS SQL, PostgreSQL, or any other backend requires only a new implementation of
 these interfaces + wiring in `RepositoryFactory` — no changes to service or view layers.
 
+### PubSubEvent payloads use Tuple
+`CategoryOrProjectChangedEvent` uses `PubSubEvent<Tuple<HierarchicalCollectionModel, CategoryProjectEnum>>`.
+Using `Tuple` for event payloads is intentional — NOT an error. Do not suggest replacing it with a named record or struct.
+
 ### RepositoryFactory (manual factory, not DI)
 The persistence layer intentionally does **not** use Prism's DI container.
 `RepositoryFactory<T>` uses a type-keyed dictionary to resolve repository implementations.
