@@ -15,6 +15,16 @@ namespace TasksManager.Services.RepositoryServices
             _pathProvider = pathProvider;
         }
 
+        public async Task<int> CreateTask(TaskDto model)
+        {
+            var repo = RepositoryFactory<ITaskRepository>.ResolveRepository(_pathProvider);
+            var repoModel = new PersistenceTaskDto(
+                0, model.TaskName, model.ProjectId, model.CategoryId,
+                model.StartDate, model.EndDate, model.PriorityId,
+                model.Status, model.PercentageOfCompletion);
+            return await repo.CreateTask(repoModel);
+        }
+
         public async Task<int> UpdateTaskProgress(TaskDto model)
         {
             var repo = RepositoryFactory<ITaskRepository>.ResolveRepository(_pathProvider);

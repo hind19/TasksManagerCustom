@@ -67,7 +67,19 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         {
             var parameters = new DialogParameters();
             parameters.Add("TaskDto", ToTaskDto(model));
-            _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, _ => { });
+            _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, result =>
+            {
+                if (result.Result != ButtonResult.OK) return;
+                var dto = result.Parameters.GetValue<TaskDto>("TaskDto");
+                if (dto.CategoryId.HasValue)
+                    _ = ReloadByCategoryAsync(dto.CategoryId.Value);
+            });
+        }
+
+        private async Task ReloadByCategoryAsync(int categoryId)
+        {
+            var tasks = await _tasksQueryService.GetTasksListForCategory(new[] { categoryId });
+            CurrentTasksList = new ObservableCollection<DataGridTaskModel>(tasks.Select(ToDataGridModel));
         }
 
         public async Task CompleteOrResetTask(DataGridTaskModel model)

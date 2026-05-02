@@ -6,6 +6,7 @@ namespace TasksManager.PersistenceContracts.Repositories
     {
         Task<IReadOnlyCollection<PersistenceTaskDto>> GetTasksByCategoriesIds(IEnumerable<int> categoriesIds);
         Task<IReadOnlyCollection<PersistenceTaskDto>> GetTasksByProjectsIds(IEnumerable<int> projectsIds);
+        Task<int> CreateTask(PersistenceTaskDto model);
         Task<int> UpdateTask(PersistenceTaskDto model);
     }
 }

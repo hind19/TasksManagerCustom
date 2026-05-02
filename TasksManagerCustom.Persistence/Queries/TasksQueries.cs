@@ -9,8 +9,13 @@ namespace TasksManager.Persistence.Queries
     internal class TasksQueries
     {
         internal const string AllTasksQuery = "SELECT * FROM Tasks";
-        internal const string ProjectFilterClause = " WHERE ProjectId in ({0})";
+        internal const string ProjectFilterClause  = " WHERE ProjectId in ({0})";
         internal const string CategoryFilterClause = " WHERE CategoryId in ({0})";
+
+        internal const string InsertTaskQuery =
+            $"INSERT INTO {Constants.TasksTable} " +
+            "(TaskName, ProjectId, CategoryId, StartDate, EndDate, Status, PriorityId, PercentageOfCompletion) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     }
 }

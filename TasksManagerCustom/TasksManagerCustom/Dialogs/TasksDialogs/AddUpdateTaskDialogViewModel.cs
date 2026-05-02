@@ -26,15 +26,18 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         private NameValuePair<TaskStatusEnum>? _selectedStatus;
         private readonly ICategoryRepositoryQueryService _categoryQueryService;
         private readonly IProjectQueryService _projectQueryService;
+        private readonly ITaskCommandService _taskCommandService;
         #endregion
 
         #region Constructor
         public AddUpdateTaskDialogViewModel(
             ICategoryRepositoryQueryService categoryQueryService,
-            IProjectQueryService projectQueryService)
+            IProjectQueryService projectQueryService,
+            ITaskCommandService taskCommandService)
         {
             _categoryQueryService = categoryQueryService;
             _projectQueryService  = projectQueryService;
+            _taskCommandService   = taskCommandService;
 
             OpenDateCommand      = new DelegateCommand(OpenDate);
             OpenReminderCommand  = new DelegateCommand(OpenReminder);
@@ -48,7 +51,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             ClearPriorityCommand = new DelegateCommand(ClearPriority);
             ClearStatusCommand   = new DelegateCommand(ClearStatus);
 
-            SaveCommand   = new DelegateCommand(Save);
+            SaveCommand   = new DelegateCommand(() => _ = SaveAsync());
             CancelCommand = new DelegateCommand(Cancel);
         }
         #endregion
@@ -264,10 +267,33 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         private void ClearPriority() { }
         private void ClearStatus()   { }
 
-        private void Save()
+        private async Task SaveAsync()
         {
-            // TODO: Phase 2 — call task service to create/update before closing
-            RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+            try
+            {
+                var dto = new TaskDto(
+                    CurrentTask.Id,
+                    CurrentTask.TaskName ?? string.Empty,
+                    SelectedProject?.Value,
+                    SelectedCategory?.Value,
+                    CurrentTask.StartDate,
+                    CurrentTask.EndDate,
+                    CurrentTask.Priority?.Value,
+                    (int)CurrentTask.Status,
+                    CurrentTask.PercentageOfCompletion);
+
+                if (CurrentTask.Id == 0)
+                    await _taskCommandService.CreateTask(dto);
+                else
+                    await _taskCommandService.UpdateTaskProgress(dto);
+
+                var resultParams = new DialogParameters { { "TaskDto", dto } };
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK, resultParams));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         private void Cancel()

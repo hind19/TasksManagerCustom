@@ -212,10 +212,10 @@ NOTE: The following are intentional design decisions — NOT issues:
   DeleteCategory(int id) → Task<bool> to ICategoryRepository and CategoryRepository.
   Mirrored in ICategoryRepositoryCommandService and CategoryRepositoryCommandService.
 
-[ARCH-8] ITaskRepository missing CreateTask
-  File: TasksManager.PersistenceContracts/Repositories/ITaskRepository.cs
-  Only UpdateTask is present. Creating tasks from the dialog (currently a stub)
-  requires AddTask to be added to the repository and wired through the service.
+[ARCH-8] ITaskRepository missing CreateTask [FIXED]
+  Fix: Added CreateTask(PersistenceTaskDto) → Task<int> to ITaskRepository and
+  TaskRepository (raw SQL with ? parameters via InsertTaskQuery).
+  Mirrored in ITaskCommandService and TasksCommandService.
 
 ================================================================================
   SECTION 4 — LOCALIZATION / UI
@@ -300,8 +300,7 @@ NOTE: The following are intentional design decisions — NOT issues:
 
 Priority  | Count | Categories
 ----------|-------|--------------------------------------------------
-MEDIUM    |   3   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface),
-          |       | ARCH-8 (missing CreateTask)
+MEDIUM    |   2   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface)
 LOW       |   5   | MINOR-1 (no error dialogs), MINOR-2 (no logging),
           |       | MINOR-3 (hardcoded table names), MINOR-4 (ShowInNavigator case),
           |       | MINOR-5 (no IPriorityRepository)

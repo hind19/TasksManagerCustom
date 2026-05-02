@@ -37,6 +37,20 @@ namespace TasksManager.Persistence.Repositories
             return result.Select(ToDto).ToList().AsReadOnly();
         }
 
+        public async Task<int> CreateTask(PersistenceTaskDto dto)
+        {
+            return await Connection.ExecuteAsync(
+                TasksQueries.InsertTaskQuery,
+                dto.TaskName,
+                dto.ProjectId,
+                dto.CategoryId,
+                dto.StartDate,
+                dto.EndDate,
+                dto.Status,
+                dto.PriorityId,
+                dto.PercentageOfCompletion);
+        }
+
         public async Task<int> UpdateTask(PersistenceTaskDto model)
         {
             return await Connection.UpdateAsync(ToEntity(model));
