@@ -237,6 +237,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             EndDate                = dto.EndDate,
             Status                 = (TaskStatusEnum)dto.Status,
             PercentageOfCompletion = dto.PercentageOfCompletion,
+            Comment                = dto.Comment,
         };
 
         private void InitializeStatusesList()
@@ -298,14 +299,16 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
                     CurrentTask.EndDate,
                     SelectedPriority?.Value,
                     (int)CurrentTask.Status,
-                    CurrentTask.PercentageOfCompletion);
+                    CurrentTask.PercentageOfCompletion,
+                    CurrentTask.Comment);
 
-                if (CurrentTask.Id == 0)
+                bool isNew = CurrentTask.Id == 0;
+                if (isNew)
                     await _taskCommandService.CreateTask(dto);
                 else
                     await _taskCommandService.UpdateTaskProgress(dto);
 
-                _eventAggregator.GetEvent<TaskSavedEvent>().Publish();
+                _eventAggregator.GetEvent<TaskSavedEvent>().Publish(Tuple.Create(dto.CategoryId, isNew));
                 var resultParams = new DialogParameters { { "TaskDto", dto } };
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK, resultParams));
             }

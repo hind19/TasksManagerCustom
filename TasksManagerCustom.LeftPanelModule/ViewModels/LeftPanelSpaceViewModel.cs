@@ -37,6 +37,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
             LoadCategoriesCommand = new DelegateCommand(LoadCategories);
             MeasuresCommand = new DelegateCommand(NavigateToMeasure);
             _eventAggregator.GetEvent<CategoryIsCreated>().Subscribe(CategoryCreated);
+            _eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(OnTaskSaved);
         }
         #endregion
 
@@ -128,6 +129,14 @@ namespace TasksManager.LeftPanelModule.ViewModels
         private void CategoryCreated()
         {
             LoadCategories();
+        }
+
+        private void OnTaskSaved(Tuple<int?, bool> args)
+        {
+            if (!args.Item2 || args.Item1 is null) return;
+            var match = FindParent(CategoriesList.ToList(), args.Item1.Value);
+            if (match is not null)
+                SelectedCategory = match;
         }
 
         private static HierarchicalCollectionModel ToHierarchical(ShortCategoryDto dto) => new()

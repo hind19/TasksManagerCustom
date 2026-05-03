@@ -14,8 +14,8 @@ namespace TasksManager.Persistence.Queries
 
         internal const string InsertTaskQuery =
             $"INSERT INTO {Constants.TasksTable} " +
-            "(TaskName, ProjectId, CategoryId, StartDate, EndDate, Status, PriorityId, PercentageOfCompletion) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "(TaskName, ProjectId, CategoryId, StartDate, EndDate, Status, PriorityId, PercentageOfCompletion, Comment) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     }
 }

@@ -44,6 +44,7 @@ EndDate VARCHAR(25),
 Status INTEGER,
 PriorityId INTEGER,
 PercentageOfCompletion INTEGER,
+Comment VARCHAR(1000),
 FOREIGN KEY(PriorityId) REFERENCES {Constants.PrioritiesTable}(Id),
 FOREIGN KEY(ProjectId) REFERENCES {Constants.ProjectsTable}(Id),
 FOREIGN KEY(CategoryId) REFERENCES {Constants.CategoriesTable}(Id))";

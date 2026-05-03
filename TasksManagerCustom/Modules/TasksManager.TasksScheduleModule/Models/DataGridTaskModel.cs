@@ -20,5 +20,7 @@ namespace TasksManager.TasksScheduleModule.Models
         public int? CategoryId { get; set; }
 
         public int? ProjectId { get; set; }
+
+        public string? Comment { get; set; }
     }
 }

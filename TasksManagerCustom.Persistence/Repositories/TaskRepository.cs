@@ -48,7 +48,8 @@ namespace TasksManager.Persistence.Repositories
                 dto.EndDate,
                 dto.Status,
                 dto.PriorityId,
-                dto.PercentageOfCompletion);
+                dto.PercentageOfCompletion,
+                dto.Comment);
         }
 
         public async Task<int> UpdateTask(PersistenceTaskDto model)
@@ -58,7 +59,7 @@ namespace TasksManager.Persistence.Repositories
 
         private static PersistenceTaskDto ToDto(TaskDomainModel t) =>
             new(t.Id, t.TaskName, t.ProjectId, t.CategoryId,
-                t.StartDate, t.EndDate, t.PriorityId, t.Status, t.PercentageOfCompletion);
+                t.StartDate, t.EndDate, t.PriorityId, t.Status, t.PercentageOfCompletion, t.Comment);
 
         private static TaskDomainModel ToEntity(PersistenceTaskDto dto) => new()
         {
@@ -70,7 +71,8 @@ namespace TasksManager.Persistence.Repositories
             EndDate = dto.EndDate,
             PriorityId = dto.PriorityId,
             Status = dto.Status,
-            PercentageOfCompletion = dto.PercentageOfCompletion
+            PercentageOfCompletion = dto.PercentageOfCompletion,
+            Comment = dto.Comment
         };
     }
 }

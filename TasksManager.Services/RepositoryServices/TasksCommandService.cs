@@ -21,7 +21,7 @@ namespace TasksManager.Services.RepositoryServices
             var repoModel = new PersistenceTaskDto(
                 0, model.TaskName, model.ProjectId, model.CategoryId,
                 model.StartDate, model.EndDate, model.PriorityId,
-                model.Status, model.PercentageOfCompletion);
+                model.Status, model.PercentageOfCompletion, model.Comment);
             var result = await repo.CreateTask(repoModel);
             if (result < 1)
                 throw new InvalidOperationException("Database Error");
@@ -34,7 +34,7 @@ namespace TasksManager.Services.RepositoryServices
             var repoModel = new PersistenceTaskDto(
                 model.Id, model.TaskName, model.ProjectId, model.CategoryId,
                 model.StartDate, model.EndDate, model.PriorityId,
-                model.Status, model.PercentageOfCompletion);
+                model.Status, model.PercentageOfCompletion, model.Comment);
             var result = await repo.UpdateTask(repoModel);
             if (result != 1)
                 throw new InvalidOperationException("Database Error");

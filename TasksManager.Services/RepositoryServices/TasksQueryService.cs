@@ -32,7 +32,7 @@ namespace TasksManager.Services.RepositoryServices
             data.Select(t => new TaskDto(
                     t.Id, t.TaskName, t.ProjectId, t.CategoryId,
                     t.StartDate, t.EndDate, t.PriorityId,
-                    t.Status, t.PercentageOfCompletion))
+                    t.Status, t.PercentageOfCompletion, t.Comment))
                 .ToList().AsReadOnly();
     }
 }

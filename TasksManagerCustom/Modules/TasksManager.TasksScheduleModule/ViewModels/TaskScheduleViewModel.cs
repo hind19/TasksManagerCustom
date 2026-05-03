@@ -41,7 +41,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             IDialogService dialogService)
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
-            eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(() => _ = ReloadCurrentAsync());
+            eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(args => _ = ReloadCurrentAsync());
             _tasksQueryService  = tasksQueryService;
             _taskCommandService = taskCommandService;
             _dialogService      = dialogService;
@@ -141,7 +141,8 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             Status                 = (Shared.Enums.TaskStatusEnum)t.Status,
             PercentageOfCompletion = t.PercentageOfCompletion,
             StartDate              = FormatDate(t.StartDate, t.EndDate),
-            EndDate                = FormatDate(t.EndDate,   t.StartDate)
+            EndDate                = FormatDate(t.EndDate,   t.StartDate),
+            Comment                = t.Comment
         };
 
         private static TaskDto ToTaskDto(DataGridTaskModel m) =>
@@ -150,7 +151,8 @@ namespace TasksManager.TasksScheduleModule.ViewModels
                 endDate:    DateHelper.TryParseDate(m.EndDate),
                 priorityId: null,
                 status:     (int)m.Status,
-                m.PercentageOfCompletion);
+                m.PercentageOfCompletion,
+                m.Comment);
 
         // if both dates fall on the same day show time, otherwise show date only
         private static string? FormatDate(DateTime? date, DateTime? otherDate) =>

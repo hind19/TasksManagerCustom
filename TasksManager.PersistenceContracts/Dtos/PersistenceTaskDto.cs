@@ -9,7 +9,8 @@ namespace TasksManager.PersistenceContracts.Dtos
         DateTime? endDate,
         int? priorityId,
         int status,
-        int percentageOfCompletion)
+        int percentageOfCompletion,
+        string? comment)
     {
         public int Id { get; } = id;
         public string TaskName { get; } = taskName;
@@ -20,5 +21,6 @@ namespace TasksManager.PersistenceContracts.Dtos
         public int? PriorityId { get; } = priorityId;
         public int Status { get; } = status;
         public int PercentageOfCompletion { get; } = percentageOfCompletion;
+        public string? Comment { get; } = comment;
     }
 }

@@ -26,5 +26,8 @@ namespace TasksManager.Persistence.DomainModels
         public int Status { get; set; }
 
         public int PercentageOfCompletion { get; set; }
+
+        [MaxLength(1000)]
+        public string? Comment { get; set; }
     }
 }
