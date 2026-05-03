@@ -20,7 +20,7 @@ namespace TasksManager.Persistence.Repositories
         }
 
         private static PersistenceProjectDto ToDto(Project p) =>
-            new(p.Id, p.Name!, p.ColorRGB!, p.IsGroup, p.Comment!, p.ShowInNavigator,
-                p.ParentId, p.Target!, p.IsCompleted, p.StartDate, p.EndDate);
+            new(p.Id, p.Name!, p.ColorRGB, p.IsGroup, p.Comment, p.ShowInNavigator,
+                p.ParentId, p.Target, p.IsCompleted, p.StartDate, p.EndDate);
     }
 }

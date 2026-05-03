@@ -286,6 +286,16 @@ NOTE: The following are intentional design decisions — NOT issues:
   (uppercase 'I'). SQLite column name comparisons are case-insensitive, so this
   works at runtime, but it is confusing and should be consistent.
 
+[MINOR-6] Double reload after task creation
+  Files: TaskScheduleViewModel.cs, LeftPanelSpaceViewModel.cs
+  When a new task is saved with a category, two DB reloads are triggered:
+  (1) TaskSavedEvent subscriber calls ReloadCurrentAsync()
+  (2) LeftPanelSpaceViewModel.OnTaskSaved sets SelectedCategory, which fires
+      CategoryOrProjectChangedEvent, which triggers LoadTasksAsync() again.
+  Fix: In the TaskSavedEvent subscription in TaskScheduleViewModel, skip the
+  reload when isNew && categoryId != null, since the CategoryOrProjectChangedEvent
+  reload that follows will already refresh the list for the correct category.
+
 [MINOR-5] Priority entity is created in DB but has no repository
   DatabaseConstants creates a Priorities table, but there is no corresponding
   IPriorityRepository interface or implementation.
@@ -301,9 +311,9 @@ NOTE: The following are intentional design decisions — NOT issues:
 Priority  | Count | Categories
 ----------|-------|--------------------------------------------------
 MEDIUM    |   2   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface)
-LOW       |   5   | MINOR-1 (no error dialogs), MINOR-2 (no logging),
+LOW       |   6   | MINOR-1 (no error dialogs), MINOR-2 (no logging),
           |       | MINOR-3 (hardcoded table names), MINOR-4 (ShowInNavigator case),
-          |       | MINOR-5 (no IPriorityRepository)
+          |       | MINOR-5 (no IPriorityRepository), MINOR-6 (double reload on create)
 TESTS     |   2   | TEST-1,2 (no real tests exist)
 
 ================================================================================

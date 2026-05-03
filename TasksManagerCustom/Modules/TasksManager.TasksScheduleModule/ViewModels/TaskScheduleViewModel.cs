@@ -138,6 +138,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             TaskName               = t.TaskName,
             CategoryId             = t.CategoryId,
             ProjectId              = t.ProjectId,
+            PriorityId             = t.PriorityId,
             Status                 = (Shared.Enums.TaskStatusEnum)t.Status,
             PercentageOfCompletion = t.PercentageOfCompletion,
             StartDate              = FormatDate(t.StartDate, t.EndDate),
@@ -149,7 +150,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             new(m.Id, m.TaskName, m.ProjectId, m.CategoryId,
                 startDate:  DateHelper.TryParseDate(m.StartDate),
                 endDate:    DateHelper.TryParseDate(m.EndDate),
-                priorityId: null,
+                priorityId: m.PriorityId,
                 status:     (int)m.Status,
                 m.PercentageOfCompletion,
                 m.Comment);
