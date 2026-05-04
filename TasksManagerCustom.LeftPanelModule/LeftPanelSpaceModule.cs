@@ -16,7 +16,7 @@ namespace TasksManager.LeftPanelModule
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.LeftPanelSpace, "LeftPanelSpaceView");
+            _regionManager.RequestNavigate(RegionNames.LeftPanelSpace, ViewNames.LeftPanelSpaceView);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

@@ -53,11 +53,11 @@
         </Grid.RowDefinitions>
         <DockPanel>
             <Menu DockPanel.Dock="Top"
-                  Background="LightBlue">
-                <MenuItem Header="File">
-                    <MenuItem Header="Open" />
-                    <MenuItem Header="Close" />
-                    <MenuItem Header="Save" />
+                  Background="{StaticResource MenuBarBackgroundBrush}">
+                <MenuItem Header="{DynamicResource menuFile}">
+                    <MenuItem Header="{DynamicResource menuFileOpen}" />
+                    <MenuItem Header="{DynamicResource menuFileClose}" />
+                    <MenuItem Header="{DynamicResource menuFileSave}" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource tasks}">
                     <MenuItem Header="{DynamicResource taskCreate}"
@@ -74,15 +74,7 @@
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal">
             <StackPanel.Background>
-                <LinearGradientBrush StartPoint="0, 1"
-                                     EndPoint="0,0">
-                    <LinearGradientBrush.GradientStops>
-                        <GradientStop Offset="0.1"
-                                      Color="LightBlue" />
-                        <GradientStop Offset="1"
-                                      Color="AliceBlue" />
-                    </LinearGradientBrush.GradientStops>
-                </LinearGradientBrush>
+                <StaticResource ResourceKey="MenuBarGradientBrush" />
             </StackPanel.Background>
             <Button Style="{StaticResource BtnStyle}">
                 <Button.Content>

@@ -10,6 +10,12 @@
     <system:String x:Key="navBarEmails">Emails</system:String>
     <system:String x:Key="navBarLoops">Привычки</system:String>
     <system:String x:Key="navBarMeasures">Измерения</system:String> 
+    <!-- TopMenuBar — File menu -->
+    <system:String x:Key="menuFile">Файл</system:String>
+    <system:String x:Key="menuFileOpen">Открыть</system:String>
+    <system:String x:Key="menuFileClose">Закрыть</system:String>
+    <system:String x:Key="menuFileSave">Сохранить</system:String>
+
     <system:String x:Key="tasks">Задачи</system:String>
     <system:String x:Key="taskCreate">Создать Задачу</system:String>
     <system:String x:Key="categoryCreate">Создать Категорию</system:String>

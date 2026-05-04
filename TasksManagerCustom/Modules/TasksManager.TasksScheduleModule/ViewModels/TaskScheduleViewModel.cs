@@ -14,6 +14,7 @@ using TasksManager.Core.EventModels;
 using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
+using TasksManager.Core;
 using TasksManager.Shared;
 using TasksManager.Shared.GlobalConstants;
 using TasksManager.Shared.Helpers;
@@ -70,7 +71,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         {
             if (model is null) return;
             var parameters = new DialogParameters();
-            parameters.Add("TaskDto", ToTaskDto(model));
+            parameters.Add(DialogParameterNames.TaskDto, ToTaskDto(model));
             _dialogService.ShowDialog(DialogNames.AddUpdateTask, parameters, _ => { });
         }
 
@@ -85,8 +86,8 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             if (model is null)
                 throw new ArgumentNullException(typeof(DataGridTaskModel).FullName, ErrorMessages.ModelIsNullMessage);
 
-            model.PercentageOfCompletion = model.PercentageOfCompletion != 100 ? 100 : 0;
-            model.Status = model.PercentageOfCompletion == 100
+            model.PercentageOfCompletion = model.PercentageOfCompletion != TaskCompletionValues.Completed ? TaskCompletionValues.Completed : TaskCompletionValues.None;
+            model.Status = model.PercentageOfCompletion == TaskCompletionValues.Completed
                 ? Shared.Enums.TaskStatusEnum.Completed
                 : Shared.Enums.TaskStatusEnum.NotStarted;
 

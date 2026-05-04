@@ -24,6 +24,22 @@ namespace TasksManager.Application
     /// </summary>
     public partial class App : PrismApplication
     {
+        private static class LanguageResources
+        {
+            public const string EnUsCulture = "en-US";
+            public const string RuRuCulture = "ru-RU";
+            public const string EnUsPath    = "..\\Languages\\en-US.xaml";
+            public const string RuRuPath    = "..\\Languages\\ru-RU.xaml";
+        }
+
+        private static class ConfigErrorRes
+        {
+            public const string TitleKey        = "configurationErrorTitle";
+            public const string MessageKey      = "configurationErrorMessage";
+            public const string TitleFallback   = "Configuration Error";
+            public const string MessageFallback = "Failed to load application configuration. The application will now close.";
+        }
+
         private readonly IDatabasePathProvider _pathProvider = null!;
 
         public App()
@@ -36,8 +52,8 @@ namespace TasksManager.Application
             }
             catch (Exception ex)
             {
-                var title = TryFindResource("configurationErrorTitle") as string ?? "Configuration Error";
-                var message = TryFindResource("configurationErrorMessage") as string ?? "Failed to load application configuration. The application will now close.";
+                var title   = TryFindResource(ConfigErrorRes.TitleKey)   as string ?? ConfigErrorRes.TitleFallback;
+                var message = TryFindResource(ConfigErrorRes.MessageKey) as string ?? ConfigErrorRes.MessageFallback;
                 MessageBox.Show($"{message}\n\n{ex.Message}", title, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(1);
             }
@@ -75,14 +91,14 @@ namespace TasksManager.Application
             ResourceDictionary dict = new ResourceDictionary();
             switch (Thread.CurrentThread.CurrentCulture.ToString())
             {
-                case "en-US":
-                    dict.Source = new Uri("..\\Languages\\en-US.xaml", UriKind.Relative);
+                case LanguageResources.EnUsCulture:
+                    dict.Source = new Uri(LanguageResources.EnUsPath, UriKind.Relative);
                     break;
-                case "ru-RU":
-                    dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
+                case LanguageResources.RuRuCulture:
+                    dict.Source = new Uri(LanguageResources.RuRuPath, UriKind.Relative);
                     break;
                 default:
-                    dict.Source = new Uri("..\\Languages\\ru-RU.xaml", UriKind.Relative);
+                    dict.Source = new Uri(LanguageResources.RuRuPath, UriKind.Relative);
                     break;
             }
             this.Resources.MergedDictionaries.Add(dict);

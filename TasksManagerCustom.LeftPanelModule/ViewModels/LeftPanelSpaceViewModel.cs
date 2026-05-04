@@ -101,7 +101,7 @@ namespace TasksManager.LeftPanelModule.ViewModels
 
         private void NavigateToMeasure()
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "MeasuresView");
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.MeasuresView);
         }
 
         private HierarchicalCollectionModel FindParent(List<HierarchicalCollectionModel> parents, int parentId)

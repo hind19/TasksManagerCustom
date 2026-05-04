@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TasksManager.Application.Models;
+using TasksManager.Core;
 using TasksManager.Core.Enums;
 using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
@@ -75,7 +76,7 @@ namespace TasksManager.Application.Dialogs.CategoriesDialogs
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            Title = parameters.GetValue<string>("DialogTitle");
+            Title = parameters.GetValue<string>(DialogParameterNames.DialogTitle);
             await LoadDialogDataAsync();
         }
 

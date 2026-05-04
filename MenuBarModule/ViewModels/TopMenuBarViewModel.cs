@@ -29,7 +29,7 @@ namespace TasksManager.MenuBarModule.ViewModels
         private void CreateCategory(string title)
         {
             var parameter = new DialogParameters();
-            parameter.Add("DialogTitle", title);
+            parameter.Add(DialogParameterNames.DialogTitle, title);
             _dialogService.ShowDialog(
                 DialogNames.AddUpdateCategory,
                 parameter,
@@ -39,7 +39,7 @@ namespace TasksManager.MenuBarModule.ViewModels
         private void CreateTask(string title)
         {
             var parameter = new DialogParameters();
-            parameter.Add("DialogTitle", title);
+            parameter.Add(DialogParameterNames.DialogTitle, title);
             _dialogService.ShowDialog(
                 DialogNames.AddUpdateTask,
                 parameter,

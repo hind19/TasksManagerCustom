@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using TasksManager.Shared.GlobalConstants;
 
 namespace TasksManager.TasksScheduleModule.Converters
 {
@@ -14,7 +15,7 @@ namespace TasksManager.TasksScheduleModule.Converters
 
             var percentage = (int)value;
 
-            return percentage == 100
+            return percentage == TaskCompletionValues.Completed
                 ? Brushes.LightGray
                 : Brushes.Black;
 

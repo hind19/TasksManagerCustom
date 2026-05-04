@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TasksManager.Application.Models;
+using TasksManager.Core;
 using TasksManager.Core.Events;
 using TasksManager.Services.Interfaces.DTOs;
 using TasksManager.Services.Interfaces.RepositoryServices;
@@ -170,7 +171,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            Title = parameters.GetValue<string>("DialogTitle");
+            Title = parameters.GetValue<string>(DialogParameterNames.DialogTitle);
 
             InitializeStatusesList();
 
@@ -179,14 +180,14 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
 
             await Task.WhenAll(LoadCategoriesAsync(), LoadProjectsAsync());
 
-            var existingTask = parameters.GetValue<TaskModel>("Task");
+            var existingTask = parameters.GetValue<TaskModel>(DialogParameterNames.Task);
             if (existingTask is not null)
             {
                 LoadExistingTask(existingTask);
                 return;
             }
 
-            var taskDto = parameters.GetValue<TaskDto>("TaskDto");
+            var taskDto = parameters.GetValue<TaskDto>(DialogParameterNames.TaskDto);
             if (taskDto is not null)
             {
                 LoadExistingTask(TaskDtoToTaskModel(taskDto));
@@ -309,7 +310,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
                     await _taskCommandService.UpdateTaskProgress(dto);
 
                 _eventAggregator.GetEvent<TaskSavedEvent>().Publish(Tuple.Create(dto.CategoryId, isNew));
-                var resultParams = new DialogParameters { { "TaskDto", dto } };
+                var resultParams = new DialogParameters { { DialogParameterNames.TaskDto, dto } };
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK, resultParams));
             }
             catch (Exception ex)

@@ -11,6 +11,12 @@
     <system:String x:Key="navBarEmails">Emails</system:String>
     <system:String x:Key="navBarLoops">Habit Loops</system:String>
     <system:String x:Key="navBarMeasures">Controlled Parameters</system:String>
+    <!-- TopMenuBar — File menu -->
+    <system:String x:Key="menuFile">File</system:String>
+    <system:String x:Key="menuFileOpen">Open</system:String>
+    <system:String x:Key="menuFileClose">Close</system:String>
+    <system:String x:Key="menuFileSave">Save</system:String>
+
     <system:String x:Key="tasks">Tasks</system:String>
     <system:String x:Key="taskCreate">Create Task</system:String>
     <system:String x:Key="categoryCreate">Create Category</system:String>

@@ -10,17 +10,24 @@
                 <ResourceDictionary Source="Languages/ru-RU.xaml" />
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Shared menu bar colors -->
+            <Color x:Key="MenuBarPrimaryColor">LightBlue</Color>
+            <Color x:Key="MenuBarSecondaryColor">AliceBlue</Color>
+            <SolidColorBrush x:Key="MenuBarBackgroundBrush" Color="{StaticResource MenuBarPrimaryColor}" />
+            <LinearGradientBrush x:Key="MenuBarGradientBrush" StartPoint="0,1" EndPoint="0,0">
+                <GradientStop Offset="0.1" Color="{StaticResource MenuBarPrimaryColor}" />
+                <GradientStop Offset="1"   Color="{StaticResource MenuBarSecondaryColor}" />
+            </LinearGradientBrush>
+
+            <!-- Shared task grid colors -->
+            <SolidColorBrush x:Key="TaskGridBorderBrush"         Color="Green" />
+            <SolidColorBrush x:Key="TaskGridBackgroundBrush"     Color="BlanchedAlmond" />
+            <SolidColorBrush x:Key="TaskGridAltRowBrush"         Color="LightCyan" />
+            <SolidColorBrush x:Key="TaskGridHeaderBackgroundBrush" Color="GhostWhite" />
+
             <Style x:Key="btnGradientBackground" TargetType="Button">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <LinearGradientBrush StartPoint="0, 1" EndPoint="0,0">
-                            <LinearGradientBrush.GradientStops>
-                                <GradientStop Offset="0.1" Color="LightBlue" />
-                                <GradientStop Offset="1"   Color="AliceBlue" />
-                            </LinearGradientBrush.GradientStops>
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Background" Value="{StaticResource MenuBarGradientBrush}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>   

@@ -17,7 +17,7 @@ namespace TasksManager.TasksScheduleModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "TaskScheduleView");
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.TaskScheduleView);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

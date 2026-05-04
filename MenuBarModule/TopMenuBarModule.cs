@@ -17,7 +17,7 @@ namespace TasksManager.MenuBarModule
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.TopMenuBar, "TopMenuBarView");
+            _regionManager.RequestNavigate(RegionNames.TopMenuBar, ViewNames.TopMenuBarView);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

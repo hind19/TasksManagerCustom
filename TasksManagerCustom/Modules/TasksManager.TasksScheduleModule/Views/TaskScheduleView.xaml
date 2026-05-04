@@ -22,12 +22,12 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="basicFrame"
                   Grid.Column="0"
-                  BorderBrush="Green"
+                  BorderBrush="{StaticResource TaskGridBorderBrush}"
                   BorderThickness="2"
                   AutoGenerateColumns="False"
                   SelectionUnit="FullRow"
-                  Background="BlanchedAlmond"
-                  AlternatingRowBackground="LightCyan"
+                  Background="{StaticResource TaskGridBackgroundBrush}"
+                  AlternatingRowBackground="{StaticResource TaskGridAltRowBrush}"
                   AlternationCount="2"
                   GridLinesVisibility="None"
                   ItemsSource="{Binding CurrentTasksList}"
@@ -47,7 +47,7 @@
                     <Setter Property="TextBlock.FontWeight"
                             Value="Bold" />
                     <Setter Property="Background"
-                            Value="GhostWhite" />
+                            Value="{StaticResource TaskGridHeaderBackgroundBrush}" />
                     <Setter Property="Padding"
                             Value="7" />
                     <Setter Property="ContentTemplate">
