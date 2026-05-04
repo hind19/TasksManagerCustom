@@ -28,15 +28,15 @@ namespace TasksManager.Application
         {
             public const string EnUsCulture = "en-US";
             public const string RuRuCulture = "ru-RU";
-            public const string EnUsPath    = "..\\Languages\\en-US.xaml";
-            public const string RuRuPath    = "..\\Languages\\ru-RU.xaml";
+            public const string EnUsPath = "..\\Languages\\en-US.xaml";
+            public const string RuRuPath = "..\\Languages\\ru-RU.xaml";
         }
 
         private static class ConfigErrorRes
         {
-            public const string TitleKey        = "configurationErrorTitle";
-            public const string MessageKey      = "configurationErrorMessage";
-            public const string TitleFallback   = "Configuration Error";
+            public const string TitleKey = "configurationErrorTitle";
+            public const string MessageKey = "configurationErrorMessage";
+            public const string TitleFallback = "Configuration Error";
             public const string MessageFallback = "Failed to load application configuration. The application will now close.";
         }
 
@@ -52,7 +52,7 @@ namespace TasksManager.Application
             }
             catch (Exception ex)
             {
-                var title   = TryFindResource(ConfigErrorRes.TitleKey)   as string ?? ConfigErrorRes.TitleFallback;
+                var title = TryFindResource(ConfigErrorRes.TitleKey) as string ?? ConfigErrorRes.TitleFallback;
                 var message = TryFindResource(ConfigErrorRes.MessageKey) as string ?? ConfigErrorRes.MessageFallback;
                 MessageBox.Show($"{message}\n\n{ex.Message}", title, MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(1);

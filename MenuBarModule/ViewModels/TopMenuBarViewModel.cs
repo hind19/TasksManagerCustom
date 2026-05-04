@@ -16,13 +16,13 @@ namespace TasksManager.MenuBarModule.ViewModels
         {
             _dialogService = dialogService;
             CreateCategoryCommand = new DelegateCommand<string>(CreateCategory);
-            CreateTaskCommand     = new DelegateCommand<string>(CreateTask);
+            CreateTaskCommand = new DelegateCommand<string>(CreateTask);
         }
         #endregion
 
         #region Properties
         public DelegateCommand<string> CreateCategoryCommand { get; set; }
-        public DelegateCommand<string> CreateTaskCommand     { get; set; }
+        public DelegateCommand<string> CreateTaskCommand { get; set; }
         #endregion
 
         #region Methods

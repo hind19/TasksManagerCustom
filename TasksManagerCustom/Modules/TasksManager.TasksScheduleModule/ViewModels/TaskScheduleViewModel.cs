@@ -43,10 +43,10 @@ namespace TasksManager.TasksScheduleModule.ViewModels
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
             eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(args => _ = ReloadCurrentAsync());
-            _tasksQueryService  = tasksQueryService;
+            _tasksQueryService = tasksQueryService;
             _taskCommandService = taskCommandService;
-            _dialogService      = dialogService;
-            EditTaskCommand     = new DelegateCommand<DataGridTaskModel>(EditTask);
+            _dialogService = dialogService;
+            EditTaskCommand = new DelegateCommand<DataGridTaskModel>(EditTask);
         }
         #endregion
 
@@ -100,7 +100,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private async void OnCategotyProjectChanged(Tuple<HierarchicalCollectionModel, CategoryProjectEnum> tuple)
         {
-            _lastQueriedIds  = GetSubCategoryIds(tuple.Item1).ToList().AsReadOnly();
+            _lastQueriedIds = GetSubCategoryIds(tuple.Item1).ToList().AsReadOnly();
             _lastQueriedType = tuple.Item2;
             await LoadTasksAsync(_lastQueriedIds, _lastQueriedType);
         }
@@ -135,24 +135,24 @@ namespace TasksManager.TasksScheduleModule.ViewModels
 
         private static DataGridTaskModel ToDataGridModel(TaskDto t) => new()
         {
-            Id                     = t.Id,
-            TaskName               = t.TaskName,
-            CategoryId             = t.CategoryId,
-            ProjectId              = t.ProjectId,
-            PriorityId             = t.PriorityId,
-            Status                 = (Shared.Enums.TaskStatusEnum)t.Status,
+            Id = t.Id,
+            TaskName = t.TaskName,
+            CategoryId = t.CategoryId,
+            ProjectId = t.ProjectId,
+            PriorityId = t.PriorityId,
+            Status = (Shared.Enums.TaskStatusEnum)t.Status,
             PercentageOfCompletion = t.PercentageOfCompletion,
-            StartDate              = FormatDate(t.StartDate, t.EndDate),
-            EndDate                = FormatDate(t.EndDate,   t.StartDate),
-            Comment                = t.Comment
+            StartDate = FormatDate(t.StartDate, t.EndDate),
+            EndDate = FormatDate(t.EndDate, t.StartDate),
+            Comment = t.Comment
         };
 
         private static TaskDto ToTaskDto(DataGridTaskModel m) =>
             new(m.Id, m.TaskName, m.ProjectId, m.CategoryId,
-                startDate:  DateHelper.TryParseDate(m.StartDate),
-                endDate:    DateHelper.TryParseDate(m.EndDate),
+                startDate: DateHelper.TryParseDate(m.StartDate),
+                endDate: DateHelper.TryParseDate(m.EndDate),
                 priorityId: m.PriorityId,
-                status:     (int)m.Status,
+                status: (int)m.Status,
                 m.PercentageOfCompletion,
                 m.Comment);
 
@@ -161,7 +161,7 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             date is null ? null
             : otherDate.HasValue && date.Value.Date == otherDate.Value.Date
                 ? date.Value.ToString(DateFormats.FullDateTime, CultureInfo.CurrentCulture)
-                : date.Value.ToString(DateFormats.ShortDate,    CultureInfo.CurrentCulture);
+                : date.Value.ToString(DateFormats.ShortDate, CultureInfo.CurrentCulture);
         #endregion
     }
 }

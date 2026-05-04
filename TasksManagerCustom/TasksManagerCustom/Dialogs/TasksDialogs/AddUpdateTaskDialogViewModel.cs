@@ -21,7 +21,7 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         #region Fields
         private TaskModel _currentTask = new();
         private IReadOnlyCollection<NameValuePair<int>> _categoriesList = new List<NameValuePair<int>>().AsReadOnly();
-        private IReadOnlyCollection<NameValuePair<int>> _projectsList   = new List<NameValuePair<int>>().AsReadOnly();
+        private IReadOnlyCollection<NameValuePair<int>> _projectsList = new List<NameValuePair<int>>().AsReadOnly();
         private IReadOnlyCollection<NameValuePair<int>> _prioritiesList = new List<NameValuePair<int>>().AsReadOnly();
         private IReadOnlyCollection<NameValuePair<TaskStatusEnum>> _statusesList = new List<NameValuePair<TaskStatusEnum>>().AsReadOnly();
         private NameValuePair<int>? _selectedCategory;
@@ -42,23 +42,23 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             IEventAggregator eventAggregator)
         {
             _categoryQueryService = categoryQueryService;
-            _projectQueryService  = projectQueryService;
-            _taskCommandService   = taskCommandService;
-            _eventAggregator      = eventAggregator;
+            _projectQueryService = projectQueryService;
+            _taskCommandService = taskCommandService;
+            _eventAggregator = eventAggregator;
 
-            OpenDateCommand      = new DelegateCommand(OpenDate);
-            OpenReminderCommand  = new DelegateCommand(OpenReminder);
-            OpenRepeatCommand    = new DelegateCommand(OpenRepeat);
+            OpenDateCommand = new DelegateCommand(OpenDate);
+            OpenReminderCommand = new DelegateCommand(OpenReminder);
+            OpenRepeatCommand = new DelegateCommand(OpenRepeat);
 
-            ClearProjectCommand  = new DelegateCommand(ClearProject);
+            ClearProjectCommand = new DelegateCommand(ClearProject);
             ClearCategoryCommand = new DelegateCommand(ClearCategory);
-            ClearDateCommand     = new DelegateCommand(ClearDate);
+            ClearDateCommand = new DelegateCommand(ClearDate);
             ClearReminderCommand = new DelegateCommand(ClearReminder);
-            ClearRepeatCommand   = new DelegateCommand(ClearRepeat);
+            ClearRepeatCommand = new DelegateCommand(ClearRepeat);
             ClearPriorityCommand = new DelegateCommand(ClearPriority);
-            ClearStatusCommand   = new DelegateCommand(ClearStatus);
+            ClearStatusCommand = new DelegateCommand(ClearStatus);
 
-            SaveCommand   = new DelegateCommand(() => _ = SaveAsync());
+            SaveCommand = new DelegateCommand(() => _ = SaveAsync());
             CancelCommand = new DelegateCommand(Cancel);
         }
         #endregion
@@ -142,23 +142,23 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
         #endregion
 
         #region Commands — open popup windows (Phase 2)
-        public DelegateCommand OpenDateCommand      { get; }
-        public DelegateCommand OpenReminderCommand  { get; }
-        public DelegateCommand OpenRepeatCommand    { get; }
+        public DelegateCommand OpenDateCommand { get; }
+        public DelegateCommand OpenReminderCommand { get; }
+        public DelegateCommand OpenRepeatCommand { get; }
         #endregion
 
         #region Commands — clear fields
-        public DelegateCommand ClearProjectCommand  { get; }
+        public DelegateCommand ClearProjectCommand { get; }
         public DelegateCommand ClearCategoryCommand { get; }
-        public DelegateCommand ClearDateCommand     { get; }
+        public DelegateCommand ClearDateCommand { get; }
         public DelegateCommand ClearReminderCommand { get; }
-        public DelegateCommand ClearRepeatCommand   { get; }
+        public DelegateCommand ClearRepeatCommand { get; }
         public DelegateCommand ClearPriorityCommand { get; }
-        public DelegateCommand ClearStatusCommand   { get; }
+        public DelegateCommand ClearStatusCommand { get; }
         #endregion
 
         #region Commands — dialog
-        public DelegateCommand SaveCommand   { get; }
+        public DelegateCommand SaveCommand { get; }
         public DelegateCommand CancelCommand { get; }
         #endregion
 
@@ -229,16 +229,16 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
 
         private static TaskModel TaskDtoToTaskModel(TaskDto dto) => new()
         {
-            Id                     = dto.Id,
-            TaskName               = dto.TaskName,
-            Category               = dto.CategoryId.HasValue ? new NameValuePair<int>("", dto.CategoryId.Value) : null,
-            Project                = dto.ProjectId.HasValue  ? new NameValuePair<int>("", dto.ProjectId.Value)  : null,
-            Priority               = dto.PriorityId.HasValue ? new NameValuePair<int>("", dto.PriorityId.Value) : null,
-            StartDate              = dto.StartDate,
-            EndDate                = dto.EndDate,
-            Status                 = (TaskStatusEnum)dto.Status,
+            Id = dto.Id,
+            TaskName = dto.TaskName,
+            Category = dto.CategoryId.HasValue ? new NameValuePair<int>("", dto.CategoryId.Value) : null,
+            Project = dto.ProjectId.HasValue ? new NameValuePair<int>("", dto.ProjectId.Value) : null,
+            Priority = dto.PriorityId.HasValue ? new NameValuePair<int>("", dto.PriorityId.Value) : null,
+            StartDate = dto.StartDate,
+            EndDate = dto.EndDate,
+            Status = (TaskStatusEnum)dto.Status,
             PercentageOfCompletion = dto.PercentageOfCompletion,
-            Comment                = dto.Comment,
+            Comment = dto.Comment,
         };
 
         private void InitializeStatusesList()
@@ -246,46 +246,46 @@ namespace TasksManager.Application.Dialogs.TasksDialogs
             // TODO: Phase 2 — localize display names via IResourceDictionaryProvider or similar
             StatusesList = new List<NameValuePair<TaskStatusEnum>>
             {
-                new("Not started",      TaskStatusEnum.NotStarted),
-                new("In progress",      TaskStatusEnum.InProgress),
+                new("Not started", TaskStatusEnum.NotStarted),
+                new("In progress", TaskStatusEnum.InProgress),
                 new("Ready for review", TaskStatusEnum.ReadyForReview),
-                new("Completed",        TaskStatusEnum.Completed),
-                new("Paused",           TaskStatusEnum.Paused),
-                new("Cancelled",        TaskStatusEnum.Cancelled),
+                new("Completed", TaskStatusEnum.Completed),
+                new("Paused", TaskStatusEnum.Paused),
+                new("Cancelled", TaskStatusEnum.Cancelled),
             }.AsReadOnly();
         }
 
         private void InitializeNewTask()
         {
-            CurrentTask      = new TaskModel();
-            SelectedStatus   = StatusesList.First();
+            CurrentTask = new TaskModel();
+            SelectedStatus = StatusesList.First();
             SelectedCategory = null;
-            SelectedProject  = null;
+            SelectedProject = null;
             SelectedPriority = null;
         }
 
         private void LoadExistingTask(TaskModel task)
         {
-            CurrentTask      = task;
-            SelectedStatus   = StatusesList.FirstOrDefault(s => s.Value == task.Status) ?? StatusesList.First();
+            CurrentTask = task;
+            SelectedStatus = StatusesList.FirstOrDefault(s => s.Value == task.Status) ?? StatusesList.First();
             SelectedCategory = CategoriesList.FirstOrDefault(c => c.Value == task.Category?.Value);
-            SelectedProject  = ProjectsList.FirstOrDefault(p => p.Value == task.Project?.Value);
+            SelectedProject = ProjectsList.FirstOrDefault(p => p.Value == task.Project?.Value);
             SelectedPriority = PrioritiesList.FirstOrDefault(p => p.Value == task.Priority?.Value);
         }
 
         // Open popup commands — Phase 2
-        private void OpenDate()      { }
-        private void OpenReminder()  { }
-        private void OpenRepeat()    { }
+        private void OpenDate() { }
+        private void OpenReminder() { }
+        private void OpenRepeat() { }
 
         // Clear field commands
-        private void ClearProject()  => SelectedProject  = null;
+        private void ClearProject() => SelectedProject = null;
         private void ClearCategory() => SelectedCategory = null;
-        private void ClearDate()     { }
+        private void ClearDate() { }
         private void ClearReminder() { }
-        private void ClearRepeat()   { }
+        private void ClearRepeat() { }
         private void ClearPriority() => SelectedPriority = null;
-        private void ClearStatus()   { }
+        private void ClearStatus() { }
 
         private async Task SaveAsync()
         {

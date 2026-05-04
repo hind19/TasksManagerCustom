@@ -11,7 +11,7 @@ namespace TasksManager.TasksScheduleModule.Models
 
         public string? StartDate { get; set; }
 
-        public  string? EndDate { get; set; }
+        public string? EndDate { get; set; }
 
         public int PercentageOfCompletion { get; set; }
 
