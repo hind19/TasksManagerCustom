@@ -42,7 +42,11 @@ namespace TasksManager.TasksScheduleModule.ViewModels
             IDialogService dialogService)
         {
             eventAggregator.GetEvent<CategoryOrProjectChangedEvent>().Subscribe(OnCategotyProjectChanged);
-            eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(args => _ = ReloadCurrentAsync());
+            eventAggregator.GetEvent<TaskSavedEvent>().Subscribe(args =>
+            {
+                if (!(args.Item2 && args.Item1 is not null))
+                    _ = ReloadCurrentAsync();
+            });
             _tasksQueryService = tasksQueryService;
             _taskCommandService = taskCommandService;
             _dialogService = dialogService;

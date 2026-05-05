@@ -286,7 +286,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   (uppercase 'I'). SQLite column name comparisons are case-insensitive, so this
   works at runtime, but it is confusing and should be consistent.
 
-[MINOR-6] Double reload after task creation
+[MINOR-6] Double reload after task creation [FIXED]
   Files: TaskScheduleViewModel.cs, LeftPanelSpaceViewModel.cs
   When a new task is saved with a category, two DB reloads are triggered:
   (1) TaskSavedEvent subscriber calls ReloadCurrentAsync()
@@ -313,7 +313,7 @@ Priority   | Count | Categories
 POSTPONED  |   5   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface),
            |       | MINOR-1 (no error dialogs), MINOR-2 (no logging),
            |       | MINOR-5 (no IPriorityRepository)
-LOW        |   2   | MINOR-3 (hardcoded table names), MINOR-6 (double reload on create)
+LOW        |   1   | MINOR-3 (hardcoded table names)
 TESTS      |   2   | TEST-1,2 (no real tests exist)
 
 ================================================================================
