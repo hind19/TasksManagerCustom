@@ -194,13 +194,13 @@ NOTE: The following are intentional design decisions — NOT issues:
   delegates to DbInitializerFactory.Create(); internal constructor accepts
   IDbInitializer for testing. Application layer has no direct Persistence reference.
 
-[ARCH-5] Event type hierarchy could be simplified
+[ARCH-5] Event type hierarchy could be simplified [POSTPONED]
   Files: CategoryIsCreated.cs, CategoryOrProjectIsCreated.cs, ProjectIsCreated.cs
   CategoryIsCreated extends CategoryOrProjectIsCreated which extends PubSubEvent.
   This inheritance chain adds complexity with no observable benefit at this
   project scale. Consider flat event classes with a payload type if needed.
 
-[ARCH-6] IRepository is an empty marker interface
+[ARCH-6] IRepository is an empty marker interface [POSTPONED]
   File: TasksManager.PersistenceContracts/Repositories/IRepository.cs
   Empty marker interfaces are a mild code smell in modern C#. The factory
   constraint where T : IRepository could use a different approach (e.g., where T
@@ -265,12 +265,12 @@ NOTE: The following are intentional design decisions — NOT issues:
   SECTION 6 — MINOR / NICE-TO-HAVE
 ================================================================================
 
-[MINOR-1] Error handling and user feedback missing
+[MINOR-1] Error handling and user feedback missing [POSTPONED]
   Repository and service failures surface only via Debug.WriteLine (or are
   swallowed by async void). The user sees nothing. Add at minimum a simple
   error dialog or status message on DB errors.
 
-[MINOR-2] Logging infrastructure missing
+[MINOR-2] Logging infrastructure missing [POSTPONED]
   TODO comments in DbInitializer acknowledge this. Consider Serilog or
   Microsoft.Extensions.Logging with a file sink (keeps portability).
 
@@ -280,7 +280,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   Constants.TasksTable. If a table is renamed, there are two places to update.
   Fix: Use $"SELECT * FROM {Constants.CategoriesTable}" pattern.
 
-[MINOR-4] ShowInNavigator column name mismatch
+[MINOR-4] ShowInNavigator column name mismatch [FIXED]
   DatabaseConstants.CreateCategoriesTableQuery uses column name "ShowinNavigator"
   (lowercase 'i') but CategoryQueries.ShowInNavigatorOnly uses "ShowInNavigator"
   (uppercase 'I'). SQLite column name comparisons are case-insensitive, so this
@@ -296,7 +296,7 @@ NOTE: The following are intentional design decisions — NOT issues:
   reload when isNew && categoryId != null, since the CategoryOrProjectChangedEvent
   reload that follows will already refresh the list for the correct category.
 
-[MINOR-5] Priority entity is created in DB but has no repository
+[MINOR-5] Priority entity is created in DB but has no repository [POSTPONED]
   DatabaseConstants creates a Priorities table, but there is no corresponding
   IPriorityRepository interface or implementation.
   Note: IProjectRepository / ProjectRepository now exist and are registered in
@@ -308,13 +308,13 @@ NOTE: The following are intentional design decisions — NOT issues:
 
   All BUGS and most QUALITY items fixed. Remaining open items:
 
-Priority  | Count | Categories
-----------|-------|--------------------------------------------------
-MEDIUM    |   2   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface)
-LOW       |   6   | MINOR-1 (no error dialogs), MINOR-2 (no logging),
-          |       | MINOR-3 (hardcoded table names), MINOR-4 (ShowInNavigator case),
-          |       | MINOR-5 (no IPriorityRepository), MINOR-6 (double reload on create)
-TESTS     |   2   | TEST-1,2 (no real tests exist)
+Priority   | Count | Categories
+-----------|-------|--------------------------------------------------
+POSTPONED  |   5   | ARCH-5 (event hierarchy), ARCH-6 (empty marker iface),
+           |       | MINOR-1 (no error dialogs), MINOR-2 (no logging),
+           |       | MINOR-5 (no IPriorityRepository)
+LOW        |   2   | MINOR-3 (hardcoded table names), MINOR-6 (double reload on create)
+TESTS      |   2   | TEST-1,2 (no real tests exist)
 
 ================================================================================
   END OF REPORT
